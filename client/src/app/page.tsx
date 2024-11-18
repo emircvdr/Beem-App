@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const router = useRouter();
 
   useEffect(() => {
