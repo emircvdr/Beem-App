@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { FaArrowDown, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import logo from "../../../../public/logo.svg"
 
 const Login = () => {
     const router = useRouter();
@@ -16,8 +18,23 @@ const Login = () => {
         email: "",
         password: ""
     });
-    const [error, setError] = useState("");
-    const [deneme, setDeneme] = useState([]);
+    const [error, setError] = useState<any>("");
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/user', {
+                    credentials: "include",
+                });
+                if (response.ok) {
+                    router.push('/');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData();
+
+    }, [router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -40,32 +57,28 @@ const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
-                console.log("Login successful:", data.message);
+                setError(""); // Hata mesajını temizle
+                setForm({
+                    email: "",
+                    password: ""
+                });
                 router.push('/');
-            } else {
-                console.error("Login failed:", data.message);
+            } else if (response.status === 404) {
+                setError("Email or Password is incorrect");
             }
-        } catch (error) { // Hata mesajını state'e ata
-            console.error("Login error:", error);
+        } catch (error) {
+            console.log(error);
         }
-
-        // Formu sıfırla
-        setForm({
-            email: "",
-            password: ""
-        });
     };
-
-    // useEffect(() => {
-    //     if (token) {
-    //         router.push('/');
-    //     }
-    // }, []);
 
     return (
         <div className="flex justify-center items-center w-full h-full px-4">
             <Card className="w-full max-w-[450px] h-auto py-5">
                 <CardHeader>
+                    <div className="flex gap-2 items-center justify-center mb-5">
+                        <Image src={logo} width={50} height={50} alt="Logo" />
+                        <p className="font-bold text-2xl">BeemApp</p>
+                    </div>
                     <CardTitle className="text-center text-2xl mb-2">Welcome Back!</CardTitle>
                     <CardDescription className="text-center">
                         Please enter your credentials to access your account.
@@ -88,6 +101,7 @@ const Login = () => {
                             onChange={handleChange}
                         />
                         <Button size="lg" className="w-full" variant="special">Login</Button>
+                        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
                     </form>
                 </CardContent>
                 <div className="flex justify-evenly items-center">

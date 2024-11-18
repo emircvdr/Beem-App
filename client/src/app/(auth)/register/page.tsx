@@ -4,10 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowDown, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import logo from "../../../../public/logo.svg"
 
 const Register = () => {
     const router = useRouter();
@@ -52,19 +54,33 @@ const Register = () => {
         });
     };
 
-    // useEffect(() => {
-    //     const token = Cookies.get('token');
-    //     if (token) {
-    //         router.push('/');
-    //     }
-    // }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/user', {
+                    credentials: "include",
+                });
+                if (response.ok) {
+                    router.push('/');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData();
+
+    }, [router]);
 
     return (
         <div className="flex justify-center items-center w-full h-full px-4">
             <Card className="w-full max-w-[450px] h-auto py-5">
                 <CardHeader>
-                    <CardTitle className="text-center text-2xl mb-2">Join Us Today!</CardTitle>
-                    <CardDescription className="text-center">
+                    <div className="flex gap-2 items-center justify-center mb-2">
+                        <Image src={logo} width={50} height={50} alt="Logo" />
+                        <p className="font-bold text-2xl">BeemApp</p>
+                    </div>
+                    <CardTitle className="text-center text-2xl">Join Us Today!</CardTitle>
+                    <CardDescription className="text-center text-[12px]">
                         By signing up, you acknowledge that you have read and accepted our{" "}
                         <Link href="" className="text-blue-600">Privacy Policy</Link> and{" "}
                         <Link href="" className="text-blue-600">Terms of Service</Link>.
@@ -107,7 +123,7 @@ const Register = () => {
                         &nbsp;
                         <p className="font-bold">Register with Google</p>
                     </Button>
-                    <Button variant="secondary" className="w-full max-w-[300px]">
+                    <Button variant="secondary" className="w-full max-w-[300px] hover:">
                         <FaGithub size={20} />
                         &nbsp;
                         <p className="font-bold">Register with Github</p>

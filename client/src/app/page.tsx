@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [data, setData] = useState<any>([]);
+  const [error, setError] = useState<any>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -18,12 +19,10 @@ export default function Home() {
         if (response.ok) {
           setData(data);
         } else {
-          console.error("Login failed:", data.message);
           router.push('/login');
         }
       } catch (error) {
-        console.error("Login error:", error);
-
+        setError(error);
       }
     }
     fetchData();
