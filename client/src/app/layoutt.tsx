@@ -1,0 +1,1 @@
+import asdfa from "../../public/font.ttf"

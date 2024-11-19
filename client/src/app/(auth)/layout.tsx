@@ -7,7 +7,7 @@ interface RegisterLayoutProps {
 const RegisterLayout = ({ children }: RegisterLayoutProps) => {
 
     return (
-        <div className="w-full h-screen bg-[#68b09c]">
+        <div className="w-full h-screen bg-[#4e517a]">
             {children}
         </div>
     );

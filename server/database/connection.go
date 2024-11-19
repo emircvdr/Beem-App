@@ -1,9 +1,10 @@
 package database
 
 import (
+	"server/models"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"server/models"
 )
 
 var DB *gorm.DB
@@ -17,4 +18,5 @@ func Connect() {
 	DB = connection
 
 	connection.AutoMigrate(&models.User{})
+	connection.AutoMigrate(&models.Workplace{})
 }
