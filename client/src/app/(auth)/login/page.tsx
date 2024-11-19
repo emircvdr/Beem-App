@@ -10,7 +10,7 @@ import { FaArrowDown, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import logo from "../../../../public/logo.svg"
+import logo from "../../../../public/mainPageLogo.svg";
 
 const Login = () => {
     const router = useRouter();

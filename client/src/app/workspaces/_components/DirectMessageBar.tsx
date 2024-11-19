@@ -2,7 +2,6 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import Image from "next/image";
 import logo from "../../../../public/logo.svg"; // logo görselinin doğru yolu
 import DirectMessageBox from "./DirectMessageBox";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronUp, LogOut, User2 } from "lucide-react";
@@ -10,7 +9,7 @@ import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
+import { SearchInput } from "@/components/ui/searchInput";
 
 export default function DirectMessageBar() {
     const router = useRouter();
@@ -67,9 +66,9 @@ export default function DirectMessageBar() {
             <SidebarSeparator />
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel className="text-white font-bold">My Messages</SidebarGroupLabel>
+                    <SidebarGroupLabel className="text-gray-200 font-bold">DIRECT MESSAGES</SidebarGroupLabel>
                     <SidebarGroupContent>
-                        <Input type="search" placeholder="Search" className="mb-5 mt-3 border-none bg-[#6668a0] text-white  placeholder-black" />
+                        <SearchInput type="search" placeholder="Search" className="mb-5 mt-3 border-none bg-[#6668a0] text-white  placeholder-black" />
                         <SidebarMenu>
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.name} className="mb-4 transition-colors hover:bg-[#6668a0] rounded-lg">
