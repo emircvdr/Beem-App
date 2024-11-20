@@ -7,7 +7,7 @@ import { MessageCircleMore } from "lucide-react"
 
 export default function Workspaces() {
     return (
-        <div className="w-full h-full flex flex-col items-center  bg-[#6668a0]">
+        <div className="w-full h-full flex flex-col items-center  bg-[#b9bbfb]">
             <Image src={noDm} alt="workspaces" width={350} height={350} />
             <h1 className="text-white/90 font-bold text-xl mt-5">
                 Sorry! You need to start chatting to see your messages.

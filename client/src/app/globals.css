@@ -10,6 +10,12 @@ body {
   font-weight: normal; /* veya bold */
   font-style: normal; /* veya italic */
 }
+@font-face {
+  font-family: "NewCustomFont";
+  src: url("../../public/newFont.otf") format("truetype");
+  font-weight: normal; /* veya bold */
+  font-style: normal; /* veya italic */
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -105,7 +105,7 @@ export default function Home() {
       <h1 className="text-white font-bold text-2xl mt-6">
         No Workplace Found !
       </h1>
-      <p className="text-xs font-bold">
+      <p className="text-sm font-bold text-gray-300">
         You have not created any workplace yet. Please create a workplace to continue.
       </p>
       <Dialog>

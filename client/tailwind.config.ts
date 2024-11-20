@@ -68,6 +68,7 @@ export default {
   		},
 		fontFamily: {
 			custom: ['CustomFont', 'sans-serif'],
+			newCustom : ['NewCustomFont']
 		},
   	}
   },

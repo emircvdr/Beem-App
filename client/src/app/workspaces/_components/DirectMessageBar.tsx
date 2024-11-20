@@ -2,7 +2,6 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import Image from "next/image";
 import logo from "../../../../public/logo.svg"; // logo görselinin doğru yolu
 import DirectMessageBox from "./DirectMessageBox";
-import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronUp, LogOut, User2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -57,6 +56,26 @@ export default function DirectMessageBar() {
 
 
     }, []);
+
+    const handleLogOut = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/api/logout', {
+                method: "POST",
+                credentials: "include",
+            });
+
+            if (response.ok) {
+                router.push('/login');
+            } else {
+                setError("Something went wrong");
+            }
+        } catch (error) {
+            setError(error);
+        }
+    }
+    const handleGoProfile = () => {
+        router.push(`/profile/${user?.id}`);
+    }
     return (
         <Sidebar variant="sidebar" collapsible="offcanvas">
             <SidebarHeader className="flex flex-row justify-center items-center p-5">
@@ -117,12 +136,12 @@ export default function DirectMessageBar() {
 
                                 </div>
                                 <Separator orientation="horizontal" className="w-full mb-2" />
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={handleGoProfile}>
                                     <User2 />
                                     <span>Profile</span>
                                 </DropdownMenuItem>
                                 <Separator orientation="horizontal" className="w-full" />
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={handleLogOut}>
                                     <LogOut />
                                     <span>Log out</span>
                                 </DropdownMenuItem>
