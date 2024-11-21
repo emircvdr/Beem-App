@@ -4,6 +4,8 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import DirectMessageBar from "./_components/DirectMessageBar";
 import Deneme from "./_components/Deneme";
 import { usePathname } from "next/navigation";
+import WorkspacesBar from "./_components/WorkspacesBar";
+
 
 interface WorkspaceIdLayoutProps {
     children: React.ReactNode;
@@ -17,9 +19,10 @@ const WorkspaceId = ({ children }: WorkspaceIdLayoutProps) => {
                 {
                     pathname === "/workspaces" ? <DirectMessageBar /> : <Deneme />
                 }
-                <main className="w-full h-full">
+                <main className="w-full h-full relative">
                     {children}
                 </main>
+                <WorkspacesBar />
             </div>
         </SidebarProvider>
 

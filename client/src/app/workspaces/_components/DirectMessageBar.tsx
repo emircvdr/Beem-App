@@ -77,7 +77,7 @@ export default function DirectMessageBar() {
         router.push(`/profile/${user?.id}`);
     }
     return (
-        <Sidebar variant="sidebar" collapsible="offcanvas">
+        <Sidebar variant="floating" collapsible="offcanvas" className="bg-[#b9bbfb] border-none">
             <SidebarHeader className="flex flex-row justify-center items-center p-5">
                 <Image src={logo} alt="logo" width={50} height={50} />
                 <h1 className="font-bold text-white font-custom text-[20px]">beemApp</h1>

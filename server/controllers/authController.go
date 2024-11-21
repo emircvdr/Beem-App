@@ -115,3 +115,10 @@ func Logout(c *fiber.Ctx) error {
 		"message": "Success",
 	}) 
 }
+
+func GetUserWithId(c *fiber.Ctx) error {
+	id := c.Params("id")
+	var user models.User
+	database.DB.Where("id = ?", id).First(&user)
+	return c.JSON(user)
+}

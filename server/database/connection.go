@@ -19,4 +19,5 @@ func Connect() {
 
 	connection.AutoMigrate(&models.User{})
 	connection.AutoMigrate(&models.Workplace{})
+	connection.AutoMigrate(&models.UserProfile{})
 }

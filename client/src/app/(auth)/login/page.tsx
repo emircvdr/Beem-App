@@ -79,7 +79,7 @@ const Login = () => {
                         <Image src={logo} width={50} height={50} alt="Logo" />
                         <p className="font-bold text-2xl">BeemApp</p>
                     </div>
-                    <CardTitle className="text-center text-2xl mb-2">Welcome Back!</CardTitle>
+                    <CardTitle className="text-center text-2xl mb-5">Welcome Back!</CardTitle>
                     <CardDescription className="text-center">
                         Please enter your credentials to access your account.
                     </CardDescription>
