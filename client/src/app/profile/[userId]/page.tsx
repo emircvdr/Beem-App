@@ -81,32 +81,22 @@ export default function ProfileId() {
     return (
         <div className="w-full h-screen bg-[#8286cf]">
             <div className="flex flex-col w-full  h-full items-center justify-center">
-                <div className="bg-white rounded-md w-11/12 p-5 mb-3">
-                    {
-                        authId == userId ? (<div className="w-11/12 flex items-center justify-between">
+                {
+                    authId == userId ? (<div className="bg-white rounded-md w-11/12 p-5 mb-3">
+                        <div className="w-11/12 flex items-center justify-between">
                             <Button onClick={() => { router.push("/workspaces") }}>
                                 <MoveLeft />
                                 Back to home
                             </Button>
                             <Image src={Logo} alt="Logo" width={60} height={60} />
                             <div className="flex flex-row gap-2 items-center">
-                                {
-                                    authId == userId ? (<Button size="icon" variant="ghost"  >
-                                        <Bell />
-                                    </Button>) : null
-                                }
-                            </div>
-                        </div>) : (
-                            <div className="w-11/12 flex items-center justify-between">
-                                <Button onClick={() => { router.push("/workspaces") }}>
-                                    <MoveLeft />
-                                    Back to home
+                                <Button size="icon" variant="ghost"  >
+                                    <Bell />
                                 </Button>
-                                <Image src={Logo} alt="Logo" width={60} height={60} />
                             </div>
-                        )
-                    }
-                </div>
+                        </div>
+                    </div>) : null
+                }
                 {
                     user && profile ? (
                         authId == userId ? (<MeUserProfilePage />) : (<UserProfilePage />)

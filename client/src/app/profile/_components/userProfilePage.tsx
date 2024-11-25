@@ -1,7 +1,7 @@
 import premiumMember from "../../../../public/premiumMember.svg"
 import admin from "../../../../public/admin.svg"
 import { useParams, useRouter } from "next/navigation";
-import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, Phone, Settings, Shield, Trash } from "lucide-react";
+import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, MoveLeftIcon, Phone, Settings, Shield, Trash } from "lucide-react";
 import Chat from "../../../../public/Chat.svg";
 import Deneme from "../../../../public/deneme.jpeg";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -130,7 +130,10 @@ export default function UserProfilePage() {
 
 
     return (
-        <div className="bg-white rounded-md h-5/6 p-5 flex items-center justify-center gap-2">
+        <div className="bg-white rounded-md h-5/6 p-5 flex items-center justify-center gap-2 relative">
+            <Button size="icon" variant="ghost" className="absolute left-3 top-3" onClick={() => { router.push("/workspaces") }}>
+                <MoveLeftIcon />
+            </Button>
             <div className="flex flex-col items-center">
                 <div className="w-52 h-52 rounded-full bg-[#8286cf] flex items-center justify-center">
                     <Image src={Deneme} alt="Profile Picture" width={200} height={200} className="rounded-full" />

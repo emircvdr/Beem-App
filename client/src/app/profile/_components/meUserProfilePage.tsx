@@ -233,21 +233,21 @@ export default function MeUserProfilePage() {
                 </div>
             </div>
             <div className=" w-1/3 h-full flex flex-col items-center gap-5">
-                <div>
+                <div className="w-full">
                     <Card>
                         <CardHeader>
                             <CardTitle>
                                 Achievements
                             </CardTitle>
                         </CardHeader>
-                        <CardContent className="bg-gray-100">
-                            <div className="p-3">
+                        <CardContent>
+                            <div className="p-3 flex flex-row items-center justify-center gap-3">
                                 {
                                     badgeItems.map((items, index) => (
                                         <TooltipProvider key={index} delayDuration={50}>
                                             <Tooltip>
                                                 <TooltipTrigger>
-                                                    <Image src={items.badge} alt={items.name} width={60} height={60} />
+                                                    <Image src={items.badge} alt={items.name} width={70} height={70} />
                                                 </TooltipTrigger>
                                                 <TooltipContent>
                                                     <p>{items.name}</p>
