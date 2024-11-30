@@ -1,5 +1,6 @@
 "use client"
 
+
 interface RegisterLayoutProps {
     children: React.ReactNode;
 };

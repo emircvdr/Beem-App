@@ -9,6 +9,7 @@ import User from "@/app/interfaces/UserInterface";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { SearchInput } from "@/components/ui/searchInput";
+import { signOut } from "next-auth/react";
 
 export default function DirectMessageBar() {
     const router = useRouter();

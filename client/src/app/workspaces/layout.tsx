@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import WorkspacesBar from "./_components/WorkspacesBar";
 
 
+
 interface WorkspaceIdLayoutProps {
     children: React.ReactNode;
 };
@@ -25,7 +26,6 @@ const WorkspaceId = ({ children }: WorkspaceIdLayoutProps) => {
                 <WorkspacesBar />
             </div>
         </SidebarProvider>
-
     );
 };
 
