@@ -1,23 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import premiumMember from "../../../../public/premiumMember.svg"
 import admin from "../../../../public/admin.svg"
 import { useParams, useRouter } from "next/navigation";
-import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, MoveLeftIcon, Phone, Settings, Shield, Trash } from "lucide-react";
+import { Github, Instagram, Linkedin, Mail, MoveLeftIcon, Phone } from "lucide-react";
 import Chat from "../../../../public/Chat.svg";
 import Deneme from "../../../../public/deneme.jpeg";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
-import UserProfileInterface from "@/app/interfaces/UserProfileInterface";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GetUserById, GetUserProfile } from "@/app/api/userAPI/api";
 
 export default function UserProfilePage() {
     const router = useRouter();
     const { userId } = useParams();
     const [authId, setAuthId] = useState<User | null>(null);
-    const [user, setUser] = useState<User | null>(null);
-    const [profile, setProfile] = useState<UserProfileInterface | null>(null);
+
+
+    const { userWithID, isError, isLoading } = GetUserById(userId);
+    const { userProfile, isErrorUserProfile, isLoadingUserProfile } = GetUserProfile(userId);
 
     const badgeItems = [
         {
@@ -39,31 +41,31 @@ export default function UserProfilePage() {
             key: "linked_in",
             name: "Linkedin",
             icons: <Linkedin />,
-            link: profile?.linked_in
+            link: userProfile?.linked_in
         },
         {
             key: "instagram",
             name: "Instagram",
             icons: <Instagram />,
-            link: profile?.instagram
+            link: userProfile?.instagram
         },
         {
             key: "mail",
             name: "Mail",
             icons: <Mail />,
-            link: `mailto:${profile?.mail}`
+            link: `mailto:${userProfile?.mail}`
         },
         {
             key: "github",
             name: "Github",
             icons: <Github />,
-            link: profile?.github
+            link: userProfile?.github
         },
         {
             key: "phone",
             name: "Phone",
             icons: <Phone />,
-            link: `tel:${profile?.phone}`
+            link: `tel:${userProfile?.phone}`
         },
     ]
 
@@ -85,48 +87,8 @@ export default function UserProfilePage() {
                 console.error(error);
             }
         }
-        const getProfileWithId = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/api/getUserWithId/${userId}`, {
-                    method: "GET",
-                    credentials: "include",
-                });
-
-                if (response.ok) {
-                    const user = await response.json();
-                    setUser(user);
-                } else {
-                    throw new Error('Failed to check user');
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        const getUserProfile = async (userId: number) => {
-            try {
-                const response = await fetch(`http://localhost:8000/api/userProfiles/${userId}`, {
-                    method: "GET",
-                    credentials: "include",
-                });
-
-                if (response.ok) {
-                    const user = await response.json();
-                    setProfile(user);
-                } else {
-                    throw new Error('Failed to get user profile');
-                }
-            } catch (error) {
-                console.error(error);
-            }
-
-        }
         checkUser();
-        getProfileWithId();
-
-        if (userId) {
-            getUserProfile(userId);
-        }
-    }, [user?.id])
+    }, [])
 
 
     return (
@@ -140,9 +102,9 @@ export default function UserProfilePage() {
                 </div>
                 <div className="p-3 w-full h-3/5  bg-gray-50/0 rounded-md flex flex-col">
                     <div className="flex flex-col items-center">
-                        <h1 className="text-2xl font-newCustom font-bold">{user?.fullname}</h1>
-                        <p className="text-sm text-gray-500">{`@${profile?.username}`}</p>
-                        <p className="text-sm text-gray-500">{profile?.job}</p>
+                        <h1 className="text-2xl font-newCustom font-bold">{userWithID?.fullname}</h1>
+                        <p className="text-sm text-gray-500">{`@${userProfile?.username}`}</p>
+                        <p className="text-sm text-gray-500">{userProfile?.job}</p>
                     </div>
                     <div className="flex flex-row gap-16 mt-3 w-full">
                         <div>

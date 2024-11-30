@@ -49,9 +49,6 @@ export default function DirectMessageBar() {
                 setError(error);
             }
         };
-
-
-
         fetchData();
 
 
