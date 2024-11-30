@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { GetUserById, GetUserProfile } from "@/app/api/userAPI/api";
+import { GetUserById, GetUserProfile } from "@/api/userAPI/api";
 
 export default function UserProfilePage() {
     const router = useRouter();

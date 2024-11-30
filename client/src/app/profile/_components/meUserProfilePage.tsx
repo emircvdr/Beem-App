@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditProfileDialog } from "./EditProfileDialog";
-import { GetUserById, GetUserProfile } from "@/app/api/userAPI/api";
+import { GetUserById, GetUserProfile } from "@/api/userAPI/api";
 
 export default function MeUserProfilePage() {
     const router = useRouter();
