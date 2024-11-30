@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -11,9 +12,15 @@ import {
 import { Input } from "@/components/ui/input"
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { mutate } from "swr";
+
+
 
 export function EditProfileDialog() {
     const userId = useParams()
+    const [dialogOpen, setDialogOpen] = useState(
+        false
+    );
     const [form, setForm] = useState({
         username: "",
         job: "",
@@ -35,15 +42,26 @@ export function EditProfileDialog() {
             });
             if (response.ok) {
                 console.log("Profile updated successfully");
+                mutate(`http://localhost:8000/api/userProfiles/${userId.userId}`);
             } else {
                 throw new Error("Failed to update profile");
             }
         } catch (error) {
             console.error(error)
         }
+        setForm({
+            username: "",
+            job: "",
+            github: "",
+            linked_in: "",
+            instagram: "",
+            mail: "",
+            phone: "",
+        });
+        setDialogOpen(false);
     }
     return (
-        <Dialog>
+        <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
             <DialogTrigger asChild>
                 <Button size="sm" className="mt-2 w-full">
                     Edit Profile

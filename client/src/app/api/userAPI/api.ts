@@ -15,8 +15,7 @@ export function GetUser() {
 }
 
 export function GetUserById(userId : any) {
-    const { data, error, isLoading } = useSWR(`http://localhost:8000/api/getUserWithId/${userId}`, fetcher)
-
+    const { data, error, isLoading, } = useSWR(`http://localhost:8000/api/getUserWithId/${userId}`, fetcher )
     return {
         userWithID: data,
         isLoading,
@@ -27,7 +26,6 @@ export function GetUserById(userId : any) {
 
 export function GetUserProfile(userId : any) {
     const { data, error, isLoading } = useSWR(`http://localhost:8000/api/userProfiles/${userId}`, fetcher)
-
     return {
         userProfile: data,
         isLoadingUserProfile: isLoading,
