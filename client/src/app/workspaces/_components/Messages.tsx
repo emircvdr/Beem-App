@@ -2,18 +2,19 @@ import { SearchInput } from "@/components/ui/searchInput";
 import { SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import DirectMessageBox from "./DirectMessageBox";
 import logo from "../../../../public/logo.svg";
+import deneme from "../../../../public/deneme.jpeg";
 
 
 export default function Messages() {
     const items = [
         {
             name: "Emir",
-            // doğru logo yolu kullanılıyor
+            img: undefined,
             lastm: "hahahahah harika"
         },
         {
             name: "Betul",
-            img: logo,
+            img: deneme,
             lastm: "napiyonn"
         },
         {
@@ -32,7 +33,7 @@ export default function Messages() {
                         {items.map((item) => (
                             <SidebarMenuItem key={item.name} className="mb-4 transition-colors hover:bg-[#6668a0] rounded-lg">
                                 <SidebarMenuButton asChild>
-                                    <DirectMessageBox image={item.img} name={item.name} lastMessage={item.lastm} />
+                                    <DirectMessageBox image={item.img?.src} name={item.name} lastMessage={item.lastm} />
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         ))}
