@@ -1,37 +1,22 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarSeparator } from "@/components/ui/sidebar";
 import Image from "next/image";
-import logo from "../../../../public/logo.svg"; // logo görselinin doğru yolu
-import DirectMessageBox from "./DirectMessageBox";
+import logo from "../../../../public/logo.svg";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ChevronUp, LogOut, User2 } from "lucide-react";
+import { ChevronUp, LogOut, MessageCircle, User2, UsersRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { SearchInput } from "@/components/ui/searchInput";
-import { signOut } from "next-auth/react";
+import Messages from "./Messages";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Friends from "./Friends";
 
 export default function DirectMessageBar() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<any>(null);
-    const items = [
-        {
-            name: "Emir",
-            // doğru logo yolu kullanılıyor
-            lastm: "hahahahah harika"
-        },
-        {
-            name: "Betul",
-            img: logo,
-            lastm: "napiyonn"
-        },
-        {
-            name: "ediz",
-            img: logo,
-            lastm: "su getirsene"
-        },
-    ]
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -81,23 +66,19 @@ export default function DirectMessageBar() {
                 <h1 className="font-bold text-white font-custom text-[20px]">beemApp</h1>
             </SidebarHeader>
             <SidebarSeparator />
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel className="text-gray-200 font-bold">DIRECT MESSAGES</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SearchInput type="search" placeholder="Search" className="mb-5 mt-3 border-none bg-[#6668a0] text-white  placeholder-black" />
-                        <SidebarMenu>
-                            {items.map((item) => (
-                                <SidebarMenuItem key={item.name} className="mb-4 transition-colors hover:bg-[#6668a0] rounded-lg">
-                                    <SidebarMenuButton asChild>
-                                        <DirectMessageBox image={item.img} name={item.name} lastMessage={item.lastm} />
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
+            <Tabs defaultValue="dms" className="w-full p-2 h-full mt-2">
+                <TabsList className="flex w-full justify-evenly bg-transparent">
+                    <TabsTrigger value="dms"><MessageCircle size={16} className="text-white" /></TabsTrigger>
+                    <TabsTrigger value="friends"><UsersRound size={16} className="text-white" /></TabsTrigger>
+                </TabsList>
+                <TabsContent value="dms">
+                    <Messages />
+                </TabsContent>
+                <TabsContent value="friends">
+                    <Friends />
+                </TabsContent>
+            </Tabs>
+
             <SidebarFooter>
                 <SidebarMenu>
                     <SidebarMenuItem>

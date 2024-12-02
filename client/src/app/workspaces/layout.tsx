@@ -1,7 +1,7 @@
 "use client";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
-import DirectMessageBar from "./_components/DirectMessageBar";
+import DirectMessageBar from "./_components/Sidebar";
 import Deneme from "./_components/Deneme";
 import { usePathname } from "next/navigation";
 import WorkspacesBar from "./_components/WorkspacesBar";
