@@ -11,6 +11,9 @@ import User from "@/app/interfaces/UserInterface";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { GetUserById, GetUserProfile } from "@/api/userAPI/api";
+import { GetFriendRequestWithSenderandReceiverId } from "@/api/friendRequestAPI/api";
+import { mutate } from "swr";
+import { toast } from "sonner";
 
 export default function UserProfilePage() {
     const router = useRouter();
@@ -20,6 +23,8 @@ export default function UserProfilePage() {
 
     const { userWithID, isError, isLoading } = GetUserById(userId);
     const { userProfile, isErrorUserProfile, isLoadingUserProfile } = GetUserProfile(userId);
+
+    const { friendRequest, isErrorFriendRequest, isLoadingFriendRequest } = GetFriendRequestWithSenderandReceiverId(authId, userId);
 
     const badgeItems = [
         {
@@ -88,8 +93,35 @@ export default function UserProfilePage() {
             }
         }
         checkUser();
-    }, [])
 
+
+    }, []);
+
+    const handleSendFriendRequest = async () => {
+        try {
+
+            const result = await fetch("http://localhost:8000/api/createFriendRequest", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    sender_id: authId,
+                    receiver_id: Number(userId),
+                    status: "pending",
+                })
+            });
+            if (result.ok) {
+                mutate(`http://localhost:8000/api/getFriendRequestWithSenderandReceiverId/${authId}/${userId}`);
+            }
+            if (!result.ok) {
+                throw new Error("Error while sending friend request");
+            }
+        } catch (error) {
+            console.error("Error while sending friend request:", error);
+        }
+        toast.success("Friend request sent successfully");
+    }
 
     return (
         <div className="bg-white rounded-md h-5/6 p-5 flex items-center justify-center gap-2 relative">
@@ -158,9 +190,25 @@ export default function UserProfilePage() {
                             </div>
                         </div>
                     </div>
-                    <Button className="mt-12">
-                        Send a Friend Request
-                    </Button>
+                    {
+                        isLoadingFriendRequest ? (
+                            <Button className="mt-12" disabled={true}>
+                                Loading...
+                            </Button>
+                        ) : isErrorFriendRequest ? (
+                            <Button className="mt-12" disabled={true}>
+                                An error occurred
+                            </Button>
+                        ) : friendRequest ? (
+                            <Button className="mt-12" disabled={true}>
+                                You've Already Sent a Friend Request
+                            </Button>
+                        ) : (
+                            <Button className="mt-12" onClick={handleSendFriendRequest}>
+                                Send a Friend Request
+                            </Button>
+                        )
+                    }
                 </div>
             </div>
         </div>

@@ -21,4 +21,8 @@ func Setup(app *fiber.App) {
 	app.Post("/api/createUserProfile", controllers.CreateUserProfile)
 	app.Get("/api/userProfiles/:user_id", controllers.GetUserProfileWithUserId)
 	app.Put("/api/updateUserProfile/:user_id", controllers.UpdateUserProfile)
+
+	// friend request routes
+	app.Post("/api/createFriendRequest", controllers.CreateFriendRequest)
+	app.Get("/api/getFriendRequestWithSenderandReceiverId/:sender_id/:receiver_id", controllers.GetFriendRequestWithSenderandReceiverId)
 }

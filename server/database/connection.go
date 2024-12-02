@@ -20,4 +20,6 @@ func Connect() {
 	connection.AutoMigrate(&models.User{})
 	connection.AutoMigrate(&models.Workplace{})
 	connection.AutoMigrate(&models.UserProfile{})
+	connection.AutoMigrate(&models.FriendRequest{})
+	connection.AutoMigrate(&models.Friend{})
 }
