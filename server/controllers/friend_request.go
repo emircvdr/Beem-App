@@ -45,13 +45,22 @@ func GetFriendRequestWithSenderandReceiverId(c *fiber.Ctx) error {
 
 	var friendRequest models.FriendRequest
 
-	database.DB.Where("sender_id = ? AND receiver_id = ?", senderId, receiverId).First(&friendRequest)
+	database.DB.Where(
+		"(sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)",
+		senderId, receiverId, receiverId, senderId,
+	).First(&friendRequest)
 
 	if friendRequest.Id == 0 {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"error": "Friend request not found",
+			"exists": false,
+			"error":  "Friend request not found",
 		})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(friendRequest)
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"exists":   true,
+		"status":   friendRequest.Status, 
+		"senderId": friendRequest.SenderId,
+		"receiverId": friendRequest.ReceiverId,
+	})
 }
