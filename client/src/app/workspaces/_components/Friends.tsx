@@ -1,7 +1,5 @@
 import { SearchInput } from "@/components/ui/searchInput";
 import { SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import DirectMessageBox from "./DirectMessageBox";
-import logo from "../../../../public/logo.svg";
 import deneme from "../../../../public/deneme.jpeg";
 import FriendsBox from "./FriendsBox";
 
