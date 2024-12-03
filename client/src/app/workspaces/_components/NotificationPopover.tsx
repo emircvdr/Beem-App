@@ -6,6 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Separator } from "@/components/ui/separator";
 import { Bell, Check, X } from "lucide-react";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 
 export default function NotificationPopover(authId: any) {
@@ -13,6 +14,55 @@ export default function NotificationPopover(authId: any) {
     const { allUsers, isLoadingAllUsers, isErrorAllUsers } = GetAllUsers();
     const filteredUsers = allUsers?.filter((user: any) => friendRequests?.some((request: any) => request.sender_id === user.id));
     const notificationCount = filteredUsers?.length || 0;
+    useEffect(() => {
+        console.log(friendRequests)
+        console.log()
+    }, [])
+    const handleAcceptFriendRequest = async (id: any, sender_id: any) => {
+        try {
+            // POST isteği - arkadaşlık isteğini kabul et
+            const postResponse = await fetch('http://localhost:8000/api/acceptFriend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: authId.authId,
+                    friend_id: sender_id,
+                }),
+            });
+
+            if (!postResponse.ok) {
+                throw new Error("Failed to accept friend request");
+            }
+
+            // PUT isteği - arkadaşlık durumu güncelle
+            const putResponse = await fetch(`http://localhost:8000/api/acceptFriendRequestWithId/${id}`, {
+                method: 'PUT',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sender_id: sender_id,
+                    receiver_id: authId.authId,
+                    status: "accepted",
+                }),
+            });
+
+            if (!putResponse.ok) {
+                throw new Error("Failed to update friend status");
+            }
+            toast.success("Friend request accepted successfully");
+
+        } catch (error) {
+            toast.error("An error occurred while accepting the friend request");
+            console.error(error);
+        }
+        toast.success("Friend request accepted successfully");
+
+    }
+
 
     return (
         <Popover>
@@ -31,18 +81,23 @@ export default function NotificationPopover(authId: any) {
                     <div className="space-y-2">
                         <h4 className="font-medium leading-none">Notifications</h4>
                         <Separator />
-                        {filteredUsers?.map((user: any) => (
-                            <div key={user.id} className="flex items-center justify-between gap-2 rounded-md p-2">
-                                <div className="flex ">
-                                    <p className="text-sm"> <span className="font-bold">{user.fullname}</span> sent you a friend request</p>
-                                    <div className="flex items-center gap-2">
-                                        <Button variant="ghost" size="icon"> <Check size={12} className="text-green-500" /></Button>
-                                        <Button variant="ghost" size="icon"> <X size={12} className="text-red-500" /></Button>
+                        {
+                            friendRequests?.length === 0 ? (
+                                <p className="text-center text-sm text-gray-500">No notifications</p>
+                            ) : (
+                                friendRequests?.map((request: any) => (
+                                    <div key={request.id} className="flex items-center justify-between gap-2 rounded-md p-2">
+                                        <p className="text-sm"> <span className="font-bold">{
+                                            allUsers?.find((user: any) => user.id === request.sender_id)?.fullname
+                                        }</span> sent you a friend request</p>
+                                        <div className="flex items-center gap-2">
+                                            <Button variant="ghost" size="icon" onClick={() => handleAcceptFriendRequest(request.id, request.sender_id)}> <Check size={12} className="text-green-500" /></Button>
+                                            <Button variant="ghost" size="icon"> <X size={12} className="text-red-500" /></Button>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        ))}
-
+                                ))
+                            )
+                        }
                     </div>
                 </div>
             </PopoverContent>

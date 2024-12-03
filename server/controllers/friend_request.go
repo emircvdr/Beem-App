@@ -117,3 +117,13 @@ func GetFriendRequestsByReceiverId(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(friendRequests)
 }
+
+func AcceptFriendRequestWithId(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	database.DB.Model(&models.FriendRequest{}).Where("id = ?", id).Update("status", "accepted")
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Friend request accepted",
+	})
+}
