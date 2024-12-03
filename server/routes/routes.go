@@ -25,4 +25,6 @@ func Setup(app *fiber.App) {
 	// friend request routes
 	app.Post("/api/createFriendRequest", controllers.CreateFriendRequest)
 	app.Get("/api/getFriendRequestWithSenderandReceiverId/:sender_id/:receiver_id", controllers.GetFriendRequestWithSenderandReceiverId)
+	app.Delete("/api/cancelFriendRequest/:sender_id/:receiver_id", controllers.CancelFriendRequest)
+	app.Get("/api/getPendingFriendRequests/:sender_id", controllers.GetPendingFriendRequests)
 }

@@ -17,7 +17,7 @@ import FriendRequestButton from "./FriendRequestButton";
 export default function UserProfilePage() {
     const router = useRouter();
     const { userId } = useParams();
-    const [authId, setAuthId] = useState(null);
+    const [authId, setAuthId] = useState<number>(0);
 
 
     const { userWithID, isError, isLoading } = GetUserById(userId);
@@ -164,7 +164,9 @@ export default function UserProfilePage() {
                             </div>
                         </div>
                     </div>
-                    <FriendRequestButton authId={authId || 0} profileId={Number(userId)} />
+                    {
+                        authId !== Number(userId) && (<FriendRequestButton authId={authId} profileId={Number(userId)} />)
+                    }
                 </div>
             </div>
         </div>

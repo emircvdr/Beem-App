@@ -12,7 +12,7 @@ import Messages from "./Messages";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Friends from "./Friends";
 
-export default function DirectMessageBar() {
+export default function SidebarComponent() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<any>(null);
@@ -65,20 +65,20 @@ export default function DirectMessageBar() {
                 <Image src={logo} alt="logo" width={50} height={50} />
                 <h1 className="font-bold text-white font-custom text-[20px]">beemApp</h1>
             </SidebarHeader>
-            <SidebarSeparator />
+            <SidebarSeparator className="bg-[#b9bbfb]" />
             <Tabs defaultValue="dms" className="w-full p-2 h-full mt-2">
                 <TabsList className="flex w-full justify-evenly bg-transparent">
                     <TabsTrigger value="dms"><MessageCircle size={16} className="text-white" /></TabsTrigger>
                     <TabsTrigger value="friends"><UsersRound size={16} className="text-white" /></TabsTrigger>
                 </TabsList>
+                <SidebarSeparator className="mt-2 mb-2 bg-[#b9bbfb]" />
                 <TabsContent value="dms">
                     <Messages />
                 </TabsContent>
                 <TabsContent value="friends">
-                    <Friends />
+                    <Friends authId={user?.id} />
                 </TabsContent>
             </Tabs>
-
             <SidebarFooter>
                 <SidebarMenu>
                     <SidebarMenuItem>

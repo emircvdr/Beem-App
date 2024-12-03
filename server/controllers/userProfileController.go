@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// Benzersizlik hatalarını kontrol etmek için yardımcı fonksiyon
+
 func IsDuplicateEntryError(err error) bool {
 	return strings.Contains(err.Error(), "Duplicate entry")
 }

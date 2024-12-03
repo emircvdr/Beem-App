@@ -15,8 +15,11 @@ const fetcher = async (...args: [RequestInfo, RequestInit?]) => {
 };
 
 export function GetFriendRequestWithSenderandReceiverId(senderId: any, receiverId: any) {
+  const shouldFetch = senderId !== 0 && receiverId !== 0;
   const { data, error, isLoading } = useSWR(
-    `http://localhost:8000/api/getFriendRequestWithSenderandReceiverId/${senderId}/${receiverId}`,
+    shouldFetch
+      ? `http://localhost:8000/api/getFriendRequestWithSenderandReceiverId/${senderId}/${receiverId}`
+      : null,
     fetcher,
   );
 
@@ -24,5 +27,19 @@ export function GetFriendRequestWithSenderandReceiverId(senderId: any, receiverI
     friendRequest: data,
     isLoadingFriendRequest: isLoading,
     isErrorFriendRequest: !!error,
+  };
+}
+
+export function GetPendingFriendRequests(senderId: any) {
+  const shouldFetch = senderId !== 0;
+  const { data, error, isLoading } = useSWR(
+    shouldFetch ? `http://localhost:8000/api/getPendingFriendRequests/${senderId}` : null,
+    fetcher,
+  );
+
+  return {
+    pendingFriendRequests: data,
+    isLoadingPendingFriendRequests: isLoading,
+    isErrorPendingFriendRequests: !!error,
   };
 }

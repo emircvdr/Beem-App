@@ -5,6 +5,21 @@ import { mutate } from "swr";
 
 export default function FriendRequestButton({ authId, profileId }: { authId: number; profileId: number }) {
     const { friendRequest, isLoadingFriendRequest } = GetFriendRequestWithSenderandReceiverId(authId, profileId);
+    const handleCancelFriendRequest = async () => {
+        try {
+            const result = await fetch(`http://localhost:8000/api/cancelFriendRequest/${authId}/${profileId}`, {
+                method: "DELETE",
+            });
+            if (result.ok) {
+                mutate(`http://localhost:8000/api/getFriendRequestWithSenderandReceiverId/${authId}/${profileId}`);
+            }
+            if (!result.ok) {
+                throw new Error("Error while cancelling friend request");
+            }
+        } catch (error) {
+            console.error("Error while cancelling friend request:", error);
+        }
+    }
     const handleSendFriendRequest = async () => {
         try {
 
@@ -40,7 +55,7 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
     }
 
     if (friendRequest.senderId === authId) {
-        return <Button disabled={true} className="mt-12">You've Already Sent a Friend Request</Button>;
+        return <Button className="mt-12" onClick={handleCancelFriendRequest}>Cancel Friend Request</Button>;
     }
 
     if (friendRequest.receiverId === authId) {

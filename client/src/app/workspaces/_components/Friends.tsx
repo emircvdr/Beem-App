@@ -2,9 +2,13 @@ import { SearchInput } from "@/components/ui/searchInput";
 import { SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import deneme from "../../../../public/deneme.jpeg";
 import FriendsBox from "./FriendsBox";
+import NotificationPopover from "./NotificationPopover";
+import PendingInvitesPopover from "./PendingInvitesPopover";
+import { useEffect } from "react";
 
 
-export default function Friends() {
+export default function Friends(authId: any) {
+
     const items = [
         {
             name: "Emir",
@@ -22,7 +26,12 @@ export default function Friends() {
     return (
         <SidebarContent>
             <SidebarGroup>
-                <SidebarGroupLabel className="text-gray-200 font-bold">FRIENDS LIST</SidebarGroupLabel>
+                <SidebarGroupLabel className="text-gray-200 font-bold w-full h-full flex items-center justify-between">FRIENDS LIST
+                    <div className="flex">
+                        <NotificationPopover />
+                        <PendingInvitesPopover authId={authId.authId} />
+                    </div>
+                </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SearchInput type="search" placeholder="Search" className="mb-5 mt-3 border-none bg-[#6668a0] text-white  placeholder-black" />
                     <SidebarMenu>
