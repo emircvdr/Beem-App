@@ -13,6 +13,7 @@ func Setup(app *fiber.App) {
 	app.Get("/api/user", controllers.User)
 	app.Get("/api/getUserWithId/:id", controllers.GetUserWithId)
 	app.Post("/api/logout", controllers.Logout)
+	app.Get("/api/allUsers", controllers.GetAllUsers)
 	// workplace routes
 	app.Post("/api/createWorkplace", controllers.CreateWorkplace)
 	app.Get("/api/workplaces/:admin_id", controllers.GetWorkplacesByAdminId)

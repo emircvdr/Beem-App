@@ -122,3 +122,9 @@ func GetUserWithId(c *fiber.Ctx) error {
 	database.DB.Where("id = ?", id).First(&user)
 	return c.JSON(user)
 }
+
+func GetAllUsers(c *fiber.Ctx) error {
+	var users []models.User
+	database.DB.Find(&users)
+	return c.JSON(users)
+}

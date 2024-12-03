@@ -40,3 +40,15 @@ export function GetUserProfile(userId: any) {
     isErrorUserProfile: error,
   };
 }
+
+export function GetAllUsers() {
+  const { data, error, isLoading } = useSWR(
+    `http://localhost:8000/api/allUsers`,
+    fetcher,
+  );
+  return {
+    allUsers: data,
+    isLoadingAllUsers: isLoading,
+    isErrorAllUsers: error,
+  };
+}

@@ -141,3 +141,4 @@ func UpdateUserProfile(c *fiber.Ctx) error {
 	// Başarılı yanıt döndür
 	return c.JSON(userProfile)
 }
+
