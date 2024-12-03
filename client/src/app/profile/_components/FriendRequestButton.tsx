@@ -58,13 +58,16 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
         return <Button className="mt-12" onClick={handleCancelFriendRequest}>Cancel Friend Request</Button>;
     }
 
-    if (friendRequest.receiverId === authId) {
+    if (friendRequest.receiverId === authId && friendRequest.status === "pending") {
         return (
             <div className="flex flex-row gap-4 items-center justify-center">
                 <Button variant="friendRequest" className="mt-12">Accept Request</Button>
                 <Button variant="destructive" className="mt-12">Reject Request</Button>
             </div>
         );
+    }
+    if (friendRequest.receiverId === authId && friendRequest.status === "accepted") {
+        return <Button className="mt-12" variant="default">Start Chat</Button>;
     }
 
     return null;
