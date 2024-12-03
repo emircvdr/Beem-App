@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Mail, X } from "lucide-react";
-import { useEffect } from "react";
 import { mutate } from "swr";
 
 

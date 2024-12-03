@@ -5,6 +5,7 @@ import FriendsBox from "./FriendsBox";
 import NotificationPopover from "./NotificationPopover";
 import PendingInvitesPopover from "./PendingInvitesPopover";
 import { useEffect } from "react";
+import { AddFriendDialog } from "./AddFriendDialog";
 
 
 export default function Friends(authId: any) {
@@ -28,6 +29,7 @@ export default function Friends(authId: any) {
             <SidebarGroup>
                 <SidebarGroupLabel className="text-gray-200 font-bold w-full h-full flex items-center justify-between">FRIENDS LIST
                     <div className="flex">
+                        <AddFriendDialog />
                         <NotificationPopover />
                         <PendingInvitesPopover authId={authId.authId} />
                     </div>
