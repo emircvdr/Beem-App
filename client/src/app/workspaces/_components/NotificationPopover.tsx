@@ -18,9 +18,9 @@ export default function NotificationPopover(authId: any) {
         console.log(friendRequests)
         console.log()
     }, [])
+
     const handleAcceptFriendRequest = async (id: any, sender_id: any) => {
         try {
-            // POST isteği - arkadaşlık isteğini kabul et
             const postResponse = await fetch('http://localhost:8000/api/acceptFriend', {
                 method: 'POST',
                 headers: {
@@ -35,8 +35,6 @@ export default function NotificationPopover(authId: any) {
             if (!postResponse.ok) {
                 throw new Error("Failed to accept friend request");
             }
-
-            // PUT isteği - arkadaşlık durumu güncelle
             const putResponse = await fetch(`http://localhost:8000/api/acceptFriendRequestWithId/${id}`, {
                 method: 'PUT',
                 credentials: "include",
@@ -61,6 +59,16 @@ export default function NotificationPopover(authId: any) {
         }
         toast.success("Friend request accepted successfully");
 
+    }
+
+    const handleRejectFriendRequest = async (id: any) => {
+        try {
+            await fetch(`http://localhost:8000/api/rejectFriendRequestWithId/${id}`, { method: 'DELETE' });
+        } catch (error) {
+            toast.error("An error occurred while rejecting the friend request");
+            console.error(error);
+        }
+        toast.success("Friend request rejected successfully");
     }
 
 
@@ -92,7 +100,7 @@ export default function NotificationPopover(authId: any) {
                                         }</span> sent you a friend request</p>
                                         <div className="flex items-center gap-2">
                                             <Button variant="ghost" size="icon" onClick={() => handleAcceptFriendRequest(request.id, request.sender_id)}> <Check size={12} className="text-green-500" /></Button>
-                                            <Button variant="ghost" size="icon"> <X size={12} className="text-red-500" /></Button>
+                                            <Button variant="ghost" size="icon" onClick={() => handleRejectFriendRequest(request.id)}> <X size={12} className="text-red-500" /></Button>
                                         </div>
                                     </div>
                                 ))
