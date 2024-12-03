@@ -13,6 +13,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { GetUserById, GetUserProfile } from "@/api/userAPI/api";
+import { CreateProfileDialog } from "./CreateProfileDialog";
 
 export default function MeUserProfilePage() {
     const router = useRouter();
@@ -129,7 +130,6 @@ export default function MeUserProfilePage() {
             }
         }
         checkUser();
-
     }, [userId])
 
 
@@ -159,7 +159,7 @@ export default function MeUserProfilePage() {
                         <h1 className="text-2xl font-newCustom font-bold">{userWithID?.fullname}</h1>
                         <p className="text-sm text-gray-500">{`@${userProfile?.username}`}</p>
                         <p className="text-sm text-gray-500">{userProfile?.job}</p>
-                        <EditProfileDialog />
+                        {!userProfile.error ? (<EditProfileDialog />) : <CreateProfileDialog />}
                     </div>
                     <div className="flex flex-col gap-16 mt-3">
                         <div>
