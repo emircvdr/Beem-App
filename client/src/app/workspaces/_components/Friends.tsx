@@ -30,7 +30,7 @@ export default function Friends(authId: any) {
                 <SidebarGroupLabel className="text-gray-200 font-bold w-full h-full flex items-center justify-between">FRIENDS LIST
                     <div className="flex">
                         <AddFriendDialog />
-                        <NotificationPopover />
+                        <NotificationPopover authId={authId.authId} />
                         <PendingInvitesPopover authId={authId.authId} />
                     </div>
                 </SidebarGroupLabel>

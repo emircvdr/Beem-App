@@ -43,3 +43,19 @@ export function GetPendingFriendRequests(senderId: any) {
     isErrorPendingFriendRequests: !!error,
   };
 }
+
+export function GetFriendRequestsByReceiverId(receiverId: any) {
+  const shouldFetch = receiverId !== 0;
+  const { data, error, isLoading } = useSWR(
+    shouldFetch
+      ? `http://localhost:8000/api/getFriendRequestsByReceiverId/${receiverId}`
+      : null,
+    fetcher,
+  );
+
+  return {
+    friendRequests: data,
+    isLoadingFriendRequests: isLoading,
+    isErrorFriendRequests: !!error,
+  };
+}

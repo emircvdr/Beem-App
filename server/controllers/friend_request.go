@@ -103,3 +103,17 @@ func GetPendingFriendRequests(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(friendRequests)
 }
 
+func GetFriendRequestsByReceiverId(c *fiber.Ctx) error {
+	receiverId := c.Params("receiver_id")
+
+	if receiverId == "0" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid receiver ID",
+		})
+	}
+
+	var friendRequests []models.FriendRequest
+	database.DB.Where("receiver_id = ? AND status = ?", receiverId, "pending").Find(&friendRequests)
+
+	return c.Status(fiber.StatusOK).JSON(friendRequests)
+}
