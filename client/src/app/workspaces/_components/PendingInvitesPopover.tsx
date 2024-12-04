@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Mail, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { mutate } from "swr";
 
 
 
 export default function PendingInvitesPopover(authId: any) {
+    const router = useRouter();
     const { pendingFriendRequests, isLoadingPendingFriendRequests, isErrorPendingFriendRequests } = GetPendingFriendRequests(authId.authId);
     const { allUsers, isLoadingAllUsers, isErrorAllUsers } = GetAllUsers();
     const filteredUsers = allUsers?.filter((user: any) => pendingFriendRequests?.some((request: any) => request.receiver_id === user.id));
@@ -49,7 +51,7 @@ export default function PendingInvitesPopover(authId: any) {
                             filteredUsers?.map((user: any) => (
                                 <div key={user.id} className="flex items-center justify-between gap-2 rounded-md p-2">
                                     <div className="flex flex-col ">
-                                        <p className="text-sm">{user.fullname}</p>
+                                        <p className="text-sm cursor-pointer" onClick={() => router.push(`/profile/${user.id}`)}>{user.fullname}</p>
                                         <p className="text-xs text-gray-500">{user.email}</p>
                                     </div>
                                     <Button variant="ghost" size="icon" onClick={() => handleCancelFriendRequest(user.id)}>
