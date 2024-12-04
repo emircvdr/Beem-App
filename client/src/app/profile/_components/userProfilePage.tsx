@@ -130,7 +130,7 @@ export default function MeUserProfilePage() {
                         </div>
                     </div>
                 </div>
-                <div className="ml-auto mr-auto w-full">
+                <div className="ml-auto mr-auto w-full p-5">
                     <Card className="mb-4 bg-white">
                         <CardHeader>
                             <CardTitle>Description</CardTitle>
