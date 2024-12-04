@@ -63,6 +63,7 @@ func GetFriendRequestWithSenderandReceiverId(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"id":       friendRequest.Id,
 		"exists":   true,
 		"status":   friendRequest.Status,
 		"senderId": friendRequest.SenderId,

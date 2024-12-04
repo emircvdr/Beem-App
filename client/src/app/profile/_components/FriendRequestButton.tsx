@@ -45,6 +45,57 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
         }
         toast.success("Friend request sent successfully");
     }
+    const handleAcceptFriendRequest = async (id: any, sender_id: any) => {
+        try {
+            const postResponse = await fetch('http://localhost:8000/api/acceptFriend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: authId,
+                    friend_id: sender_id,
+                }),
+            });
+
+            if (!postResponse.ok) {
+                throw new Error("Failed to accept friend request");
+            }
+            const putResponse = await fetch(`http://localhost:8000/api/acceptFriendRequestWithId/${id}`, {
+                method: 'PUT',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sender_id: sender_id,
+                    receiver_id: authId,
+                    status: "accepted",
+                }),
+            });
+
+            if (!putResponse.ok) {
+                throw new Error("Failed to update friend status");
+            }
+            toast.success("Friend request accepted successfully");
+
+        } catch (error) {
+            toast.error("An error occurred while accepting the friend request");
+            console.error(error);
+        }
+        toast.success("Friend request accepted successfully");
+
+    }
+    const handleRejectFriendRequest = async (id: any) => {
+        try {
+            await fetch(`http://localhost:8000/api/rejectFriendRequestWithId/${id}`, { method: 'DELETE' });
+        } catch (error) {
+            toast.error("An error occurred while rejecting the friend request");
+            console.error(error);
+        }
+        toast.success("Friend request rejected successfully");
+    }
+
 
     if (isLoadingFriendRequest) {
         return <p>Loading...</p>;
@@ -61,8 +112,8 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
     if (friendRequest.receiverId === authId && friendRequest.status === "pending") {
         return (
             <div className="flex flex-row gap-4 items-center justify-center">
-                <Button variant="friendRequest" className="mt-12">Accept Request</Button>
-                <Button variant="destructive" className="mt-12">Reject Request</Button>
+                <Button variant="friendRequest" className="mt-12" onClick={() => handleAcceptFriendRequest(friendRequest.id, friendRequest.senderId)}>Accept Request</Button>
+                <Button variant="destructive" className="mt-12" onClick={() => handleRejectFriendRequest(friendRequest.id)}>Reject Request</Button>
             </div>
         );
     }
