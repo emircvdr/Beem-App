@@ -32,8 +32,8 @@ export default function FriendsBox({ image, name, id, userId }: FriendsBoxProps)
         }
     }
     return (
-        <div className="w-full h-[50px] rounded-sm flex gap-3 p-3 items-center  cursor-pointer">
-            <div className="w-8 h-8  rounded-full flex items-center justify-center">
+        <div className="w-full h-auto rounded-sm flex gap-3 p-3 items-center  cursor-pointer">
+            <div className="w-10 h-10 shadow-[#232445] shadow rounded-full flex items-center justify-center">
                 <Avatar>
                     <AvatarImage src={image} alt="avatar" />
                     <AvatarFallback>
@@ -42,13 +42,13 @@ export default function FriendsBox({ image, name, id, userId }: FriendsBoxProps)
                 </Avatar>
             </div>
             <div className="w-3/4 h-full">
-                <div className="w-full flex items-start">
-                    <h1 className="text-white text-[14px] self-start">{name}</h1>
-                    <div className="ml-auto w-full  flex flex-row justify-end  gap-2">
+                <div className="w-full flex">
+                    <h1 className="text-black text-[14px] self-start">{name}</h1>
+                    <div className="ml-auto w-full h-full  flex flex-row justify-end items-start">
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button variant="ghost" size="sm" className="rounded-full  hover:bg-[#b9bbfb]">
-                                    <MessageCircle className="text-white" />
+                                <Button variant="ghost" size="sm" className="rounded-full">
+                                    <MessageCircle className="text-black" />
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>
@@ -57,11 +57,11 @@ export default function FriendsBox({ image, name, id, userId }: FriendsBoxProps)
                         </Tooltip>
                         <Popover>
                             <PopoverTrigger asChild>
-                                <Button variant="ghost" size="sm" className="rounded-full  hover:bg-[#b9bbfb]">
-                                    <EllipsisVertical className="text-white" />
+                                <Button variant="ghost" size="sm" className="rounded-full">
+                                    <EllipsisVertical className="text-black" />
                                 </Button>
                             </PopoverTrigger>
-                            <PopoverContent side="right" className=" border-none w-full bg-[#6668a0]">
+                            <PopoverContent side="right" className=" border-none w-full">
                                 <div className="flex flex-col gap-2">
                                     <Button variant="secondary" size="sm" className="flex flex-row gap-2 justify-start" onClick={() => router.push(`/profile/${userId}`)}>
                                         <SquareArrowOutUpRight /> View Profile

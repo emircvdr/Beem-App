@@ -77,7 +77,7 @@ export default function NotificationPopover(authId: any) {
         <Popover>
             <PopoverTrigger asChild className="flex items-center gap-2">
                 <Button variant="ghost" size="icon" className="relative">
-                    <Bell size={24} className="text-white" />
+                    <Bell size={24} className="text-black" />
                     {notificationCount > 0 && (
                         <span className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                             {notificationCount}

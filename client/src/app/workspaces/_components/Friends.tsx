@@ -16,7 +16,7 @@ export default function Friends(authId: any) {
     return (
         <SidebarContent>
             <SidebarGroup>
-                <SidebarGroupLabel className="text-gray-200 font-bold w-full h-full flex items-center justify-between">FRIENDS LIST
+                <SidebarGroupLabel className="text-black font-newCustom w-full h-full flex items-center justify-between">FRIENDS LIST
                     <div className="flex">
                         <AddFriendDialog />
                         <NotificationPopover authId={authId.authId} />
@@ -24,13 +24,13 @@ export default function Friends(authId: any) {
                     </div>
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
-                    <SearchInput type="search" placeholder="Search" className="mb-5 mt-3 border-none bg-[#6668a0] text-white  placeholder-black" />
+                    <SearchInput type="search" placeholder="Search" className="mb-5 mt-3 border border-muted-foreground font-newCustom bg-transparent text-black placeholder:text-black" />
                     <SidebarMenu>
                         {
                             friends?.length > 0 ? (friends?.map((item: any) => (
                                 <FriendsBox key={item.id} image={item.img?.src} name={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).fullname} id={item.id} userId={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).id} />
                             ))) : <div className="flex justify-center items-center h-full">
-                                <p className="text-gray-200">No friends found</p>
+                                <p className="text-black">No friends found</p>
                             </div>
                         }
                     </SidebarMenu>

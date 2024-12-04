@@ -102,11 +102,11 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
     }
 
     if (!friendRequest?.exists) {
-        return <Button className="mt-12" variant="default" onClick={handleSendFriendRequest}>Send Friend Request</Button>;
+        return <Button className="mt-12 m-auto" variant="default" onClick={handleSendFriendRequest}>Send Friend Request</Button>;
     }
 
     if (friendRequest.senderId === authId) {
-        return <Button className="mt-12" onClick={handleCancelFriendRequest}>Cancel Friend Request</Button>;
+        return <Button className="mt-12 m-auto" onClick={handleCancelFriendRequest}>Cancel Friend Request</Button>;
     }
 
     if (friendRequest.receiverId === authId && friendRequest.status === "pending") {
@@ -118,7 +118,7 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
         );
     }
     if (friendRequest.receiverId === authId && friendRequest.status === "accepted") {
-        return <Button className="mt-12" variant="default">Start Chat</Button>;
+        return <Button className="mt-12 m-auto" variant="default">Start Chat</Button>;
     }
 
     return null;

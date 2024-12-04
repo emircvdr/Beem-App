@@ -7,12 +7,12 @@ import { MessageCircleMore } from "lucide-react"
 
 export default function Workspaces() {
     return (
-        <div className="w-full h-full flex flex-col items-center  bg-[#b9bbfb]">
+        <div className="w-full h-full flex flex-col items-center  bg-slate-50">
             <Image src={noDm} alt="workspaces" width={350} height={350} />
-            <h1 className="text-white/90 font-bold text-xl mt-5">
+            <h1 className="text-black/90 font-newCustom text-xl mt-5">
                 Sorry! You need to start chatting to see your messages.
             </h1>
-            <Button size="lg" className="mt-6" variant="homePage">
+            <Button size="lg" className="mt-6" variant="default">
                 <MessageCircleMore size={20} className="mr-2" />
                 Start Chatting</Button>
         </div>

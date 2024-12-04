@@ -26,12 +26,12 @@ export default function Messages() {
     return (
         <SidebarContent>
             <SidebarGroup>
-                <SidebarGroupLabel className="text-gray-200 font-bold">DIRECT MESSAGES</SidebarGroupLabel>
+                <SidebarGroupLabel className="text-black font-newCustom">DIRECT MESSAGES</SidebarGroupLabel>
                 <SidebarGroupContent>
-                    <SearchInput type="search" placeholder="Search" className="mb-5 mt-3 border-none bg-[#6668a0] text-white  placeholder-black" />
+                    <SearchInput type="search" placeholder="Search" className="mb-5 mt-3 border border-muted-foreground bg-transparent text-black font-newCustom placeholder:text-black" />
                     <SidebarMenu>
                         {items.map((item) => (
-                            <SidebarMenuItem key={item.name} className="mb-4 transition-colors hover:bg-[#6668a0] rounded-lg">
+                            <SidebarMenuItem key={item.name} className="mb-4 transition-colors  rounded-lg hover:bg-[#6668a0]">
                                 <SidebarMenuButton asChild>
                                     <DirectMessageBox image={item.img?.src} name={item.name} lastMessage={item.lastm} />
                                 </SidebarMenuButton>

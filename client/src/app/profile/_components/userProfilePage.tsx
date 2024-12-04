@@ -1,29 +1,30 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import premiumMember from "../../../../public/premiumMember.svg"
 import admin from "../../../../public/admin.svg"
+import chat from "../../../../public/chat.svg"
 import { useParams, useRouter } from "next/navigation";
-import { Github, Instagram, Linkedin, Mail, MoveLeftIcon, Phone } from "lucide-react";
+import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, Phone, Settings, Shield, Trash } from "lucide-react";
 import Chat from "../../../../public/Chat.svg";
 import Deneme from "../../../../public/deneme.jpeg";
+import banner from "../../../../public/banner.png";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
+import User from "@/app/interfaces/UserInterface";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EditProfileDialog } from "./EditProfileDialog";
 import { GetUserById, GetUserProfile } from "@/api/userAPI/api";
-import { mutate } from "swr";
-import { toast } from "sonner";
+import { CreateProfileDialog } from "./CreateProfileDialog";
+import ProfileSidebar from "./ProfileSidebar";
 import FriendRequestButton from "./FriendRequestButton";
 
-export default function UserProfilePage() {
+export default function MeUserProfilePage() {
     const router = useRouter();
     const { userId } = useParams();
-    const [authId, setAuthId] = useState<number>(0);
-
+    const [authId, setAuthId] = useState<User | null>(null);
 
     const { userWithID, isError, isLoading } = GetUserById(userId);
     const { userProfile, isErrorUserProfile, isLoadingUserProfile } = GetUserProfile(userId);
-
-
     const badgeItems = [
         {
             name: "Premium Member",
@@ -35,10 +36,9 @@ export default function UserProfilePage() {
         },
         {
             name: "Chat with 5 different people",
-            badge: Chat
+            badge: chat
         }
     ]
-
     const socialLinks = [
         {
             key: "linked_in",
@@ -56,7 +56,7 @@ export default function UserProfilePage() {
             key: "mail",
             name: "Mail",
             icons: <Mail />,
-            link: `mailto:${userProfile?.mail}`
+            link: `mailto: ${userProfile?.mail}`
         },
         {
             key: "github",
@@ -68,9 +68,9 @@ export default function UserProfilePage() {
             key: "phone",
             name: "Phone",
             icons: <Phone />,
-            link: `tel:${userProfile?.phone}`
+            link: `tel: ${userProfile?.phone}`
         },
-    ]
+    ];
 
     useEffect(() => {
         const checkUser = async () => {
@@ -91,68 +91,73 @@ export default function UserProfilePage() {
             }
         }
         checkUser();
-
-
-    }, []);
-
+    }, [userId]);
 
 
     return (
-        <div className="bg-white rounded-md h-5/6 p-5 flex items-center justify-center gap-2 relative">
-            <Button size="icon" variant="ghost" className="absolute left-3 top-3" onClick={() => { router.push("/workspaces") }}>
-                <MoveLeftIcon />
-            </Button>
-            <div className="flex flex-col items-center">
-                <div className="w-52 h-52 rounded-full bg-[#8286cf] flex items-center justify-center">
-                    <Image src={Deneme} alt="Profile Picture" width={200} height={200} className="rounded-full" />
+        <div className="flex w-full h-full bg-white">
+            <div className="flex flex-col flex-1 w-full h-full">
+                <div className="relative w-full h-[200px]">
+                    <Image src={banner} alt="Kapak Resmi" className="w-full h-full object-cover" />
                 </div>
-                <div className="p-3 w-full h-3/5  bg-gray-50/0 rounded-md flex flex-col">
-                    <div className="flex flex-col items-center">
-                        <h1 className="text-2xl font-newCustom font-bold">{userWithID?.fullname}</h1>
-                        <p className="text-sm text-gray-500">{`@${userProfile?.username}`}</p>
-                        <p className="text-sm text-gray-500">{userProfile?.job}</p>
+                <div className="flex lg:flex-row items-start lg:items-center mt-6 px-6">
+                    <div className="lg:mr-6">
+                        <Image
+                            src={Deneme}
+                            alt="Profil Resmi"
+                            className="w-[150px] h-[150px] rounded-full border-4 border-white shadow-lg"
+                        />
                     </div>
-                    <div className="flex flex-row gap-16 mt-3 w-full">
-                        <div>
-                            <h1 className="text-xl mt-5 font-newCustom">Socials</h1>
-                            <div className="flex flex-col gap-3 mt-3">
-                                {
-                                    socialLinks.filter((items) => {
-                                        return items.link;
-                                    }).map((items, index) => {
-                                        let displayLink = items.link;
-                                        if (items.key === "linked_in" || items.key === "instagram" || items.key === "github") {
-                                            const username = items.link?.split("/").filter(Boolean).pop();
-                                            displayLink = username || "";
-                                        }
-                                        if (items.key === "mail") {
-                                            displayLink = displayLink?.replace("mailto:", "");
-                                        } else if (items.key === "phone") {
-                                            displayLink = displayLink?.replace("tel:", "") || "";
-                                        }
-                                        return (
-                                            <div key={index} className="flex flex-row gap-2 items-center">
-                                                {items.icons}
-                                                <a href={items.link} target="_blank">
-                                                    <span className="text-[#8286cf]">{displayLink}</span>
-                                                </a>
-                                            </div>
-                                        );
-                                    })
-                                }
-                            </div>
+                    <div className="text-center lg:text-left">
+                        <h1 className="text-2xl font-bold">{userWithID?.fullname || "Kullanıcı Adı"}</h1>
+                        <p className="text-gray-600">{userProfile?.job || ""}</p>
+                        <div className="flex justify-center lg:justify-start mt-4 space-x-4">
+                            {socialLinks.map((link) => (
+                                <a
+                                    key={link.key}
+                                    href={link.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-gray-500 hover:text-[#8185f3]"
+                                >
+                                    {link.icons}
+                                </a>
+                            ))}
                         </div>
-                        <div >
-                            <h1 className="text-xl mt-5 font-newCustom">
+                        <div className="mt-2">
+                            {
+                                authId !== Number(userId) && (<FriendRequestButton authId={authId} profileId={Number(userId)} />)
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                {/* Diğer İçerikler */}
+                <div className="mt-10 w-full px-6">
+                    <Card className="mb-4">
+                        <CardHeader>
+                            <CardTitle>Hakkımda</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p>Merhaba, ben {userWithID?.name || "Kullanıcı"}! Frontend alanında çalışıyorum ve yeni teknolojiler öğrenmeyi seviyorum.</p>
+                        </CardContent>
+                    </Card>
+                </div>
+                <div className=" mt-10 w-full px-6 flex flex-row items-start justify-start gap-3">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>
                                 Achievements
-                            </h1>
-                            <div className="flex flex-row gap-3 mt-3">
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="p-3 flex flex-row items-center justify-center gap-3">
                                 {
                                     badgeItems.map((items, index) => (
                                         <TooltipProvider key={index} delayDuration={50}>
                                             <Tooltip>
                                                 <TooltipTrigger>
-                                                    <Image src={items.badge} alt={items.name} width={60} height={60} />
+                                                    <Image src={items.badge} alt={items.name} width={70} height={70} />
                                                 </TooltipTrigger>
                                                 <TooltipContent>
                                                     <p>{items.name}</p>
@@ -162,13 +167,10 @@ export default function UserProfilePage() {
                                     ))
                                 }
                             </div>
-                        </div>
-                    </div>
-                    {
-                        authId !== Number(userId) && (<FriendRequestButton authId={authId} profileId={Number(userId)} />)
-                    }
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </div>
-    )
+    );
 }

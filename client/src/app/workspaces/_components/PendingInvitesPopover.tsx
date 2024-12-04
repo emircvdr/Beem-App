@@ -34,7 +34,7 @@ export default function PendingInvitesPopover(authId: any) {
     return (
         <Popover>
             <PopoverTrigger asChild className="flex items-center gap-2">
-                <Button variant="ghost" size="icon"> <Mail size={12} className="text-white" /></Button>
+                <Button variant="ghost" size="icon"> <Mail size={12} className="text-black" /></Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
                 <div className="grid gap-4">

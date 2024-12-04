@@ -100,12 +100,12 @@ export default function Home() {
   }
 
   return (
-    <div className="w-full h-screen flex items-center  bg-[#8286cf] flex-col">
+    <div className="w-full h-screen flex items-center  bg-slate-100 flex-col">
       <Image src={noWorkplaceLogo} alt="logo" width={500} height={500} />
-      <h1 className="text-white font-bold text-2xl mt-6">
+      <h1 className="text-black font-newCustom text-2xl mt-6">
         No Workplace Found !
       </h1>
-      <p className="text-sm font-bold text-gray-300">
+      <p className="text-muted-foreground font-newCustom text-gray-300">
         You have not created any workplace yet. Please create a workplace to continue.
       </p>
       <Dialog>

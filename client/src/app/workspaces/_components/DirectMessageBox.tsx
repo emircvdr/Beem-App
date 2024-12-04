@@ -20,11 +20,11 @@ export default function DirectMessageBox({ image, name, lastMessage }: DirectMes
             </div>
             <div className="flex flex-col w-3/4">
                 <div className="w-full  flex">
-                    <h1 className="text-white text-[14px]">{name}</h1>
+                    <h1 className="text-black text-[14px]">{name}</h1>
                     <p className="ml-auto text-[11px]">11:00 PM</p>
                 </div>
 
-                <p className="text-black text-[13px]">{lastMessage}</p>
+                <p className="text-muted-foreground text-[13px]">{lastMessage}</p>
             </div>
 
         </div>

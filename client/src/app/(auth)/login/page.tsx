@@ -72,15 +72,15 @@ const Login = () => {
     };
 
     return (
-        <div className="flex justify-center items-center w-full h-full px-4">
-            <Card className="w-full max-w-[450px] h-auto py-5">
+        <div className="flex flex-col justify-center items-center w-full h-full px-4">
+            <div className="flex gap-2 items-center justify-center mb-2">
+                <Image src={logo} width={50} height={50} alt="Logo" />
+
+            </div>
+            <Card className="w-full max-w-[450px] h-auto py-5 border-none shadow-none">
                 <CardHeader>
-                    <div className="flex gap-2 items-center justify-center mb-5">
-                        <Image src={logo} width={50} height={50} alt="Logo" />
-                        <p className="font-bold text-2xl">BeemApp</p>
-                    </div>
-                    <CardTitle className="text-center text-2xl mb-5">Welcome Back!</CardTitle>
-                    <CardDescription className="text-center">
+                    <CardTitle className="text-center text-2xl font-newCustom">Welcome Back!</CardTitle>
+                    <CardDescription className="text-center font-newCustom">
                         Please enter your credentials to access your account.
                     </CardDescription>
                 </CardHeader>
@@ -100,7 +100,7 @@ const Login = () => {
                             value={form.password}
                             onChange={handleChange}
                         />
-                        <Button size="lg" className="w-full" variant="special">Login</Button>
+                        <Button size="lg" className="w-full" variant="default">Login</Button>
                         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
                     </form>
                 </CardContent>
@@ -120,7 +120,7 @@ const Login = () => {
                         &nbsp;
                         <p className="font-bold">Login with Github</p>
                     </Button>
-                    <p className="text-sm">
+                    <p className="text-sm font-newCustom">
                         Don&apos;t have an account?{" "}
                         <Link href="/register" className="text-blue-600">Register</Link>
                     </p>

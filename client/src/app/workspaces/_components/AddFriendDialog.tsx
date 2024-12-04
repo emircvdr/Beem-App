@@ -82,7 +82,7 @@ export function AddFriendDialog() {
         <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
             <DialogTrigger asChild>
                 <Button size="icon" variant="ghost">
-                    <Plus size={12} className="text-white" />
+                    <Plus size={12} className="text-black" />
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">

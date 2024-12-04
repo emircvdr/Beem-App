@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import premiumMember from "../../../../public/premiumMember.svg"
 import admin from "../../../../public/admin.svg"
+import chat from "../../../../public/chat.svg"
 import { useParams, useRouter } from "next/navigation";
 import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, Phone, Settings, Shield, Trash } from "lucide-react";
 import Chat from "../../../../public/Chat.svg";
 import Deneme from "../../../../public/deneme.jpeg";
+import banner from "../../../../public/banner.png";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
@@ -14,17 +15,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { GetUserById, GetUserProfile } from "@/api/userAPI/api";
 import { CreateProfileDialog } from "./CreateProfileDialog";
+import ProfileSidebar from "./ProfileSidebar";
 
 export default function MeUserProfilePage() {
     const router = useRouter();
     const { userId } = useParams();
     const [authId, setAuthId] = useState<User | null>(null);
 
-
     const { userWithID, isError, isLoading } = GetUserById(userId);
     const { userProfile, isErrorUserProfile, isLoadingUserProfile } = GetUserProfile(userId);
-
-
     const badgeItems = [
         {
             name: "Premium Member",
@@ -36,30 +35,8 @@ export default function MeUserProfilePage() {
         },
         {
             name: "Chat with 5 different people",
-            badge: Chat
+            badge: chat
         }
-    ]
-    const leftButtons = [
-        {
-            name: "Settings",
-            icons: <Settings />
-        },
-        {
-            name: "My Subscriptions",
-            icons: <CreditCard />
-        },
-        {
-            name: "Enable  Two-Step Verification",
-            icons: <Shield />
-        },
-        {
-            name: "Deleted Messages",
-            icons: <Trash />
-        },
-        {
-            name: "You Need Help? Contact Us",
-            icons: <HelpCircle />
-        },
     ]
     const socialLinks = [
         {
@@ -78,7 +55,7 @@ export default function MeUserProfilePage() {
             key: "mail",
             name: "Mail",
             icons: <Mail />,
-            link: `mailto:${userProfile?.mail}`
+            link: `mailto: ${userProfile?.mail}`
         },
         {
             key: "github",
@@ -90,26 +67,9 @@ export default function MeUserProfilePage() {
             key: "phone",
             name: "Phone",
             icons: <Phone />,
-            link: `tel:${userProfile?.phone}`
+            link: `tel: ${userProfile?.phone}`
         },
-    ]
-
-    const handleLogOut = async () => {
-        try {
-            const response = await fetch('http://localhost:8000/api/logout', {
-                method: "POST",
-                credentials: "include",
-            });
-
-            if (response.ok) {
-                router.push('/login');
-            } else {
-                throw new Error('Failed to log out');
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    ];
 
     useEffect(() => {
         const checkUser = async () => {
@@ -130,75 +90,58 @@ export default function MeUserProfilePage() {
             }
         }
         checkUser();
-    }, [userId])
+    }, [userId]);
 
 
     return (
-        <div className="bg-white rounded-md w-11/12 h-5/6 p-5 flex gap-2">
-            <div className=" w-1/3 flex flex-col items-start">
-                {
-                    leftButtons.map((items, index) => (
-                        <Button key={index} variant="ghost">
-                            {items.icons}
-                            <p>{items.name}</p>
-                        </Button>
-                    ))
-                }
-                <div className="mt-auto">
-                    <Button variant="default" onClick={handleLogOut}>
-                        <LogOut /> <p className="font-bold">Log Out</p>
-                    </Button>
+        <div className="flex w-full h-full bg-white">
+            <ProfileSidebar />
+            <div className="flex flex-col flex-1 w-full h-full">
+                <div className="relative w-full h-[200px]">
+                    <Image src={banner} alt="Kapak Resmi" className="w-full h-full object-cover" />
                 </div>
-            </div>
-            <div className="w-1/3 h-full flex flex-col items-center border-r border-l ">
-                <div className="w-52 h-52 rounded-full bg-[#8286cf] flex items-center justify-center">
-                    <Image src={Deneme} alt="Profile Picture" width={200} height={200} className="rounded-full" />
-                </div>
-                <div className="p-3 w-full h-3/5  bg-gray-50/0 rounded-md flex flex-col">
-                    <div className="flex flex-col items-center">
-                        <h1 className="text-2xl font-newCustom font-bold">{userWithID?.fullname}</h1>
-                        <p className="text-sm text-gray-500">{`@${userProfile?.username}`}</p>
-                        <p className="text-sm text-gray-500">{userProfile?.job}</p>
-                        {!userProfile.error ? (<EditProfileDialog />) : <CreateProfileDialog />}
+                <div className="flex lg:flex-row items-start lg:items-center mt-6 px-6">
+                    <div className="lg:mr-6">
+                        <Image
+                            src={Deneme}
+                            alt="Profil Resmi"
+                            className="w-[150px] h-[150px] rounded-full border-4 border-white shadow-lg"
+                        />
                     </div>
-                    <div className="flex flex-col gap-16 mt-3">
-                        <div>
-                            <h1 className="text-xl mt-5 font-newCustom">Socials</h1>
-                            <div className="flex flex-col gap-3 mt-3">
-                                {
-                                    socialLinks.filter((items) => {
-                                        return items.link;
-                                    }).map((items, index) => {
-                                        let displayLink = items.link;
-                                        if (items.key === "linked_in" || items.key === "instagram" || items.key === "github") {
-                                            const username = items.link?.split("/").filter(Boolean).pop();
-                                            displayLink = username || "";
-                                        }
-                                        if (items.key === "mail") {
-                                            displayLink = displayLink?.replace("mailto:", "");
-                                        } else if (items.key === "phone") {
-                                            displayLink = displayLink?.replace("tel:", "") || "";
-                                        }
-                                        return (
-                                            <div key={index} className="flex flex-row gap-2 items-center">
-                                                {items.icons}
-                                                <a href={items.link} target="_blank">
-                                                    <span className="text-[#8286cf]">{displayLink}</span>
-                                                </a>
-                                            </div>
-                                        );
-                                    })
-                                }
-                            </div>
+                    <div className="text-center lg:text-left">
+                        <h1 className="text-2xl font-bold">{userWithID?.fullname || "Kullanıcı Adı"}</h1>
+                        <p className="text-gray-600">{userProfile?.job || ""}</p>
+                        <div className="flex justify-center lg:justify-start mt-4 space-x-4">
+                            {socialLinks.map((link) => (
+                                <a
+                                    key={link.key}
+                                    href={link.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-gray-500 hover:text-[#8185f3]"
+                                >
+                                    {link.icons}
+                                </a>
+                            ))}
                         </div>
-                        <Button className="mt-auto" size="lg">
-                            Share Your Profile
-                        </Button>
+                        <div className="mt-6">
+                            <EditProfileDialog />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className=" w-1/3 h-full flex flex-col items-center gap-5">
-                <div className="w-full">
+
+                {/* Diğer İçerikler */}
+                <div className="mt-10 w-full px-6">
+                    <Card className="mb-4">
+                        <CardHeader>
+                            <CardTitle>Hakkımda</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p>Merhaba, ben {userWithID?.name || "Kullanıcı"}! Frontend alanında çalışıyorum ve yeni teknolojiler öğrenmeyi seviyorum.</p>
+                        </CardContent>
+                    </Card>
+                </div>
+                <div className=" mt-10 w-full px-6 flex flex-row items-start justify-start gap-3">
                     <Card>
                         <CardHeader>
                             <CardTitle>
@@ -227,5 +170,5 @@ export default function MeUserProfilePage() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

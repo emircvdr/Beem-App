@@ -1,4 +1,4 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarSeparator } from "@/components/ui/sidebar";
+import { Sidebar, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarSeparator } from "@/components/ui/sidebar";
 import Image from "next/image";
 import logo from "../../../../public/logo.svg";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-import { SearchInput } from "@/components/ui/searchInput";
 import Messages from "./Messages";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Friends from "./Friends";
@@ -60,18 +59,17 @@ export default function SidebarComponent() {
         router.push(`/profile/${user?.id}`);
     }
     return (
-        <Sidebar variant="floating" collapsible="offcanvas" className="bg-[#b9bbfb] border-none">
+        <Sidebar variant="sidebar" collapsible="offcanvas" >
             <SidebarHeader className="flex flex-row justify-center items-center p-5">
                 <Image src={logo} alt="logo" width={50} height={50} />
-                <h1 className="font-bold text-white font-custom text-[20px]">beemApp</h1>
+                <h1 className="font-bold text-black font-custom text-[20px]">beemApp</h1>
             </SidebarHeader>
-            <SidebarSeparator className="bg-[#b9bbfb]" />
-            <Tabs defaultValue="dms" className="w-full p-2 h-full mt-2">
+            <Tabs defaultValue="dms" className="w-full p-2 h-full">
                 <TabsList className="flex w-full justify-evenly bg-transparent">
-                    <TabsTrigger value="dms"><MessageCircle size={16} className="text-white" /></TabsTrigger>
-                    <TabsTrigger value="friends"><UsersRound size={16} className="text-white" /></TabsTrigger>
+                    <TabsTrigger value="dms"><MessageCircle size={16} className="text-black" /></TabsTrigger>
+                    <TabsTrigger value="friends"><UsersRound size={16} className="text-black" /></TabsTrigger>
                 </TabsList>
-                <SidebarSeparator className="mt-2 mb-2 bg-[#b9bbfb]" />
+                <SidebarSeparator className="mt-2 mb-2" />
                 <TabsContent value="dms">
                     <Messages />
                 </TabsContent>
@@ -84,14 +82,18 @@ export default function SidebarComponent() {
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <SidebarMenuButton className="text-white bg-[#6668a0] " variant="special" size="lg">
+                                <SidebarMenuButton className="text-black  border " variant="default" size="lg">
                                     {user?.image ? <Image src={user?.image} alt="avatar" /> :
-                                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white  text-lg text-black">
+                                        <div className="w-8 h-8 rounded-md flex items-center justify-center bg-slate-200  text-lg text-black">
                                             {
                                                 user?.fullname?.split(" ").map((item) => item[0].toUpperCase()).join("")
                                             }
                                         </div>
-                                    } {user?.fullname}
+                                    }
+                                    <div className="flex flex-col items-start justify-center">
+                                        <p className="text-[14px] text-black font-newCustom">{user?.fullname}</p>
+                                        <p className="text-[10px] text-muted-foreground font-newCustom">{user?.email}</p>
+                                    </div>
                                     <ChevronUp className="ml-auto" />
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
@@ -102,7 +104,7 @@ export default function SidebarComponent() {
                                 <div className="flex flex-row gap-3 p-3">
                                     {
                                         user?.image ? <Image src={user?.image} alt="avatar" /> :
-                                            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-300  text-lg text-black">
+                                            <div className="w-8 h-8 rounded-md flex items-center justify-center bg-slate-200  text-lg text-black">
                                                 {
                                                     user?.fullname?.split(" ").map((item) => item[0].toUpperCase()).join("")
                                                 }

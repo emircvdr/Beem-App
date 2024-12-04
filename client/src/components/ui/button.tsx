@@ -19,7 +19,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        special: "bg-[#4e517a] text-white shadow hover:bg-[#8286cf]",
+        special: "bg-[#b9bbfb] text-white shadow hover:bg-[#8286cf]",
         homePage: "bg-white text-black shadow hover:bg-[#f5f5f5]",
         friendRequest: "bg-green-500 text-white shadow hover:bg-[#82cf86]",
       },
