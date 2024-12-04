@@ -38,3 +38,29 @@ func AcceptFriend(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(friend)
 }
+
+func GetFriends(c *fiber.Ctx) error {
+	userId := c.Params("user_id")
+	var friends []models.Friend
+	result := database.DB.Where("user_id = ? OR friend_id = ?", userId, userId).Find(&friends)
+
+	if result.RowsAffected == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"error": "No friends found",
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(friends)
+}
+
+func DeleteFriend(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	database.DB.Where("id = ?", id).Delete(&models.Friend{})
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Friend request rejected",
+	})
+  
+
+}

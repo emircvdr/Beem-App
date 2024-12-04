@@ -3,15 +3,34 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
-import { EllipsisVertical, MessageCircle, Trash2 } from "lucide-react";
-import Image from "next/image";
+import { EllipsisVertical, MessageCircle, SquareArrowOutUpRight, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 
 interface FriendsBoxProps {
     image: string;
     name: string;
+    id: string;
+    userId: string;
 }
 
-export default function FriendsBox({ image, name }: FriendsBoxProps) {
+export default function FriendsBox({ image, name, id, userId }: FriendsBoxProps) {
+    const router = useRouter();
+    const handleDeleteFriend = async () => {
+        try {
+            const result = await fetch(`http://localhost:8000/api/deleteFriend/${id}`, {
+                method: "DELETE",
+            });
+            if (result.ok) {
+                console.log("Friend deleted")
+            }
+            if (!result.ok) {
+                throw new Error("Error while cancelling friend request");
+            }
+        } catch (error) {
+            console.error("Error while cancelling friend request:", error);
+        }
+    }
     return (
         <div className="w-full h-[50px] rounded-sm flex gap-3 p-3 items-center  cursor-pointer">
             <div className="w-8 h-8  rounded-full flex items-center justify-center">
@@ -43,12 +62,14 @@ export default function FriendsBox({ image, name }: FriendsBoxProps) {
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent side="right" className=" border-none w-full bg-[#6668a0]">
-                                <div>
-                                    <Button variant="destructive" size="sm">
+                                <div className="flex flex-col gap-2">
+                                    <Button variant="secondary" size="sm" className="flex flex-row gap-2 justify-start" onClick={() => router.push(`/profile/${userId}`)}>
+                                        <SquareArrowOutUpRight /> View Profile
+                                    </Button>
+                                    <Button variant="destructive" size="sm" className="flex flex-row gap-2 justify-start" onClick={handleDeleteFriend}>
                                         <Trash2 /> Remove Friend
                                     </Button>
                                 </div>
-
                             </PopoverContent>
                         </Popover>
                     </div>

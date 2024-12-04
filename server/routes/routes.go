@@ -34,4 +34,6 @@ func Setup(app *fiber.App) {
 
 	// friends routes
 	app.Post("/api/acceptFriend", controllers.AcceptFriend)
+	app.Get("/api/getFriends/:user_id", controllers.GetFriends)
+	app.Delete("/api/deleteFriend/:id", controllers.DeleteFriend)
 }

@@ -6,24 +6,19 @@ import NotificationPopover from "./NotificationPopover";
 import PendingInvitesPopover from "./PendingInvitesPopover";
 import { useEffect } from "react";
 import { AddFriendDialog } from "./AddFriendDialog";
+import { GetFriends } from "@/api/friendsAPI/api";
+import { GetAllUsers } from "@/api/userAPI/api";
 
 
 export default function Friends(authId: any) {
+    const { allUsers, isErrorAllUsers, isLoadingAllUsers } = GetAllUsers();
+    const { friends, isLoadingFriends, isErrorFriends } = GetFriends(authId.authId);
+    const filteredUsers = allUsers?.filter((item: any) => item.id !== authId.authId)
 
-    const items = [
-        {
-            name: "Emir",
-            img: deneme,
-        },
-        {
-            name: "Betul",
-            img: deneme,
-        },
-        {
-            name: "ediz",
-            img: deneme,
-        },
-    ]
+    useEffect(() => {
+        console.log(filteredUsers)
+    }, [])
+
     return (
         <SidebarContent>
             <SidebarGroup>
@@ -37,13 +32,11 @@ export default function Friends(authId: any) {
                 <SidebarGroupContent>
                     <SearchInput type="search" placeholder="Search" className="mb-5 mt-3 border-none bg-[#6668a0] text-white  placeholder-black" />
                     <SidebarMenu>
-                        {items.map((item) => (
-                            <SidebarMenuItem key={item.name} className="mb-2 transition-colors hover:bg-[#6668a0] rounded-lg">
-                                <SidebarMenuButton asChild>
-                                    <FriendsBox image={item.img?.src} name={item.name} />
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
+                        {
+                            friends?.map((item: any) => (
+                                <FriendsBox key={item.id} image={item.img?.src} name={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).fullname} id={item.id} userId={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).id} />
+                            ))
+                        }
                     </SidebarMenu>
                 </SidebarGroupContent>
             </SidebarGroup>
