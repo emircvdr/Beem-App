@@ -2,7 +2,7 @@ import premiumMember from "../../../../public/premiumMember.svg"
 import admin from "../../../../public/admin.svg"
 import chat from "../../../../public/chat.svg"
 import { useParams, useRouter } from "next/navigation";
-import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, Phone, Settings, Shield, Trash } from "lucide-react";
+import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, Pencil, Phone, Settings, Shield, Trash } from "lucide-react";
 import Chat from "../../../../public/Chat.svg";
 import Deneme from "../../../../public/deneme.jpeg";
 import banner from "../../../../public/banner.png";
@@ -17,6 +17,7 @@ import { GetUserById, GetUserProfile } from "@/api/userAPI/api";
 import { CreateProfileDialog } from "./CreateProfileDialog";
 import ProfileSidebar from "./ProfileSidebar";
 import FriendRequestButton from "./FriendRequestButton";
+import UserProfileSidebar from "./UserProfileSidebar";
 
 export default function MeUserProfilePage() {
     const router = useRouter();
@@ -25,20 +26,6 @@ export default function MeUserProfilePage() {
 
     const { userWithID, isError, isLoading } = GetUserById(userId);
     const { userProfile, isErrorUserProfile, isLoadingUserProfile } = GetUserProfile(userId);
-    const badgeItems = [
-        {
-            name: "Premium Member",
-            badge: premiumMember
-        },
-        {
-            name: "Administer a workspace server at least a one time",
-            badge: admin
-        },
-        {
-            name: "Chat with 5 different people",
-            badge: chat
-        }
-    ]
     const socialLinks = [
         {
             key: "linked_in",
@@ -96,77 +83,60 @@ export default function MeUserProfilePage() {
 
     return (
         <div className="flex w-full h-full bg-white">
-            <div className="flex flex-col flex-1 w-full h-full">
-                <div className="relative w-full h-[200px]">
-                    <Image src={banner} alt="Kapak Resmi" className="w-full h-full object-cover" />
-                </div>
-                <div className="flex lg:flex-row items-start lg:items-center mt-6 px-6">
-                    <div className="lg:mr-6">
-                        <Image
-                            src={Deneme}
-                            alt="Profil Resmi"
-                            className="w-[150px] h-[150px] rounded-full border-4 border-white shadow-lg"
-                        />
-                    </div>
-                    <div className="text-center lg:text-left">
-                        <h1 className="text-2xl font-bold">{userWithID?.fullname || "Kullanıcı Adı"}</h1>
-                        <p className="text-gray-600">{userProfile?.job || ""}</p>
-                        <div className="flex justify-center lg:justify-start mt-4 space-x-4">
-                            {socialLinks.map((link) => (
-                                <a
-                                    key={link.key}
-                                    href={link.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-gray-500 hover:text-[#8185f3]"
-                                >
-                                    {link.icons}
-                                </a>
-                            ))}
-                        </div>
-                        <div className="mt-2">
-                            {
-                                authId !== Number(userId) && (<FriendRequestButton authId={authId} profileId={Number(userId)} />)
-                            }
+            <UserProfileSidebar />
+            <div className="flex flex-col gap-3 flex-1 w-full h-full">
+                <div className="w-full h-[500px]  bg-white">
+                    <div className="w-full h-1/2 relative rounded-md">
+                        <Image src={banner} alt="banner" className="w-full h-[180px]" />
+                        <Image src={Deneme} alt="profile" className="w-[150px] h-[150px] object-cover rounded-full absolute top-1/2 left-12 border border-black" />
+                        <div className="w-full h-[30px] flex items-center justify-end p-6">
                         </div>
                     </div>
+                    <div className="w-full h-1/2 p-5 flex flex-col mt-2">
+                        <div className="flex flex-row justify-between">
+                            <div className="flex flex-col items-start ml-5">
+                                <h1 className="text-black text-[24px] font-newCustom">{userWithID?.fullname}</h1>
+                                <p className="text-muted-foreground text-[14px] font-newCustom">{userProfile?.job}</p>
+                            </div>
+                            <div className="flex flex-row gap-2 justify-center items-center ">
+                                <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+                                    <p className="text-white font-newCustom">A</p>
+                                </div>
+                                <p className="text-black font-newCustom">ABO Sunucusu</p>
+                            </div>
+                        </div>
+                        <div className="w-full p-5 flex flex-col gap-8">
+                            <div>
+                                <p className="text-blue-500 font-newCustom">Socials</p>
+                                <div className="flex justify-center lg:justify-start mt-2 space-x-4">
+                                    {socialLinks.map((link) => (
+                                        <a
+                                            key={link.key}
+                                            href={link.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-gray-500 hover:text-[#8185f3]"
+                                        >
+                                            {link.icons}
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                            <div>
+                                {
+                                    authId != Number(userId) && (<FriendRequestButton authId={authId} profileId={Number(userId)} />)
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                {/* Diğer İçerikler */}
-                <div className="mt-10 w-full px-6">
-                    <Card className="mb-4">
+                <div className="ml-auto mr-auto w-full">
+                    <Card className="mb-4 bg-white">
                         <CardHeader>
-                            <CardTitle>Hakkımda</CardTitle>
+                            <CardTitle>Description</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p>Merhaba, ben {userWithID?.name || "Kullanıcı"}! Frontend alanında çalışıyorum ve yeni teknolojiler öğrenmeyi seviyorum.</p>
-                        </CardContent>
-                    </Card>
-                </div>
-                <div className=" mt-10 w-full px-6 flex flex-row items-start justify-start gap-3">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>
-                                Achievements
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="p-3 flex flex-row items-center justify-center gap-3">
-                                {
-                                    badgeItems.map((items, index) => (
-                                        <TooltipProvider key={index} delayDuration={50}>
-                                            <Tooltip>
-                                                <TooltipTrigger>
-                                                    <Image src={items.badge} alt={items.name} width={70} height={70} />
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>{items.name}</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    ))
-                                }
-                            </div>
                         </CardContent>
                     </Card>
                 </div>

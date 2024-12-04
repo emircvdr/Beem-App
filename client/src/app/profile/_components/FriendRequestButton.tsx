@@ -104,6 +104,9 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
     if (!friendRequest?.exists) {
         return <Button className="mt-12 m-auto" variant="default" onClick={handleSendFriendRequest}>Send Friend Request</Button>;
     }
+    if (friendRequest.status === "accepted") {
+        return <Button className="mt-12 m-auto" variant="default">Start Chat</Button>;
+    }
 
     if (friendRequest.senderId === authId) {
         return <Button className="mt-12 m-auto" onClick={handleCancelFriendRequest}>Cancel Friend Request</Button>;
@@ -111,15 +114,13 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
 
     if (friendRequest.receiverId === authId && friendRequest.status === "pending") {
         return (
-            <div className="flex flex-row gap-4 items-center justify-center">
-                <Button variant="friendRequest" className="mt-12" onClick={() => handleAcceptFriendRequest(friendRequest.id, friendRequest.senderId)}>Accept Request</Button>
-                <Button variant="destructive" className="mt-12" onClick={() => handleRejectFriendRequest(friendRequest.id)}>Reject Request</Button>
+            <div className="flex flex-row gap-4 ">
+                <Button variant="friendRequest" onClick={() => handleAcceptFriendRequest(friendRequest.id, friendRequest.senderId)}>Accept Request</Button>
+                <Button variant="destructive" onClick={() => handleRejectFriendRequest(friendRequest.id)}>Reject Request</Button>
             </div>
         );
     }
-    if (friendRequest.receiverId === authId && friendRequest.status === "accepted") {
-        return <Button className="mt-12 m-auto" variant="default">Start Chat</Button>;
-    }
+
 
     return null;
 }
