@@ -10,6 +10,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { Pencil } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { mutate } from "swr";
@@ -66,8 +67,8 @@ export function CreateProfileDialog() {
     return (
         <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
             <DialogTrigger asChild>
-                <Button size="sm" className="mt-2 w-full">
-                    Create Profile
+                <Button size="icon" variant="ghost">
+                    <Pencil className="w-8 h-8 text-black" />
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">

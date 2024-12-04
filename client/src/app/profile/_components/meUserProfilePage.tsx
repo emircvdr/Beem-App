@@ -1,15 +1,9 @@
-import premiumMember from "../../../../public/premiumMember.svg"
-import admin from "../../../../public/admin.svg"
-import chat from "../../../../public/chat.svg"
 import { useParams, useRouter } from "next/navigation";
-import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, Pencil, Phone, Settings, Shield, Trash } from "lucide-react";
-import Chat from "../../../../public/Chat.svg";
+import { Github, Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import Deneme from "../../../../public/deneme.jpeg";
 import banner from "../../../../public/banner.png";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditProfileDialog } from "./EditProfileDialog";
@@ -18,7 +12,6 @@ import { CreateProfileDialog } from "./CreateProfileDialog";
 import ProfileSidebar from "./ProfileSidebar";
 
 export default function MeUserProfilePage() {
-    const router = useRouter();
     const { userId } = useParams();
     const [authId, setAuthId] = useState<User | null>(null);
 
@@ -78,7 +71,6 @@ export default function MeUserProfilePage() {
         checkUser();
     }, [userId]);
 
-
     return (
         <div className="flex w-full h-full bg-white">
             <ProfileSidebar />
@@ -88,14 +80,15 @@ export default function MeUserProfilePage() {
                         <Image src={banner} alt="banner" className="w-full h-[180px] rounded-md" />
                         <Image src={Deneme} alt="profile" className="w-[150px] h-[150px] object-cover rounded-full absolute top-1/2 left-12 border border-black" />
                         <div className="w-full h-[30px] flex items-center justify-end p-6">
-                            <EditProfileDialog />
+                            {!userProfile.error ? (<EditProfileDialog />) : <CreateProfileDialog />}
                         </div>
                     </div>
                     <div className="w-full h-1/2 p-5 flex flex-col mt-2">
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-col items-start ml-5">
-                                <h1 className="text-black text-[24px] font-newCustom">{userWithID?.fullname}</h1>
-                                <p className="text-muted-foreground text-[14px] font-newCustom">{userProfile?.job}</p>
+                                <h1 className="text-black text-[22px] font-newCustom">{userWithID?.fullname}</h1>
+                                <p className="text-muted-foreground text-[14px] font-newCustom">@{userProfile?.username}</p>
+                                <p className="text-muted-foreground text-[16px] font-newCustom">{userProfile?.job}</p>
                             </div>
                             <div className="flex flex-row gap-2 justify-center items-center ">
                                 <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">

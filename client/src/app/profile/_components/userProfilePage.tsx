@@ -6,7 +6,6 @@ import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, Penc
 import Chat from "../../../../public/Chat.svg";
 import Deneme from "../../../../public/deneme.jpeg";
 import banner from "../../../../public/banner.png";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
 import { Button } from "@/components/ui/button";
@@ -95,8 +94,9 @@ export default function MeUserProfilePage() {
                     <div className="w-full h-1/2 p-5 flex flex-col mt-2">
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-col items-start ml-5">
-                                <h1 className="text-black text-[24px] font-newCustom">{userWithID?.fullname}</h1>
-                                <p className="text-muted-foreground text-[14px] font-newCustom">{userProfile?.job}</p>
+                                <h1 className="text-black text-[22px] font-newCustom">{userWithID?.fullname}</h1>
+                                <p className="text-muted-foreground text-[14px] font-newCustom">@{userProfile?.username}</p>
+                                <p className="text-muted-foreground text-[16px] font-newCustom">{userProfile?.job}</p>
                             </div>
                             <div className="flex flex-row gap-2 justify-center items-center ">
                                 <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
