@@ -12,10 +12,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 export function AddFriendDialog() {
+    const router = useRouter();
     const [dialogOpen, setDialogOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredUsers, setFilteredUsers] = useState([]);
@@ -113,7 +115,7 @@ export function AddFriendDialog() {
                                         className="flex justify-between items-center p-2 border rounded-md"
                                     >
                                         <div>
-                                            <p className="text-sm font-medium">{user.fullname}</p>
+                                            <p className="text-sm font-medium cursor-pointer" onClick={() => router.push(`/profile/${user.id}`)}>{user.fullname}</p>
                                             <p className="text-xs text-gray-500">{user.email}</p>
                                         </div>
                                         <Button size="sm" onClick={() => handleSendFriendRequest(user.id)}>Add</Button>
