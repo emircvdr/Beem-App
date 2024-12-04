@@ -1,20 +1,12 @@
-import premiumMember from "../../../../public/premiumMember.svg"
-import admin from "../../../../public/admin.svg"
-import chat from "../../../../public/chat.svg"
 import { useParams, useRouter } from "next/navigation";
-import { CreditCard, Github, HelpCircle, Instagram, Linkedin, LogOut, Mail, Pencil, Phone, Settings, Shield, Trash } from "lucide-react";
-import Chat from "../../../../public/Chat.svg";
+import { Github, Instagram, Linkedin, Mail, Phone, } from "lucide-react";
 import Deneme from "../../../../public/deneme.jpeg";
 import banner from "../../../../public/banner.png";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { EditProfileDialog } from "./EditProfileDialog";
 import { GetUserById, GetUserProfile } from "@/api/userAPI/api";
-import { CreateProfileDialog } from "./CreateProfileDialog";
-import ProfileSidebar from "./ProfileSidebar";
 import FriendRequestButton from "./FriendRequestButton";
 import UserProfileSidebar from "./UserProfileSidebar";
 
