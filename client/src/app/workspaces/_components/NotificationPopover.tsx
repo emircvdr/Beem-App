@@ -1,15 +1,16 @@
 import { GetFriendRequestsByReceiverId } from "@/api/friendRequestAPI/api";
 import { GetAllUsers } from "@/api/userAPI/api";
-
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Bell, Check, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
 
 export default function NotificationPopover(authId: any) {
+    const router = useRouter();
     const { friendRequests, isLoadingFriendRequests, isErrorFriendRequests } = GetFriendRequestsByReceiverId(authId.authId);
     const { allUsers, isLoadingAllUsers, isErrorAllUsers } = GetAllUsers();
     const filteredUsers = allUsers?.filter((user: any) => friendRequests?.some((request: any) => request.sender_id === user.id));
@@ -95,7 +96,7 @@ export default function NotificationPopover(authId: any) {
                             ) : (
                                 friendRequests?.map((request: any) => (
                                     <div key={request.id} className="flex items-center justify-between gap-2 rounded-md p-2">
-                                        <p className="text-sm"> <span className="font-bold">{
+                                        <p className="text-sm"> <span className="font-bold cursor-pointer" onClick={() => router.push(`/profile/${request.sender_id}`)}>{
                                             allUsers?.find((user: any) => user.id === request.sender_id)?.fullname
                                         }</span> sent you a friend request</p>
                                         <div className="flex items-center gap-2">
