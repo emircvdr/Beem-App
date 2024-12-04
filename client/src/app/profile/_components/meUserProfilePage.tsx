@@ -82,10 +82,10 @@ export default function MeUserProfilePage() {
     return (
         <div className="flex w-full h-full bg-white">
             <ProfileSidebar />
-            <div className="flex flex-col gap-3 flex-1 w-full h-full">
+            <div className="flex flex-col gap-3 flex-1 w-full h-full p-5">
                 <div className="w-full h-[500px]  bg-white ">
                     <div className="w-full h-1/2 relative rounded-md">
-                        <Image src={banner} alt="banner" className="w-full h-[180px]" />
+                        <Image src={banner} alt="banner" className="w-full h-[180px] rounded-md" />
                         <Image src={Deneme} alt="profile" className="w-[150px] h-[150px] object-cover rounded-full absolute top-1/2 left-12 border border-black" />
                         <div className="w-full h-[30px] flex items-center justify-end p-6">
                             <EditProfileDialog />

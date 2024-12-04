@@ -45,7 +45,7 @@ export default function UserProfileSidebar() {
                         <MoveLeft /> Back to Workspaces
                     </Button>
                     <SidebarGroup>
-                        <SidebarGroupLabel>Application</SidebarGroupLabel>
+                        <SidebarGroupLabel>MENU</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu className="flex flex-col gap-2">
                                 {leftButtons.map((item) => (
