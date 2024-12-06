@@ -1,6 +1,6 @@
 # Beem App
 
-This is Beem App project built with **Next.js** for the frontend and **Golang** for the backend. The project aims to managing tasks, plans, and workflows.
+This is Beem App project built with **Next.js** for the frontend and **Golang** for the backend. The project aims to managing tasks, plans, and workflows..
 
 ## Features
 
@@ -14,7 +14,7 @@ This is Beem App project built with **Next.js** for the frontend and **Golang** 
 
 - **Frontend**: Next.js, React, Shadcn
 - **Backend**: Golang
-- **Database**: MySQL 
+- **Database**: MySQL
 
 ## Getting Started
 
@@ -29,21 +29,21 @@ Make sure you have the following installed:
 
 1. Clone the repository:
 
-    ```bash
-    git clone https://github.com/emircvdr/Beem-App.git
-    ```
+   ```bash
+   git clone https://github.com/emircvdr/Beem-App.git
+   ```
 
 2. Navigate to the `client` directory:
 
-    ```bash
-    cd beem-app/client
-    ```
+   ```bash
+   cd beem-app/client
+   ```
 
 3. Install the frontend dependencies:
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 4. For the backend, set up Docker and run the necessary services.
 
@@ -56,8 +56,9 @@ npm run dev
 ```
 
 ### Contributing
+
 If you'd like to contribute, feel free to open issues or submit pull requests.
 
 ### License
-This project is licensed under the MIT License - see the LICENSE file for details.
 
+This project is licensed under the MIT License - see the LICENSE file for details.
