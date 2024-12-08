@@ -1,6 +1,6 @@
 import { useParams, useRouter } from "next/navigation";
 import { Github, Instagram, Linkedin, Mail, Phone } from "lucide-react";
-import Deneme from "../../../../public/deneme.jpeg";
+import deneme from "../../../../public/deneme.jpeg";
 import banner from "../../../../public/banner.png";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
@@ -17,6 +17,7 @@ export default function MeUserProfilePage() {
 
     const { userWithID, isError, isLoading } = GetUserById(userId);
     const { userProfile, isErrorUserProfile, isLoadingUserProfile } = GetUserProfile(userId);
+
     const socialLinks = [
         {
             key: "linked_in",
@@ -70,15 +71,14 @@ export default function MeUserProfilePage() {
         }
         checkUser();
     }, [userId]);
-
     return (
-        <div className="flex w-full h-full bg-white">
+        <div className="flex w-11/12 m-auto h-full bg-white">
             <ProfileSidebar />
             <div className="flex flex-col gap-3 flex-1 w-full h-full p-5">
                 <div className="w-full h-[500px]  bg-white ">
                     <div className="w-full h-1/2 relative rounded-md">
                         <Image src={banner} alt="banner" className="w-full h-[180px] rounded-md" />
-                        <Image src={Deneme} alt="profile" className="w-[150px] h-[150px] object-cover rounded-full absolute top-1/2 left-12 border border-black" />
+                        <Image src={deneme} alt="profile" className="w-[150px] h-[150px] object-cover rounded-full absolute top-1/2 left-12 border border-black" />
                         <div className="w-full h-[30px] flex items-center justify-end p-6">
                             {!userProfile.error ? (<EditProfileDialog />) : <CreateProfileDialog />}
                         </div>

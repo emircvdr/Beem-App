@@ -73,7 +73,7 @@ export default function MeUserProfilePage() {
 
 
     return (
-        <div className="flex w-full h-full bg-white">
+        <div className="flex w-11/12 m-auto h-full bg-white">
             <UserProfileSidebar />
             <div className="flex flex-col gap-3 flex-1 w-full h-full p-5">
                 <div className="w-full h-[500px]  bg-white">
