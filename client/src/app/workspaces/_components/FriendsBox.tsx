@@ -1,3 +1,4 @@
+import { GetAvatar } from "@/api/userAPI/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -16,6 +17,8 @@ interface FriendsBoxProps {
 
 export default function FriendsBox({ image, name, id, userId }: FriendsBoxProps) {
     const router = useRouter();
+    const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
+    const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
     const handleDeleteFriend = async () => {
         try {
             const result = await fetch(`http://localhost:8000/api/deleteFriend/${id}`, {
@@ -35,7 +38,7 @@ export default function FriendsBox({ image, name, id, userId }: FriendsBoxProps)
         <div className="w-full h-auto rounded-sm flex gap-3 p-3 items-center  cursor-pointer">
             <div className="w-10 h-10 shadow-[#232445] shadow rounded-full flex items-center justify-center">
                 <Avatar>
-                    <AvatarImage src={image} alt="avatar" />
+                    <AvatarImage src={imageUrl as any} alt="avatar" className="object-contain" />
                     <AvatarFallback>
                         {name.charAt(0).toUpperCase()}
                     </AvatarFallback>

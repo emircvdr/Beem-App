@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ChevronUp, LogOut, MessageCircle, User2, UsersRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import Messages from "./Messages";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,7 +17,7 @@ export default function SidebarComponent() {
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<any>(null);
     const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(user?.id);
-    const imageUrl = avatar?.FilePath ? `${process.env.NEXT_PUBLIC_API_URL}/${avatar.FilePath}` : null;
+    const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
 
 
     useEffect(() => {
@@ -87,7 +87,7 @@ export default function SidebarComponent() {
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton className="text-black  border " variant="default" size="lg">
-                                    {imageUrl ? <Image src={imageUrl} alt="avatar" width={35} height={35} /> :
+                                    {imageUrl ? <Image src={imageUrl as string} alt="avatar" width={40} height={40} className="object-contain" /> :
                                         <div className="w-8 h-8 rounded-md flex items-center justify-center bg-slate-200  text-lg text-black">
                                             {
                                                 user?.fullname?.split(" ").map((item) => item[0].toUpperCase()).join("")
@@ -107,7 +107,7 @@ export default function SidebarComponent() {
                             >
                                 <div className="flex flex-row gap-3 p-3">
                                     {
-                                        imageUrl ? <Image src={imageUrl} alt="avatar" width={35} height={35} /> :
+                                        imageUrl ? <Image src={imageUrl} alt="avatar" width={40} height={40} className="object-contain" /> :
                                             <div className="w-8 h-8 rounded-md flex items-center justify-center bg-slate-200  text-lg text-black">
                                                 {
                                                     user?.fullname?.split(" ").map((item) => item[0].toUpperCase()).join("")

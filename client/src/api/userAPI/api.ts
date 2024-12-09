@@ -54,7 +54,7 @@ export function GetAllUsers() {
 }
 
 export function GetAvatar(userId: any) {
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading } = useSWR(  
     `http://localhost:8000/api/getAvatar/${userId}`,
     fetcher,
   );
@@ -62,5 +62,17 @@ export function GetAvatar(userId: any) {
     avatar: data,
     isLoadingAvatar: isLoading,
     isErrorAvatar: error,
+  };
+}
+
+export function GetBanner(userId: any) {
+  const { data, error, isLoading } = useSWR(
+    `http://localhost:8000/api/getBanner/${userId}`,
+    fetcher,
+  );
+  return {
+    banner: data,
+    isLoadingBanner: isLoading,
+    isErrorBanner: error,
   };
 }

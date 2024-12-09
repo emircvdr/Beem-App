@@ -1,7 +1,7 @@
 package models
 
 
-type UserAvatar struct {
+type UserBanner struct {
     ID           uint   `gorm:"primaryKey"`
     UserID       uint   `gorm:"unique"`
     FilePath     string `gorm:"not null"`

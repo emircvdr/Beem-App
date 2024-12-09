@@ -105,7 +105,7 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
         return <Button className="mt-12 m-auto" variant="default" onClick={handleSendFriendRequest}>Send Friend Request</Button>;
     }
     if (friendRequest.status === "accepted") {
-        return <Button className="mt-12 m-auto" variant="default">Start Chat</Button>;
+        return <Button className="mt-12 m-auto w-full" variant="default">Start Chat</Button>;
     }
 
     if (friendRequest.senderId === authId) {

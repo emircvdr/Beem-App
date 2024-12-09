@@ -17,16 +17,16 @@ import (
 
 
 
-func UploadAvatarHandler(c *fiber.Ctx) error {
+func UploadBannerHandler(c *fiber.Ctx) error {
 	userIDStr := c.Params("user_id")
 	userID, err := strconv.ParseUint(userIDStr, 10, 64)
 	if err != nil || userID == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user ID"})
 	}
 
-	base64Data := c.FormValue("avatar")
+	base64Data := c.FormValue("banner")
 	if base64Data == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Missing avatar data"})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Missing banner data"})
 	}
 
 	parts := strings.SplitN(base64Data, ",", 2)
@@ -56,7 +56,7 @@ func UploadAvatarHandler(c *fiber.Ctx) error {
 		}
 	}
 
-	fileName := fmt.Sprintf("%d_avatar.%s", time.Now().Unix(), strings.Split(fileType, "/")[1])
+	fileName := fmt.Sprintf("%d_banner.%s", time.Now().Unix(), strings.Split(fileType, "/")[1])
 	filePath := filepath.Join(uploadDir, fileName)
 
 	if err := os.WriteFile(filePath, decodedData, 0644); err != nil {
@@ -70,10 +70,10 @@ func UploadAvatarHandler(c *fiber.Ctx) error {
 
 	
 
-	var existingAvatar models.UserAvatar
-	if err := database.DB.Where("user_id = ?", userID).First(&existingAvatar).Error; err == nil {
-		os.Remove(existingAvatar.FilePath)
-		existingAvatar = models.UserAvatar{
+	var existingBanner models.UserBanner
+	if err := database.DB.Where("user_id = ?", userID).First(&existingBanner).Error; err == nil {
+		os.Remove(existingBanner.FilePath)
+		existingBanner = models.UserBanner{
 			UserID:        uint(userID),
 			FilePath:      filePath,
 			FileName:      fileName,
@@ -84,13 +84,13 @@ func UploadAvatarHandler(c *fiber.Ctx) error {
 			CroppedX:      croppedX,
 			CroppedY:      croppedY,
 		}
-		if err := database.DB.Save(&existingAvatar).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to update avatar in database"})
+		if err := database.DB.Save(&existingBanner).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to update banner in database"})
 		}
-		return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Avatar updated successfully", "avatar": existingAvatar})
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Banner updated successfully", "banner": existingBanner})
 	}
 
-	avatar := models.UserAvatar{
+	banner := models.UserBanner{
 		UserID:        uint(userID),
 		FilePath:      filePath,
 		FileName:      fileName,
@@ -101,14 +101,14 @@ func UploadAvatarHandler(c *fiber.Ctx) error {
 		CroppedX:      croppedX,
 		CroppedY:      croppedY,
 	}
-	if err := database.DB.Create(&avatar).Error; err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to save avatar to database"})
+	if err := database.DB.Create(&banner).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to save banner to database"})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Avatar uploaded successfully", "avatar": avatar})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Banner uploaded successfully", "banner": banner})
 }
 
-func GetAvatarHandler(c *fiber.Ctx) error {
+func GetBannerHandler(c *fiber.Ctx) error {
 	// Kullanıcı ID'sini route'tan al
 	userIDStr := c.Params("user_id")
 	userID, err := strconv.ParseUint(userIDStr, 10, 64)
@@ -119,43 +119,43 @@ func GetAvatarHandler(c *fiber.Ctx) error {
 	}
 
 	// Veritabanından avatarı al
-	var avatar models.UserAvatar
-	if err := database.DB.Where("user_id = ?", userID).First(&avatar).Error; err != nil {
+	var banner models.UserBanner
+	if err := database.DB.Where("user_id = ?", userID).First(&banner).Error; err != nil {
 		// Log hata
-		fmt.Printf("Error retrieving avatar: %v\n", err)
+		fmt.Printf("Error retrieving banner: %v\n", err)
 
 		if err == gorm.ErrRecordNotFound {
 			// Eğer kayıt bulunamazsa özel hata döndür
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": "Avatar not found",
+				"error": "Banner not found",
 			})
 		}
 		// Diğer hata durumlarını kontrol et
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": fmt.Sprintf("Failed to retrieve avatar: %v", err),
+				"error": fmt.Sprintf("Failed to retrieve banner: %v", err),
 		})
 	}
 
 	// Başarılı yanıt
-	return c.Status(fiber.StatusOK).JSON(avatar)
+	return c.Status(fiber.StatusOK).JSON(banner)
 }
 
-func DeleteAvatarHandler(c *fiber.Ctx) error {
+func DeleteBannerHandler(c *fiber.Ctx) error {
 	userIDStr := c.Params("user_id")
 	userID, err := strconv.ParseUint(userIDStr, 10, 64)
 	if err != nil || userID <= 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user ID"})
 	}
 
-	var avatar models.UserAvatar
-	if err := database.DB.Where("user_id = ?", userID).First(&avatar).Error; err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Avatar not found"})
+	var banner models.UserBanner
+	if err := database.DB.Where("user_id = ?", userID).First(&banner).Error; err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Banner not found"})
 	}
 
-	os.Remove(avatar.FilePath)
-	database.DB.Delete(&avatar)
+	os.Remove(banner.FilePath)
+	database.DB.Delete(&banner)
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Avatar deleted successfully"})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Banner deleted successfully"})
 }
 
 

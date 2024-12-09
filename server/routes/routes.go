@@ -41,4 +41,10 @@ func Setup(app *fiber.App) {
 	// user avatar routes
 	app.Post("/api/uploadAvatar/:user_id", controllers.UploadAvatarHandler)
 	app.Get("/api/getAvatar/:user_id", controllers.GetAvatarHandler)
+	app.Delete("/api/deleteAvatar/:user_id", controllers.DeleteAvatarHandler)
+
+	// user banner routes
+	app.Post("/api/uploadBanner/:user_id", controllers.UploadBannerHandler)
+	app.Get("/api/getBanner/:user_id", controllers.GetBannerHandler)
+	app.Delete("/api/deleteBanner/:user_id", controllers.DeleteBannerHandler)
 }

@@ -23,4 +23,5 @@ func Connect() {
 	connection.AutoMigrate(&models.FriendRequest{})
 	connection.AutoMigrate(&models.Friend{})
 	connection.AutoMigrate(&models.UserAvatar{})
+	connection.AutoMigrate(&models.UserBanner{})
 }

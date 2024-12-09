@@ -1,25 +1,29 @@
 import { useParams, useRouter } from "next/navigation";
 import { Github, Instagram, Linkedin, Mail, Phone, User2 } from "lucide-react";
-import deneme from "../../../../public/deneme.jpeg";
-import banner from "../../../../public/banner.png";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditProfileDialog } from "./EditProfileDialog";
-import { GetAvatar, GetUserById, GetUserProfile } from "@/api/userAPI/api";
+import { GetAvatar, GetBanner, GetUserById, GetUserProfile } from "@/api/userAPI/api";
 import { CreateProfileDialog } from "./CreateProfileDialog";
 import ProfileSidebar from "./ProfileSidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { EditAvatarDialog } from "./EditAvatarDialog";
+import { EditBannerDialog } from "./EditBannerDialog";
 
 export default function MeUserProfilePage() {
     const { userId } = useParams();
     const [authId, setAuthId] = useState<User | null>(null);
+    const [openAvatarDialog, setOpenAvatarDialog] = useState(false);
+    const [openBannerDialog, setOpenBannerDialog] = useState(false);
 
     const { userWithID, isError, isLoading } = GetUserById(userId);
     const { userProfile, isErrorUserProfile, isLoadingUserProfile } = GetUserProfile(userId);
     const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
+    const { banner, isLoadingBanner, isErrorBanner } = GetBanner(userId);
     const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
-
+    const bannerUrl = banner?.FilePath ? `http://localhost:8000/${banner.FilePath}` : null;
     const socialLinks = [
         {
             key: "linked_in",
@@ -53,6 +57,7 @@ export default function MeUserProfilePage() {
         },
     ];
 
+
     useEffect(() => {
         const checkUser = async () => {
             try {
@@ -79,21 +84,23 @@ export default function MeUserProfilePage() {
             <div className="flex flex-col gap-3 flex-1 w-full h-full p-5">
                 <div className="w-full h-[500px]  bg-white ">
                     <div className="w-full h-1/2 relative rounded-md">
-                        <Image src={banner} alt="banner" className="w-full h-[180px] rounded-md" />
-                        {imageUrl ? (
-                            <Image
-                                priority
-                                src={imageUrl}
-                                alt="Profile Avatar"
-                                width={150}
-                                height={150}
-                                className="object-cover rounded-full absolute top-1/2 left-12 border border-black"
-                            />
-                        ) : (
-                            <div className="w-[150px] h-[150px] rounded-full absolute top-1/2 left-12 border border-black flex items-center justify-center bg-gray-200">
+                        {
+                            bannerUrl ? (
+                                <img src={bannerUrl as any} alt="banner" className="w-full h-[200px] rounded-md cursor-pointer" onClick={() => setOpenBannerDialog(true)} />
+                            ) : (
+                                <div className="w-full h-[200px] rounded-md bg-gray-200 flex items-center justify-center cursor-pointer" onClick={() => setOpenBannerDialog(true)}>
+                                    <p className="text-gray-500"></p>
+                                </div>
+                            )
+                        }
+                        <Avatar className="w-[150px] h-[150px] rounded-full absolute top-1/2 left-12 border border-black cursor-pointer" onClick={() => setOpenAvatarDialog(true)}>
+                            <AvatarImage src={imageUrl as any} alt="avatar" className="rounded-full object-contain" />
+                            <AvatarFallback>
                                 <User2 className="w-[100px] h-[100px] text-white" />
-                            </div>
-                        )}
+                            </AvatarFallback>
+                        </Avatar>
+                        <EditBannerDialog openBannerDialog={openBannerDialog} setOpenBannerDialog={setOpenBannerDialog} imageUrl={bannerUrl as any} userID={userId as any} />
+                        <EditAvatarDialog openAvatarDialog={openAvatarDialog} setOpenAvatarDialog={setOpenAvatarDialog} imageUrl={imageUrl as any} userID={userId as any} />
                         <div className="w-full h-[30px] flex items-center justify-end p-6">
                             {!userProfile.error ? (<EditProfileDialog />) : <CreateProfileDialog />}
                         </div>
@@ -143,6 +150,6 @@ export default function MeUserProfilePage() {
                     </Card>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

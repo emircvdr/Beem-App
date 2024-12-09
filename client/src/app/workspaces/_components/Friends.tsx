@@ -5,13 +5,14 @@ import NotificationPopover from "./NotificationPopover";
 import PendingInvitesPopover from "./PendingInvitesPopover";
 import { AddFriendDialog } from "./AddFriendDialog";
 import { GetFriends } from "@/api/friendsAPI/api";
-import { GetAllUsers } from "@/api/userAPI/api";
+import { GetAllUsers, GetAvatar } from "@/api/userAPI/api";
 
 
 export default function Friends(authId: any) {
     const { allUsers, isErrorAllUsers, isLoadingAllUsers } = GetAllUsers();
     const { friends, isLoadingFriends, isErrorFriends } = GetFriends(authId.authId);
     const filteredUsers = allUsers?.filter((item: any) => item.id !== authId.authId)
+
 
     return (
         <SidebarContent>
