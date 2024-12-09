@@ -49,7 +49,7 @@ export function EditProfileDialog() {
     }, []);
     const handleUpdateUserProfile = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/updateUserProfile/${userId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateUserProfile/${userId}`, {
                 method: "PUT",
                 credentials: "include",
                 headers: {
@@ -59,7 +59,7 @@ export function EditProfileDialog() {
             });
             if (response.ok) {
                 console.log("Profile updated successfully");
-                mutate(`http://localhost:8000/api/userProfiles/${userId}`);
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/userProfiles/${userId}`);
             } else {
                 throw new Error("Failed to update profile");
             }

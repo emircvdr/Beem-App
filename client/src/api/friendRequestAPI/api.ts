@@ -18,7 +18,7 @@ export function GetFriendRequestWithSenderandReceiverId(senderId: any, receiverI
   const shouldFetch = senderId !== 0 && receiverId !== 0;
   const { data, error, isLoading } = useSWR(
     shouldFetch
-      ? `http://localhost:8000/api/getFriendRequestWithSenderandReceiverId/${senderId}/${receiverId}`
+      ? `${process.env.NEXT_PUBLIC_API_URL}/getFriendRequestWithSenderandReceiverId/${senderId}/${receiverId}`
       : null,
     fetcher,
   );
@@ -33,7 +33,9 @@ export function GetFriendRequestWithSenderandReceiverId(senderId: any, receiverI
 export function GetPendingFriendRequests(senderId: any) {
   const shouldFetch = senderId !== 0;
   const { data, error, isLoading } = useSWR(
-    shouldFetch ? `http://localhost:8000/api/getPendingFriendRequests/${senderId}` : null,
+    shouldFetch
+      ? `${process.env.NEXT_PUBLIC_API_URL}/getPendingFriendRequests/${senderId}`
+      : null,
     fetcher,
   );
 
@@ -48,7 +50,7 @@ export function GetFriendRequestsByReceiverId(receiverId: any) {
   const shouldFetch = receiverId !== 0;
   const { data, error, isLoading } = useSWR(
     shouldFetch
-      ? `http://localhost:8000/api/getFriendRequestsByReceiverId/${receiverId}`
+      ? `${process.env.NEXT_PUBLIC_API_URL}/getFriendRequestsByReceiverId/${receiverId}`
       : null,
     fetcher,
   );

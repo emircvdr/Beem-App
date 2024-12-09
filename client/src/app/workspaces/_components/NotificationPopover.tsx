@@ -22,7 +22,7 @@ export default function NotificationPopover(authId: any) {
 
     const handleAcceptFriendRequest = async (id: any, sender_id: any) => {
         try {
-            const postResponse = await fetch('http://localhost:8000/api/acceptFriend', {
+            const postResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/acceptFriend`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export default function NotificationPopover(authId: any) {
             if (!postResponse.ok) {
                 throw new Error("Failed to accept friend request");
             }
-            const putResponse = await fetch(`http://localhost:8000/api/acceptFriendRequestWithId/${id}`, {
+            const putResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/acceptFriendRequestWithId/${id}`, {
                 method: 'PUT',
                 credentials: "include",
                 headers: {
@@ -64,7 +64,7 @@ export default function NotificationPopover(authId: any) {
 
     const handleRejectFriendRequest = async (id: any) => {
         try {
-            await fetch(`http://localhost:8000/api/rejectFriendRequestWithId/${id}`, { method: 'DELETE' });
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rejectFriendRequestWithId/${id}`, { method: 'DELETE' });
         } catch (error) {
             toast.error("An error occurred while rejecting the friend request");
             console.error(error);

@@ -93,7 +93,7 @@ export function EditBannerDialog({ openBannerDialog, setOpenBannerDialog, imageU
 
             if (response.ok) {
                 console.log('banner saved successfully');
-                mutate(`http://localhost:8000/api/getBanner/${userID}`)
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getBanner/${userID}`)
                 setOpenBannerDialog(false)
                 toast.success('Banner saved successfully')
             }
@@ -109,7 +109,7 @@ export function EditBannerDialog({ openBannerDialog, setOpenBannerDialog, imageU
         });
         if (response.ok) {
             console.log('banner deleted successfully');
-            mutate(`http://localhost:8000/api/getBanner/${userID}`)
+            mutate(`${process.env.NEXT_PUBLIC_API_URL}/getBanner/${userID}`)
             setOpenBannerDialog(false)
             setState({ ...state, image: "" })
             toast.success('Banner deleted successfully')

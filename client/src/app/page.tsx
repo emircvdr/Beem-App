@@ -27,7 +27,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/user', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
           credentials: "include",
         });
 
@@ -49,7 +49,7 @@ export default function Home() {
 
     const getWorkspaces = async (adminId: number) => { // admin_id parametre olarak al
       try {
-        const response = await fetch(`http://localhost:8000/api/workplaces/${adminId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workplaces/${adminId}`, {
           credentials: "include",
         });
 
@@ -80,7 +80,7 @@ export default function Home() {
 
   const handleCreateWorkplace = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/createWorkplace', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createWorkplace`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

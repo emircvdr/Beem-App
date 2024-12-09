@@ -24,12 +24,12 @@ export default function FriendsBox({ image, name, id, userId, authId }: FriendsB
     const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
     const handleDeleteFriend = async () => {
         try {
-            const result = await fetch(`http://localhost:8000/api/deleteFriend/${id}`, {
+            const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/deleteFriend/${id}`, {
                 method: "DELETE",
             });
             if (result.ok) {
                 console.log("Friend deleted")
-                mutate(`http://localhost:8000/api/getFriends/${authId}`)
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getFriends/${authId}`)
                 toast.success("Friend deleted")
             }
             if (!result.ok) {

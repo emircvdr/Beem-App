@@ -22,7 +22,7 @@ const Login = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/user', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
                     credentials: "include",
                 });
                 if (response.ok) {
@@ -45,7 +45,7 @@ const Login = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8000/api/login', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"

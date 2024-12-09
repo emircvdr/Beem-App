@@ -18,11 +18,11 @@ export default function PendingInvitesPopover(authId: any) {
 
     const handleCancelFriendRequest = async (userId: any) => {
         try {
-            const result = await fetch(`http://localhost:8000/api/cancelFriendRequest/${authId.authId}/${userId}`, {
+            const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cancelFriendRequest/${authId.authId}/${userId}`, {
                 method: "DELETE",
             });
             if (result.ok) {
-                mutate(`http://localhost:8000/api/getPendingFriendRequests/${authId.authId}`);
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getPendingFriendRequests/${authId.authId}`);
             }
             if (!result.ok) {
                 throw new Error("Error while cancelling friend request");

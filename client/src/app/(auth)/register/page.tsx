@@ -29,7 +29,7 @@ const Register = () => {
         e.preventDefault();
         try {
 
-            const result = await fetch("http://localhost:8000/api/register", {
+            const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -57,7 +57,7 @@ const Register = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/user', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
                     credentials: "include",
                 });
                 if (response.ok) {

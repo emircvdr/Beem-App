@@ -33,7 +33,7 @@ export function CreateProfileDialog() {
     });
     const handleCreateUserProfile = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/createUserProfile`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createUserProfile`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -46,7 +46,7 @@ export function CreateProfileDialog() {
             });
             if (response.ok) {
                 console.log("Profile updated successfully");
-                mutate(`http://localhost:8000/api/userProfiles/${userId.userId}`);
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/userProfiles/${userId.userId}`);
             } else {
                 throw new Error("Failed to update profile");
             }

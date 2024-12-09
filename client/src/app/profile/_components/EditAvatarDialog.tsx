@@ -93,7 +93,7 @@ export function EditAvatarDialog({ openAvatarDialog, setOpenAvatarDialog, imageU
 
             if (response.ok) {
                 console.log('Avatar saved successfully');
-                mutate(`http://localhost:8000/api/getAvatar/${userID}`)
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getAvatar/${userID}`)
                 setOpenAvatarDialog(false)
                 toast.success('Avatar saved successfully')
             }
@@ -109,7 +109,7 @@ export function EditAvatarDialog({ openAvatarDialog, setOpenAvatarDialog, imageU
         });
         if (response.ok) {
             console.log('Avatar deleted successfully');
-            mutate(`http://localhost:8000/api/getAvatar/${userID}`)
+            mutate(`${process.env.NEXT_PUBLIC_API_URL}/getAvatar/${userID}`)
             setOpenAvatarDialog(false)
             setState({ ...state, image: "" })
             toast.success('Avatar deleted successfully')

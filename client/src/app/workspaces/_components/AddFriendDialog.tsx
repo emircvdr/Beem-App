@@ -29,7 +29,7 @@ export function AddFriendDialog() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/user', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
                     credentials: "include",
                 });
 
@@ -58,7 +58,7 @@ export function AddFriendDialog() {
     const handleSendFriendRequest = async (profileId: number) => {
         try {
 
-            const result = await fetch("http://localhost:8000/api/createFriendRequest", {
+            const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createFriendRequest`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -71,7 +71,7 @@ export function AddFriendDialog() {
             });
             if (result.ok) {
                 console.log("Friend request sent successfully");
-                mutate(`http://localhost:8000/api/getPendingFriendRequests/${authId}`);
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getPendingFriendRequests/${authId}`);
 
             }
             if (!result.ok) {
@@ -118,10 +118,14 @@ export function AddFriendDialog() {
                                         className="flex justify-between items-center p-2 border rounded-md"
                                     >
                                         <div>
-                                            <p className="text-sm font-medium cursor-pointer" onClick={() => router.push(`/profile/${user.id}`)}>{user.fullname}</p>
+                                            <p className="text-sm font-medium">{user.fullname}</p>
                                             <p className="text-xs text-gray-500">{user.email}</p>
                                         </div>
-                                        <Button size="sm" onClick={() => handleSendFriendRequest(user.id)}>Add</Button>
+                                        <div className="flex gap-2">
+                                            <Button size="sm" variant="secondary" onClick={() => router.push(`/profile/${user.id}`)}>View Profile</Button>
+                                            <Button size="sm" onClick={() => handleSendFriendRequest(user.id)}>Add</Button>
+                                        </div>
+
                                     </li>
                                 ))}
                             </ul>

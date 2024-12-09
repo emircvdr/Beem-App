@@ -7,11 +7,11 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
     const { friendRequest, isLoadingFriendRequest } = GetFriendRequestWithSenderandReceiverId(authId, profileId);
     const handleCancelFriendRequest = async () => {
         try {
-            const result = await fetch(`http://localhost:8000/api/cancelFriendRequest/${authId}/${profileId}`, {
+            const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cancelFriendRequest/${authId}/${profileId}`, {
                 method: "DELETE",
             });
             if (result.ok) {
-                mutate(`http://localhost:8000/api/getFriendRequestWithSenderandReceiverId/${authId}/${profileId}`);
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getFriendRequestWithSenderandReceiverId/${authId}/${profileId}`);
             }
             if (!result.ok) {
                 throw new Error("Error while cancelling friend request");
@@ -23,7 +23,7 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
     const handleSendFriendRequest = async () => {
         try {
 
-            const result = await fetch("http://localhost:8000/api/createFriendRequest", {
+            const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createFriendRequest`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -35,7 +35,7 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
                 })
             });
             if (result.ok) {
-                mutate(`http://localhost:8000/api/getFriendRequestWithSenderandReceiverId/${authId}/${profileId}`);
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getFriendRequestWithSenderandReceiverId/${authId}/${profileId}`);
             }
             if (!result.ok) {
                 throw new Error("Error while sending friend request");
@@ -47,7 +47,7 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
     }
     const handleAcceptFriendRequest = async (id: any, sender_id: any) => {
         try {
-            const postResponse = await fetch('http://localhost:8000/api/acceptFriend', {
+            const postResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/acceptFriend`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
             if (!postResponse.ok) {
                 throw new Error("Failed to accept friend request");
             }
-            const putResponse = await fetch(`http://localhost:8000/api/acceptFriendRequestWithId/${id}`, {
+            const putResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/acceptFriendRequestWithId/${id}`, {
                 method: 'PUT',
                 credentials: "include",
                 headers: {
@@ -88,7 +88,7 @@ export default function FriendRequestButton({ authId, profileId }: { authId: num
     }
     const handleRejectFriendRequest = async (id: any) => {
         try {
-            await fetch(`http://localhost:8000/api/rejectFriendRequestWithId/${id}`, { method: 'DELETE' });
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rejectFriendRequestWithId/${id}`, { method: 'DELETE' });
         } catch (error) {
             toast.error("An error occurred while rejecting the friend request");
             console.error(error);

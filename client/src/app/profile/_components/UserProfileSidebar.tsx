@@ -20,7 +20,7 @@ export default function UserProfileSidebar() {
     ]
     const handleLogOut = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/logout', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
                 method: "POST",
                 credentials: "include",
             });

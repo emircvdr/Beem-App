@@ -61,7 +61,7 @@ export default function MeUserProfilePage() {
     useEffect(() => {
         const checkUser = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/user', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
                     method: "GET",
                     credentials: "include",
                 });

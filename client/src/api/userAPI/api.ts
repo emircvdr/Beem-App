@@ -4,7 +4,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export function GetUserById(userId: any) {
   const { data, error, isLoading } = useSWR(
-    `http://localhost:8000/api/getUserWithId/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/getUserWithId/${userId}`,
     fetcher,
   );
   return {
@@ -16,7 +16,7 @@ export function GetUserById(userId: any) {
 
 export function GetUserProfile(userId: any) {
   const { data, error, isLoading } = useSWR(
-    `http://localhost:8000/api/userProfiles/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/userProfiles/${userId}`,
     fetcher,
     {
       onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
@@ -24,7 +24,7 @@ export function GetUserProfile(userId: any) {
         if (error.status === 404) return;
 
         // Never retry for a specific key.
-        if (key === `http://localhost:8000/api/userProfiles/${userId}`) return;
+        if (key === `${process.env.NEXT_PUBLIC_API_URL}/userProfiles/${userId}`) return;
 
         // Only retry up to 10 times.
         if (retryCount >= 10) return;
@@ -43,7 +43,7 @@ export function GetUserProfile(userId: any) {
 
 export function GetAllUsers() {
   const { data, error, isLoading } = useSWR(
-    `http://localhost:8000/api/allUsers`,
+    `${process.env.NEXT_PUBLIC_API_URL}/allUsers`,
     fetcher,
   );
   return {
@@ -55,7 +55,7 @@ export function GetAllUsers() {
 
 export function GetAvatar(userId: any) {
   const { data, error, isLoading } = useSWR(  
-    `http://localhost:8000/api/getAvatar/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/getAvatar/${userId}`,
     fetcher,
   );
   return {
@@ -67,7 +67,7 @@ export function GetAvatar(userId: any) {
 
 export function GetBanner(userId: any) {
   const { data, error, isLoading } = useSWR(
-    `http://localhost:8000/api/getBanner/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/getBanner/${userId}`,
     fetcher,
   );
   return {

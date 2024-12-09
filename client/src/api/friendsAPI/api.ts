@@ -4,7 +4,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export function GetFriends(userId: any) {
   const { data, error, isLoading } = useSWR(
-    `http://localhost:8000/api/getFriends/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/getFriends/${userId}`,
     fetcher,
   );
   return {

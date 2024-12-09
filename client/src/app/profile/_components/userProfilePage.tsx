@@ -60,7 +60,7 @@ export default function UserProfilePage() {
     useEffect(() => {
         const checkUser = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/user', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
                     method: "GET",
                     credentials: "include",
                 });
@@ -109,9 +109,9 @@ export default function UserProfilePage() {
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-col items-start ml-5">
                                 <Select >
-                                    <SelectTrigger className="w-[180px] border-none shadow-none p-0 focus:ring-0">
+                                    <SelectTrigger className="w-fit border-none shadow-none p-0 focus:ring-0">
                                         <SelectValue placeholder={
-                                            <h1 className="text-black text-[22px] font-newCustom">{userWithID?.fullname}</h1>
+                                            <h1 className="text-black text-[22px] mr-2 font-newCustom">{userWithID?.fullname}</h1>
                                         } className="border-none" />
                                     </SelectTrigger>
                                     <SelectContent>
