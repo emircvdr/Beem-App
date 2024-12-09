@@ -29,7 +29,7 @@ export default function Friends(authId: any) {
                     <SidebarMenu>
                         {
                             friends?.length > 0 ? (friends?.map((item: any) => (
-                                <FriendsBox key={item.id} image={item.img?.src} name={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).fullname} id={item.id} userId={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).id} />
+                                <FriendsBox key={item.id} image={item.img?.src} name={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).fullname} id={item.id} userId={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).id} authId={authId.authId} />
                             ))) : <div className="flex justify-center items-center h-full">
                                 <p className="text-black">No friends found</p>
                             </div>

@@ -15,6 +15,7 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { mutate } from "swr";
 
 export function AddFriendDialog() {
     const router = useRouter();
@@ -70,6 +71,8 @@ export function AddFriendDialog() {
             });
             if (result.ok) {
                 console.log("Friend request sent successfully");
+                mutate(`http://localhost:8000/api/getPendingFriendRequests/${authId}`);
+
             }
             if (!result.ok) {
                 throw new Error("Error while sending friend request");

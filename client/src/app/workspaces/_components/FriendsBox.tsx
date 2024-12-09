@@ -6,6 +6,8 @@ import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
 import { EllipsisVertical, MessageCircle, SquareArrowOutUpRight, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { mutate } from "swr";
 
 
 interface FriendsBoxProps {
@@ -13,9 +15,10 @@ interface FriendsBoxProps {
     name: string;
     id: string;
     userId: string;
+    authId: string;
 }
 
-export default function FriendsBox({ image, name, id, userId }: FriendsBoxProps) {
+export default function FriendsBox({ image, name, id, userId, authId }: FriendsBoxProps) {
     const router = useRouter();
     const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
     const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
@@ -26,6 +29,8 @@ export default function FriendsBox({ image, name, id, userId }: FriendsBoxProps)
             });
             if (result.ok) {
                 console.log("Friend deleted")
+                mutate(`http://localhost:8000/api/getFriends/${authId}`)
+                toast.success("Friend deleted")
             }
             if (!result.ok) {
                 throw new Error("Error while cancelling friend request");
