@@ -68,14 +68,14 @@ export default function Home() {
       }
     };
 
-    fetchData(); // fetchData'yı çağırıyoruz
+    fetchData();
 
-    // `user` güncellendikten sonra `getWorkspaces` fonksiyonunu çağırıyoruz
+
     if (user?.id) {
-      getWorkspaces(user.id); // user.id'yi doğrudan kullanıyoruz
+      getWorkspaces(user.id);
     }
 
-  }, [user?.id, router]); // user.id değiştiğinde effect yeniden çalışacak
+  }, [user?.id, router]);
 
 
   const handleCreateWorkplace = async () => {

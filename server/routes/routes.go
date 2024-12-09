@@ -7,6 +7,7 @@ import (
 )
 
 func Setup(app *fiber.App) {
+	app.Static("/uploads", "./uploads")
 	// auth routes
 	app.Post("/api/register", controllers.Register)
 	app.Post("/api/login", controllers.Login)
@@ -36,4 +37,8 @@ func Setup(app *fiber.App) {
 	app.Post("/api/acceptFriend", controllers.AcceptFriend)
 	app.Get("/api/getFriends/:user_id", controllers.GetFriends)
 	app.Delete("/api/deleteFriend/:id", controllers.DeleteFriend)
+
+	// user avatar routes
+	app.Post("/api/uploadAvatar/:user_id", controllers.UploadAvatarHandler)
+	app.Get("/api/getAvatar/:user_id", controllers.GetAvatarHandler)
 }

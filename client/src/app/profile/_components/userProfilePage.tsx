@@ -1,22 +1,24 @@
 import { useParams, useRouter } from "next/navigation";
-import { Github, Instagram, Linkedin, Mail, Phone, } from "lucide-react";
+import { Github, Instagram, Linkedin, Mail, Phone, User2, } from "lucide-react";
 import Deneme from "../../../../public/deneme.jpeg";
 import banner from "../../../../public/banner.png";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GetUserById, GetUserProfile } from "@/api/userAPI/api";
+import { GetAvatar, GetUserById, GetUserProfile } from "@/api/userAPI/api";
 import FriendRequestButton from "./FriendRequestButton";
 import UserProfileSidebar from "./UserProfileSidebar";
 
 export default function MeUserProfilePage() {
     const router = useRouter();
     const { userId } = useParams();
-    const [authId, setAuthId] = useState<User | null>(null);
+    const [authId, setAuthId] = useState<number | null>(null);
 
     const { userWithID, isError, isLoading } = GetUserById(userId);
     const { userProfile, isErrorUserProfile, isLoadingUserProfile } = GetUserProfile(userId);
+    const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
+    const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
     const socialLinks = [
         {
             key: "linked_in",
@@ -69,6 +71,8 @@ export default function MeUserProfilePage() {
             }
         }
         checkUser();
+        console.log(avatar);
+
     }, [userId]);
 
 
@@ -79,11 +83,23 @@ export default function MeUserProfilePage() {
                 <div className="w-full h-[500px]  bg-white">
                     <div className="w-full h-1/2 relative rounded-md">
                         <Image src={banner} alt="banner" className="w-full h-[180px] rounded-md" />
-                        <Image src={Deneme} alt="profile" className="w-[150px] h-[150px] object-cover rounded-full absolute top-1/2 left-12 border border-black" />
+                        {imageUrl ? (
+                            <Image
+                                src={imageUrl}
+                                alt="Profile Avatar"
+                                width={150}
+                                height={150}
+                                className="object-cover rounded-full"
+                            />
+                        ) : (
+                            <div className="w-[150px] h-[150px] rounded-full absolute top-1/2 left-12 border border-black flex items-center justify-center bg-gray-200">
+                                <User2 className="w-[100px] h-[100px] text-white" />
+                            </div>
+                        )}
                         <div className="w-full h-[30px] flex items-center justify-end p-6">
                         </div>
                     </div>
-                    <div className="w-full h-1/2 p-5 flex flex-col mt-2">
+                    <div className="w-full h-1/2 p-5 flex flex-col mt-3">
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-col items-start ml-5">
                                 <h1 className="text-black text-[22px] font-newCustom">{userWithID?.fullname}</h1>
@@ -116,7 +132,9 @@ export default function MeUserProfilePage() {
                             </div>
                             <div>
                                 {
-                                    authId != Number(userId) && (<FriendRequestButton authId={authId} profileId={Number(userId)} />)
+                                    authId !== null && authId !== Number(userId) && (
+                                        <FriendRequestButton authId={authId} profileId={Number(userId)} />
+                                    )
                                 }
                             </div>
                         </div>

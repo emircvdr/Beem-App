@@ -22,4 +22,5 @@ func Connect() {
 	connection.AutoMigrate(&models.UserProfile{})
 	connection.AutoMigrate(&models.FriendRequest{})
 	connection.AutoMigrate(&models.Friend{})
+	connection.AutoMigrate(&models.UserAvatar{})
 }

@@ -52,3 +52,15 @@ export function GetAllUsers() {
     isErrorAllUsers: error,
   };
 }
+
+export function GetAvatar(userId: any) {
+  const { data, error, isLoading } = useSWR(
+    `http://localhost:8000/api/getAvatar/${userId}`,
+    fetcher,
+  );
+  return {
+    avatar: data,
+    isLoadingAvatar: isLoading,
+    isErrorAvatar: error,
+  };
+}
