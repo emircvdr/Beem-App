@@ -10,11 +10,15 @@ import { Separator } from "@/components/ui/separator";
 import Messages from "./Messages";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Friends from "./Friends";
+import { GetAvatar } from "@/api/userAPI/api";
 
 export default function SidebarComponent() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<any>(null);
+    const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(user?.id);
+    const imageUrl = avatar?.FilePath ? `${process.env.NEXT_PUBLIC_API_URL}/${avatar.FilePath}` : null;
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -83,7 +87,7 @@ export default function SidebarComponent() {
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton className="text-black  border " variant="default" size="lg">
-                                    {user?.image ? <Image src={user?.image} alt="avatar" /> :
+                                    {imageUrl ? <Image src={imageUrl} alt="avatar" width={35} height={35} /> :
                                         <div className="w-8 h-8 rounded-md flex items-center justify-center bg-slate-200  text-lg text-black">
                                             {
                                                 user?.fullname?.split(" ").map((item) => item[0].toUpperCase()).join("")
@@ -103,7 +107,7 @@ export default function SidebarComponent() {
                             >
                                 <div className="flex flex-row gap-3 p-3">
                                     {
-                                        user?.image ? <Image src={user?.image} alt="avatar" /> :
+                                        imageUrl ? <Image src={imageUrl} alt="avatar" width={35} height={35} /> :
                                             <div className="w-8 h-8 rounded-md flex items-center justify-center bg-slate-200  text-lg text-black">
                                                 {
                                                     user?.fullname?.split(" ").map((item) => item[0].toUpperCase()).join("")
