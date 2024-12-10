@@ -8,7 +8,7 @@ import { EllipsisVertical, MessageCircle, SquareArrowOutUpRight, Trash2 } from "
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { mutate } from "swr";
-
+import BoringAvatar from "boring-avatars";
 
 interface FriendsBoxProps {
     image: string;
@@ -45,7 +45,12 @@ export default function FriendsBox({ image, name, id, userId, authId }: FriendsB
                 <Avatar>
                     <AvatarImage src={imageUrl as any} alt="avatar" className="object-contain" />
                     <AvatarFallback>
-                        {name.charAt(0).toUpperCase()}
+                        <BoringAvatar
+                            name={userId?.toString()}
+                            variant="beam"
+                            colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                            style={{ width: "150px", height: "150px" }}
+                        />
                     </AvatarFallback>
                 </Avatar>
             </div>

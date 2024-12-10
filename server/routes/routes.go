@@ -32,6 +32,7 @@ func Setup(app *fiber.App) {
 	app.Get("/api/getFriendRequestsByReceiverId/:receiver_id", controllers.GetFriendRequestsByReceiverId)
 	app.Put("/api/acceptFriendRequestWithId/:id", controllers.AcceptFriendRequestWithId)
 	app.Delete("/api/rejectFriendRequestWithId/:id", controllers.RejectFriendRequestWithId)
+	app.Get("/api/getFriendRequestsBySenderId/:sender_id", controllers.GetFriendRequestsBySenderId)
 
 	// friends routes
 	app.Post("/api/acceptFriend", controllers.AcceptFriend)

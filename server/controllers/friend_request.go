@@ -138,3 +138,15 @@ func RejectFriendRequestWithId(c *fiber.Ctx) error {
 		"message": "Friend request rejected",
 	})
 }
+
+func GetFriendRequestsBySenderId(c *fiber.Ctx) error {
+	senderId := c.Params("sender_id")
+	if senderId == "0" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid sender ID",
+		})
+	}
+	var friendRequests []models.FriendRequest
+	database.DB.Where("sender_id = ?", senderId).Find(&friendRequests)
+	return c.Status(fiber.StatusOK).JSON(friendRequests)
+}
