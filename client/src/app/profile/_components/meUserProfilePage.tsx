@@ -2,6 +2,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Github, Instagram, Linkedin, Mail, Phone, User2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditProfileDialog } from "./EditProfileDialog";
 import { GetAvatar, GetBanner, GetUserById, GetUserProfile } from "@/api/userAPI/api";
@@ -10,7 +11,6 @@ import ProfileSidebar from "./ProfileSidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EditAvatarDialog } from "./EditAvatarDialog";
 import { EditBannerDialog } from "./EditBannerDialog";
-import BoringAvatar from "boring-avatars";
 
 export default function MeUserProfilePage() {
     const { userId } = useParams();
@@ -93,15 +93,10 @@ export default function MeUserProfilePage() {
                                 </div>
                             )
                         }
-                        <Avatar className="w-[150px] h-[150px] rounded-full absolute top-1/2 left-12 cursor-pointer" onClick={() => setOpenAvatarDialog(true)}>
+                        <Avatar className="w-[150px] h-[150px] rounded-full absolute top-1/2 left-12 border border-black cursor-pointer" onClick={() => setOpenAvatarDialog(true)}>
                             <AvatarImage src={imageUrl as any} alt="avatar" className="rounded-full object-contain" />
                             <AvatarFallback>
-                                <BoringAvatar
-                                    name={userId?.toString()}
-                                    variant="beam"
-                                    colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
-                                    style={{ width: "150px", height: "150px" }}
-                                />
+                                <User2 className="w-[100px] h-[100px] text-white" />
                             </AvatarFallback>
                         </Avatar>
                         <EditBannerDialog openBannerDialog={openBannerDialog} setOpenBannerDialog={setOpenBannerDialog} imageUrl={bannerUrl as any} userID={userId as any} />
@@ -110,7 +105,7 @@ export default function MeUserProfilePage() {
                             {!userProfile.error ? (<EditProfileDialog />) : <CreateProfileDialog />}
                         </div>
                     </div>
-                    <div className="w-full h-1/2 p-5 flex flex-col mt-5">
+                    <div className="w-full h-1/2 p-5 flex flex-col mt-2">
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-col items-start ml-5">
                                 <h1 className="text-black text-[22px] font-newCustom">{userWithID?.fullname}</h1>
