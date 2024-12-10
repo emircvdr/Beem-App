@@ -61,3 +61,19 @@ export function GetFriendRequestsByReceiverId(receiverId: any) {
     isErrorFriendRequests: !!error,
   };
 }
+
+export function GetFriendRequestsBySenderId(senderId: any) {
+  const shouldFetch = senderId !== 0;
+  const { data, error, isLoading } = useSWR(
+    shouldFetch
+      ? `${process.env.NEXT_PUBLIC_API_URL}/getFriendRequestsBySenderId/${senderId}`
+      : null,
+    fetcher,
+  );
+
+  return {
+    friendRequestsBySenderId: data,
+    isLoadingFriendRequestsBySenderId: isLoading,
+    isErrorFriendRequestsBySenderId: !!error,
+  };
+}

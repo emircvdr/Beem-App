@@ -7,6 +7,7 @@ import { Bell, Check, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { mutate } from "swr";
 
 
 export default function NotificationPopover(authId: any) {
@@ -58,6 +59,8 @@ export default function NotificationPopover(authId: any) {
             toast.error("An error occurred while accepting the friend request");
             console.error(error);
         }
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/getFriendRequestsByReceiverId/${authId.authId}`)
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/getFriends/${authId.authId}`)
         toast.success("Friend request accepted successfully");
 
     }

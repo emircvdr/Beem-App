@@ -11,7 +11,7 @@ import FriendRequestButton from "./FriendRequestButton";
 import UserProfileSidebar from "./UserProfileSidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import BoringAvatar from "boring-avatars";
 
 export default function UserProfilePage() {
     const router = useRouter();
@@ -96,16 +96,21 @@ export default function UserProfilePage() {
                                 </div>
                             )
                         }
-                        <Avatar className="w-[150px] h-[150px] rounded-full absolute top-1/2 left-12 border border-black">
+                        <Avatar className="w-[150px] h-[150px] rounded-full absolute top-1/2 left-12">
                             <AvatarImage src={imageUrl as any} alt="avatar" className="w-[150px] !h-[150px] rounded-full object-contain" />
                             <AvatarFallback>
-                                <User2 className="w-[100px] h-[100px] text-white" />
+                                <BoringAvatar
+                                    name={userId?.toString()}
+                                    variant="beam"
+                                    colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                                    style={{ width: "150px", height: "150px" }}
+                                />
                             </AvatarFallback>
                         </Avatar>
                         <div className="w-full h-[30px] flex items-center justify-end p-6">
                         </div>
                     </div>
-                    <div className="w-full h-1/2 p-5 flex flex-col mt-3">
+                    <div className="w-full h-1/2 p-5 flex flex-col mt-5">
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-col items-start ml-5">
                                 <Select >

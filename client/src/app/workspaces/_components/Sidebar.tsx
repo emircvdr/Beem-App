@@ -11,6 +11,8 @@ import Messages from "./Messages";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Friends from "./Friends";
 import { GetAvatar } from "@/api/userAPI/api";
+import Avatar from "boring-avatars";
+
 
 export default function SidebarComponent() {
     const router = useRouter();
@@ -88,11 +90,12 @@ export default function SidebarComponent() {
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton className="text-black  border " variant="default" size="lg">
                                     {imageUrl ? <Image src={imageUrl as string} alt="avatar" width={40} height={40} className="object-contain" /> :
-                                        <div className="w-8 h-8 rounded-md flex items-center justify-center bg-slate-200  text-lg text-black">
-                                            {
-                                                user?.fullname?.split(" ").map((item) => item[0].toUpperCase()).join("")
-                                            }
-                                        </div>
+                                        <Avatar
+                                            name={user?.id?.toString()}
+                                            variant="beam"
+                                            colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                                            style={{ width: "40px", height: "40px" }}
+                                        />
                                     }
                                     <div className="flex flex-col items-start justify-center">
                                         <p className="text-[14px] text-black font-newCustom">{user?.fullname}</p>
@@ -108,11 +111,12 @@ export default function SidebarComponent() {
                                 <div className="flex flex-row gap-3 p-3">
                                     {
                                         imageUrl ? <Image src={imageUrl} alt="avatar" width={40} height={40} className="object-contain" /> :
-                                            <div className="w-8 h-8 rounded-md flex items-center justify-center bg-slate-200  text-lg text-black">
-                                                {
-                                                    user?.fullname?.split(" ").map((item) => item[0].toUpperCase()).join("")
-                                                }
-                                            </div>
+                                            <Avatar
+                                                name={user?.id?.toString()}
+                                                variant="beam"
+                                                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                                                style={{ width: "40px", height: "40px" }}
+                                            />
                                     }
                                     <div className="flex flex-col">
                                         <p className="text-[16px]">{user?.fullname}</p>

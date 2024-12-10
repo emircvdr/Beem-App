@@ -1,5 +1,6 @@
 "use client";
-import { GetAllUsers } from "@/api/userAPI/api";
+import { GetAllUsers, GetAvatar } from "@/api/userAPI/api";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -16,6 +17,9 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { mutate } from "swr";
+import BoringAvatar from "boring-avatars";
+import { GetFriends } from "@/api/friendsAPI/api";
+import { GetFriendRequestsBySenderId } from "@/api/friendRequestAPI/api";
 
 export function AddFriendDialog() {
     const router = useRouter();
@@ -23,7 +27,8 @@ export function AddFriendDialog() {
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [authId, setAuthId] = useState(null);
-
+    const { friends, isLoadingFriends, isErrorFriends } = GetFriends(authId);
+    const { friendRequestsBySenderId, isLoadingFriendRequestsBySenderId, isErrorFriendRequestsBySenderId } = GetFriendRequestsBySenderId(authId);
     const { allUsers, isLoadingAllUsers, isErrorAllUsers } = GetAllUsers();
 
     useEffect(() => {
@@ -71,6 +76,7 @@ export function AddFriendDialog() {
             });
             if (result.ok) {
                 console.log("Friend request sent successfully");
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getFriendRequestsBySenderId/${authId}`)
                 mutate(`${process.env.NEXT_PUBLIC_API_URL}/getPendingFriendRequests/${authId}`);
 
             }
@@ -117,13 +123,36 @@ export function AddFriendDialog() {
                                         key={user.id}
                                         className="flex justify-between items-center p-2 border rounded-md"
                                     >
-                                        <div>
-                                            <p className="text-sm font-medium">{user.fullname}</p>
-                                            <p className="text-xs text-gray-500">{user.email}</p>
+                                        <div className="flex items-center gap-2">
+                                            <div>
+                                                <Avatar className="w-[30px] h-[30px] rounded-full">
+                                                    <BoringAvatar
+                                                        name={user.id.toString()}
+                                                        variant="beam"
+                                                        colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                                                        style={{ width: "30px", height: "30px" }}
+                                                    />
+                                                </Avatar>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-medium">{user.fullname}</p>
+                                                <p className="text-xs text-gray-500">{user.email}</p>
+                                            </div>
                                         </div>
+
                                         <div className="flex gap-2">
                                             <Button size="sm" variant="secondary" onClick={() => router.push(`/profile/${user.id}`)}>View Profile</Button>
-                                            <Button size="sm" onClick={() => handleSendFriendRequest(user.id)}>Add</Button>
+                                            {
+                                                friends.length > 0 && friends?.some((friend: any) => friend.friend_id === user.id || friend.user_id === user.id) ? (
+                                                    null
+                                                ) : (
+                                                    friendRequestsBySenderId?.some((friendRequest: any) => friendRequest.sender_id === authId && friendRequest.receiver_id === user.id && friendRequest.status === "pending") ? (
+                                                        <Button size="sm" variant="secondary" disabled={true}>Add</Button>
+                                                    ) : (
+                                                        <Button size="sm" onClick={() => handleSendFriendRequest(user.id)}>Add</Button>
+                                                    )
+                                                )
+                                            }
                                         </div>
 
                                     </li>
