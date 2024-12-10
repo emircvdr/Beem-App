@@ -79,16 +79,16 @@ export default function MeUserProfilePage() {
         checkUser();
     }, [userId]);
     return (
-        <div className="flex w-11/12 m-auto h-full bg-white">
+        <div className="flex  w-fit m-auto h-full bg-white">
             <ProfileSidebar />
             <div className="flex flex-col gap-3 flex-1 w-full h-full p-5">
                 <div className="w-full h-[500px]  bg-white ">
                     <div className="w-full h-1/2 relative rounded-md">
                         {
                             bannerUrl ? (
-                                <img src={bannerUrl as any} alt="banner" className="w-full h-[200px] rounded-md cursor-pointer" onClick={() => setOpenBannerDialog(true)} />
+                                <img src={bannerUrl as any} alt="banner" className=" h-[200px] rounded-md cursor-pointer" onClick={() => setOpenBannerDialog(true)} />
                             ) : (
-                                <div className="w-full h-[200px] rounded-md bg-gray-200 flex items-center justify-center cursor-pointer" onClick={() => setOpenBannerDialog(true)}>
+                                <div className=" h-[200px] rounded-md bg-gray-200 flex items-center justify-center cursor-pointer" onClick={() => setOpenBannerDialog(true)}>
                                     <p className="text-gray-500"></p>
                                 </div>
                             )
