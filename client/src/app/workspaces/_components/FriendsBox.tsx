@@ -16,9 +16,13 @@ interface FriendsBoxProps {
     id: string;
     userId: string;
     authId: string;
+    setRender: (render: boolean) => void;
+    render: boolean;
+    setUserId: (userId: any) => void;
+    setAuthId: (authId: any) => void;
 }
 
-export default function FriendsBox({ image, name, id, userId, authId }: FriendsBoxProps) {
+export default function FriendsBox({ image, name, id, userId, authId, setRender, render, setUserId, setAuthId }: FriendsBoxProps) {
     const router = useRouter();
     const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
     const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
@@ -38,6 +42,11 @@ export default function FriendsBox({ image, name, id, userId, authId }: FriendsB
         } catch (error) {
             console.error("Error while cancelling friend request:", error);
         }
+    }
+    const handleMessage = () => {
+        setRender(!render)
+        setUserId(userId)
+        setAuthId(authId)
     }
     return (
         <div className="w-full h-auto rounded-sm flex gap-3 p-3 items-center  cursor-pointer">
@@ -60,7 +69,7 @@ export default function FriendsBox({ image, name, id, userId, authId }: FriendsB
                     <div className="ml-auto w-full h-full  flex flex-row justify-end items-start">
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button variant="ghost" size="sm" className="rounded-full">
+                                <Button variant="ghost" size="sm" className="rounded-full" onClick={handleMessage}>
                                     <MessageCircle className="text-black" />
                                 </Button>
                             </TooltipTrigger>

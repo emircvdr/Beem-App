@@ -13,7 +13,7 @@ import Friends from "./Friends";
 import { GetAvatar } from "@/api/userAPI/api";
 import Avatar from "boring-avatars";
 
-export default function SidebarComponent() {
+export default function SidebarComponent({ setRender, render, setUserId, setAuthId }: { setRender: (render: boolean) => void, render: boolean, setUserId: (userId: any) => void, setAuthId: (authId: any) => void }) {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<any>(null);
@@ -79,7 +79,7 @@ export default function SidebarComponent() {
                     <Messages />
                 </TabsContent>
                 <TabsContent value="friends">
-                    <Friends authId={user?.id} />
+                    <Friends authId={user?.id} setRender={setRender} render={render} setUserId={setUserId} setAuthId={setAuthId} />
                 </TabsContent>
             </Tabs>
             <SidebarFooter>
