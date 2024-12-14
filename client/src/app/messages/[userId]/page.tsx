@@ -6,6 +6,9 @@ import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/
 import { Separator } from "@/components/ui/separator";
 import BoringAvatar from "boring-avatars";
 import { useRouter } from "next/navigation";
+import { Ban, SquareArrowOutUpRight } from "lucide-react";
+import bgChat from "../../../../public/bgChat.jpeg"
+import Image from "next/image";
 
 export default function MessagesPage({ userId, authId }: { userId: any, authId: any }) {
     const router = useRouter()
@@ -31,14 +34,40 @@ export default function MessagesPage({ userId, authId }: { userId: any, authId: 
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col items-start justify-start">
-                        <Select >
+                        <Select>
                             <SelectTrigger className="w-fit border-none shadow-none p-0 focus:ring-0">
                                 <SelectValue placeholder={
                                     <h1 className="text-black text-[22px] mr-2 font-newCustom">{userWithID?.fullname}</h1>
                                 } className="border-none" />
                             </SelectTrigger>
-                            <SelectContent>
-                                <Button onClick={() => router.push(`/profile/${userId}`)} className="w-full">View Profile</Button>
+                            <SelectContent className="w-[200px] h-[150px]">
+                                <div className="flex flex-row items-center justify-start gap-2 p-2">
+                                    <Avatar className="w-[30px] h-[30px]">
+                                        <AvatarImage src={imageUrl as any} alt="avatar" className="rounded-full object-contain" />
+                                        <AvatarFallback>
+                                            <BoringAvatar
+                                                name={userId?.toString()}
+                                                variant="beam"
+                                                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                                                style={{ width: "150px", height: "150px" }}
+                                            />
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div className="flex flex-col items-start justify-start">
+                                        <h3 className="text-black text-[15px]  font-newCustom">{userWithID?.fullname}</h3>
+                                        <p className="text-muted-foreground text-[12px] font-newCustom">{userProfile?.mail}</p>
+                                    </div>
+                                </div>
+                                <Separator />
+                                <div className="flex flex-col items-start justify-start gap-2 p-2">
+                                    <Button variant="secondary" size="sm" className="flex flex-row gap-2 justify-start w-full" onClick={() => router.push(`/profile/${userId}`)}>
+                                        <SquareArrowOutUpRight /> View Profile
+                                    </Button>
+                                    <Button variant="destructive" size="sm" className="flex flex-row gap-2 justify-start w-full">
+                                        <Ban /> Block User
+                                    </Button>
+                                </div>
+
                             </SelectContent>
                         </Select>
                         <span className="text-sm text-muted-foreground">@{userProfile?.username}</span>
@@ -50,20 +79,19 @@ export default function MessagesPage({ userId, authId }: { userId: any, authId: 
             <Separator />
 
             {/* Mesajlar kısmı */}
-            <div className="message-container w-full flex-1 overflow-y-auto  bg-gray-100">
+            <div className="message-container w-full flex-1 overflow-y-auto">
+                <Image src={bgChat} alt="bgChat" className="w-full h-full object-cover opacity-20" />
                 {/* Burada mesajlar listelenebilir */}
                 <div className="w-full h-full">
                     {/* Mesaj içeriği buraya gelir */}
                 </div>
             </div>
-
-            {/* Alt kısım - Mesaj gönderme kısmı */}
             <div className="w-full p-4 bg-white border-t border-gray-200">
                 <div className="flex items-center gap-4">
                     <Input
                         placeholder="Type your message..."
                         className="flex-1"
-                        style={{ maxWidth: 'calc(100% - 110px)' }} // Input alanı genişliği ayarlandı
+                        style={{ maxWidth: 'calc(100% - 110px)', height: '40px', borderRadius: "50px", }}
                     />
                     <Button className="w-[100px]">Send</Button>
                 </div>
