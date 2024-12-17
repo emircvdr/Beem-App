@@ -8,7 +8,7 @@ import { GetFriends } from "@/api/friendsAPI/api";
 import { GetAllUsers, GetAvatar } from "@/api/userAPI/api";
 
 
-export default function Friends({ authId, setRender, render, setUserId, setAuthId }: { authId: any, setRender: (render: boolean) => void, render: boolean, setUserId: (userId: any) => void, setAuthId: (authId: any) => void }) {
+export default function Friends({ authId }: { authId: any }) {
     const { allUsers, isErrorAllUsers, isLoadingAllUsers } = GetAllUsers();
     const { friends, isLoadingFriends, isErrorFriends } = GetFriends(authId);
     const filteredUsers = allUsers?.filter((item: any) => item.id !== authId)
@@ -29,7 +29,8 @@ export default function Friends({ authId, setRender, render, setUserId, setAuthI
                     <SidebarMenu>
                         {
                             friends?.length > 0 ? (friends?.map((item: any) => (
-                                <FriendsBox key={item.id} image={item.img?.src} name={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).fullname} id={item.id} userId={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).id} authId={authId} setRender={setRender} render={render} setUserId={setUserId} setAuthId={setAuthId} />
+                                <FriendsBox key={item.id} image={item.img?.src} name={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).fullname} id={item.id} userId={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).id} authId={authId} />
+
                             ))) : <div className="flex justify-center items-center h-full">
                                 <p className="text-black">No friends found</p>
                             </div>

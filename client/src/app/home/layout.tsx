@@ -1,11 +1,12 @@
 "use client";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
-
-import { usePathname } from "next/navigation"; 1
+import Sidebar from "./_components/Sidebar";
+import Deneme from "./_components/Deneme";
+import { usePathname } from "next/navigation";
+import WorkspacesBar from "./_components/WorkspacesBar";
 import { useState } from "react";
-import WorkspacesBar from "../home/_components/WorkspacesBar";
-import Deneme from "../home/_components/Deneme";
+import MessagesPage from "./messages/[userId]/page";
 
 
 
@@ -18,9 +19,11 @@ const Home = ({ children }: HomeLayoutProps) => {
     return (
         <SidebarProvider>
             <div className="w-full h-screen flex items-center justify-center">
-                <Deneme />
+                <Sidebar />
                 <main className="w-full h-full relative">
-                    {children}
+                    {
+                        pathname === "/home" ? children : <MessagesPage />
+                    }
                 </main>
                 <WorkspacesBar />
             </div>

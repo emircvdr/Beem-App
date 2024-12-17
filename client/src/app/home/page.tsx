@@ -5,7 +5,7 @@ import noDm from "../../../public/noDmSelected.svg"
 import { Button } from "@/components/ui/button"
 import { MessageCircleMore } from "lucide-react"
 
-export default function Workspaces() {
+export default function Home() {
     return (
         <div className="w-full h-full flex flex-col items-center  bg-slate-50">
             <Image src={noDm} alt="workspaces" width={350} height={350} />

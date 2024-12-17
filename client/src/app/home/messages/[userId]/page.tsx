@@ -1,3 +1,4 @@
+"use client"
 import { GetAvatar, GetUserById, GetUserProfile } from "@/api/userAPI/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -7,22 +8,22 @@ import { Separator } from "@/components/ui/separator";
 import BoringAvatar from "boring-avatars";
 import { useRouter } from "next/navigation";
 import { Ban, SquareArrowOutUpRight } from "lucide-react";
-import bgChat from "../../../../public/bgChat.jpeg"
 import Image from "next/image";
+import BgChat from "../../../../../public/bg-c.jpeg"
 
-export default function MessagesPage({ userId, authId }: { userId: any, authId: any }) {
+export default function MessagesPage() {
     const router = useRouter()
-    const { userWithID, isLoading, isError } = GetUserById(userId);
-    const { userProfile, isLoadingUserProfile, isErrorUserProfile } = GetUserProfile(userId);
-    const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
-    const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
+    // const { userWithID, isLoading, isError } = GetUserById(userId);
+    // const { userProfile, isLoadingUserProfile, isErrorUserProfile } = GetUserProfile(userId);
+    // const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
+    // const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
 
     return (
         <div className="w-[calc(100%-90px)] h-full flex flex-col">
             {/* Header kısmı */}
             <div className="w-full h-[120px] p-4 flex">
                 <div className="flex flex-row items-center justify-start gap-2">
-                    <Avatar className="w-[50px] h-[50px]">
+                    {/* <Avatar className="w-[50px] h-[50px]">
                         <AvatarImage src={imageUrl as any} alt="avatar" className="rounded-full object-contain" />
                         <AvatarFallback>
                             <BoringAvatar
@@ -32,9 +33,9 @@ export default function MessagesPage({ userId, authId }: { userId: any, authId: 
                                 style={{ width: "150px", height: "150px" }}
                             />
                         </AvatarFallback>
-                    </Avatar>
+                    </Avatar> */}
                     <div className="flex flex-col items-start justify-start">
-                        <Select>
+                        {/* <Select>
                             <SelectTrigger className="w-fit border-none shadow-none p-0 focus:ring-0">
                                 <SelectValue placeholder={
                                     <h1 className="text-black text-[22px] mr-2 font-newCustom">{userWithID?.fullname}</h1>
@@ -69,8 +70,8 @@ export default function MessagesPage({ userId, authId }: { userId: any, authId: 
                                 </div>
 
                             </SelectContent>
-                        </Select>
-                        <span className="text-sm text-muted-foreground">@{userProfile?.username}</span>
+                        </Select> */}
+                        {/* <span className="text-sm text-muted-foreground">@{userProfile?.username}</span> */}
                     </div>
                 </div>
             </div>
@@ -80,7 +81,7 @@ export default function MessagesPage({ userId, authId }: { userId: any, authId: 
 
             {/* Mesajlar kısmı */}
             <div className="message-container w-full flex-1 overflow-y-auto">
-                <Image src={bgChat} alt="bgChat" className="w-full h-full object-cover opacity-20" />
+                <Image src={BgChat} alt="bg-chat" className="w-full h-full object-cover opacity-30" />
                 {/* Burada mesajlar listelenebilir */}
                 <div className="w-full h-full">
                     {/* Mesaj içeriği buraya gelir */}

@@ -1,20 +1,29 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
-
+import BoringAvatar from "boring-avatars";
+import { GetAvatar } from "@/api/userAPI/api";
 interface DirectMessageBoxProps {
-    image: string;
     name: string;
     lastMessage: string;
+    userId: any;
 }
 
-export default function DirectMessageBox({ image, name, lastMessage }: DirectMessageBoxProps) {
+export default function DirectMessageBox({ userId, name, lastMessage }: DirectMessageBoxProps) {
+    const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
+    const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
+
     return (
         <div className="w-full h-[50px] rounded-sm flex gap-3 p-3 items-center  cursor-pointer">
             <div className="w-10 h-10 shadow-[#232445] shadow rounded-full flex items-center justify-center">
                 <Avatar>
-                    <AvatarImage src={image} alt="avatar" />
+                    <AvatarImage src={imageUrl as any} alt="avatar" className="object-contain" />
                     <AvatarFallback>
-                        {name.charAt(0).toUpperCase()}
+                        <BoringAvatar
+                            name={userId?.toString()}
+                            variant="beam"
+                            colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                            style={{ width: "150px", height: "150px" }}
+                        />
                     </AvatarFallback>
                 </Avatar>
             </div>

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { mutate } from "swr";
 import BoringAvatar from "boring-avatars";
+import { GetRooms } from "@/api/roomAPI/api";
 
 interface FriendsBoxProps {
     image: string;
@@ -16,13 +17,9 @@ interface FriendsBoxProps {
     id: string;
     userId: string;
     authId: string;
-    setRender: (render: boolean) => void;
-    render: boolean;
-    setUserId: (userId: any) => void;
-    setAuthId: (authId: any) => void;
 }
 
-export default function FriendsBox({ image, name, id, userId, authId, setRender, render, setUserId, setAuthId }: FriendsBoxProps) {
+export default function FriendsBox({ image, name, id, userId, authId }: FriendsBoxProps) {
     const router = useRouter();
     const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
     const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
@@ -43,11 +40,18 @@ export default function FriendsBox({ image, name, id, userId, authId, setRender,
             console.error("Error while cancelling friend request:", error);
         }
     }
-    const handleMessage = () => {
-        setRender(!render)
-        setUserId(userId)
-        setAuthId(authId)
+
+    const { rooms, isErrorRooms, isLoadingRooms } = GetRooms()
+
+    const handleClick = () => {
+        const room = rooms?.find((room: any) => room.user2Id.includes(userId) && room.user1Id.includes(authId))
+        if (room) {
+            console.log("room exists")
+        } else {
+            console.log("room not exists")
+        }
     }
+
     return (
         <div className="w-full h-auto rounded-sm flex gap-3 p-3 items-center  cursor-pointer">
             <div className="w-10 h-10 shadow-[#232445] shadow rounded-full flex items-center justify-center">
@@ -69,7 +73,7 @@ export default function FriendsBox({ image, name, id, userId, authId, setRender,
                     <div className="ml-auto w-full h-full  flex flex-row justify-end items-start">
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button variant="ghost" size="sm" className="rounded-full" onClick={handleMessage}>
+                                <Button variant="ghost" size="sm" className="rounded-full" onClick={handleClick}>
                                     <MessageCircle className="text-black" />
                                 </Button>
                             </TooltipTrigger>

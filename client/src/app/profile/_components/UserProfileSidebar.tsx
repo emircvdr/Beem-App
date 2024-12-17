@@ -41,7 +41,7 @@ export default function UserProfileSidebar() {
                     <Image src={Logo} alt="logo" width={50} height={50} />
                 </SidebarHeader>
                 <SidebarContent>
-                    <Button className="w-full" variant="ghost" onClick={() => { router.push("/workspaces") }}>
+                    <Button className="w-full" variant="ghost" onClick={() => { router.push("/home") }}>
                         <MoveLeft /> Back to Workspaces
                     </Button>
                     <SidebarGroup>

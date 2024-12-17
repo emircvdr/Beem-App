@@ -13,7 +13,7 @@ import Friends from "./Friends";
 import { GetAvatar } from "@/api/userAPI/api";
 import Avatar from "boring-avatars";
 
-export default function SidebarComponent({ setRender, render, setUserId, setAuthId }: { setRender: (render: boolean) => void, render: boolean, setUserId: (userId: any) => void, setAuthId: (authId: any) => void }) {
+export default function SidebarComponent() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<any>(null);
@@ -65,21 +65,23 @@ export default function SidebarComponent({ setRender, render, setUserId, setAuth
     }
     return (
         <Sidebar variant="sidebar" collapsible="offcanvas" >
-            <SidebarHeader className="flex flex-row justify-center items-center p-5">
+            <SidebarHeader className="flex flex-row justify-center items-center p-5 cursor-pointer" onClick={() => {
+                router.push("/home")
+            }}>
                 <Image src={logo} alt="logo" width={50} height={50} />
                 <h1 className="font-bold text-black font-custom text-[20px]">beemApp</h1>
             </SidebarHeader>
-            <Tabs defaultValue="dms" className="w-full p-2 h-full">
+            <Tabs defaultValue="friends" className="w-full p-2 h-full">
                 <TabsList className="flex w-full justify-evenly bg-transparent">
-                    <TabsTrigger value="dms"><MessageCircle size={16} className="text-black" /></TabsTrigger>
+                    {/* <TabsTrigger value="dms"><MessageCircle size={16} className="text-black" /></TabsTrigger> */}
                     <TabsTrigger value="friends"><UsersRound size={16} className="text-black" /></TabsTrigger>
                 </TabsList>
                 <SidebarSeparator className="mt-2 mb-2" />
-                <TabsContent value="dms">
-                    <Messages />
-                </TabsContent>
+                {/* <TabsContent value="dms">
+                    <Messages setRender={setRender} render={render} setUserId={setUserId} setAuthId={setAuthId} />
+                </TabsContent> */}
                 <TabsContent value="friends">
-                    <Friends authId={user?.id} setRender={setRender} render={render} setUserId={setUserId} setAuthId={setAuthId} />
+                    <Friends authId={user?.id} />
                 </TabsContent>
             </Tabs>
             <SidebarFooter>

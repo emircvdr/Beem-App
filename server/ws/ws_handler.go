@@ -19,7 +19,7 @@ func NewHandler(h *Hub) *Handler {
 }
 
 type CreateRoomRequest struct {
-	ID      string `json:"id"`
+	ID      string `json:"id" gorm:"primaryKey"`
 	Name    string `json:"name"`
 	User1ID string `json:"user1Id"`
 	User2ID string `json:"user2Id"`
@@ -35,7 +35,7 @@ func (h *Handler) CreateRoom(c *fiber.Ctx) error {
 	}
 
 	room := models.Room{
-		ID:      req.ID,
+		ID : 	req.ID,
 		Name:    req.Name,
 		User1ID: req.User1ID,
 		User2ID: req.User2ID,
@@ -47,6 +47,11 @@ func (h *Handler) CreateRoom(c *fiber.Ctx) error {
 		})
 	}
 
+	if err := database.DB.First(&room, "id = ?", req.ID ).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Room already exists",
+		})
+	}
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Room created successfully",
 		"room":    room,
