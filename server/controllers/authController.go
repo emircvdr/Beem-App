@@ -74,7 +74,13 @@ func Login(c *fiber.Ctx) error {
 		Expires: time.Now().Add(time.Hour * 24),
 		HTTPOnly: true,
 	}
+	authId := fiber.Cookie{
+		Name:"authId",
+		Value: strconv.Itoa(int(user.Id)),
+		Expires: time.Now().Add(time.Hour * 24),
+	}
 	c.Cookie(&cookie)
+	c.Cookie(&authId)
 
 	return c.JSON(fiber.Map{
 		"message": "Success",

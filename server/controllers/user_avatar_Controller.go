@@ -158,5 +158,14 @@ func DeleteAvatarHandler(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Avatar deleted successfully"})
 }
 
+func GetAllAvatarHandler(c *fiber.Ctx) error {
+	var avatars []models.UserAvatar
+	if err := database.DB.Find(&avatars).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to retrieve avatars"})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(avatars)
+}
+
 
 

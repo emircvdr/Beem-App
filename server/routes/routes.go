@@ -43,9 +43,17 @@ func Setup(app *fiber.App) {
 	app.Post("/api/uploadAvatar/:user_id", controllers.UploadAvatarHandler)
 	app.Get("/api/getAvatar/:user_id", controllers.GetAvatarHandler)
 	app.Delete("/api/deleteAvatar/:user_id", controllers.DeleteAvatarHandler)
+	app.Get("/api/getAllAvatar", controllers.GetAllAvatarHandler)
 
 	// user banner routes
 	app.Post("/api/uploadBanner/:user_id", controllers.UploadBannerHandler)
 	app.Get("/api/getBanner/:user_id", controllers.GetBannerHandler)
 	app.Delete("/api/deleteBanner/:user_id", controllers.DeleteBannerHandler)
+
+	// room routes
+
+	app.Post("/api/createRoom", controllers.CreateRoom)
+	app.Get("/api/getRooms", controllers.GetRooms)
+	app.Get("/api/getRoomsWithId/:id", controllers.GetRoomsWithId)
+
 }
