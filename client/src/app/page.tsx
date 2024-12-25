@@ -57,7 +57,7 @@ export default function Home() {
 
         if (response.ok) {
           if (data.length > 0) {
-            router.push(`/workspaces`);
+            router.push(`/home`);
           }
         } else {
           router.push("/");

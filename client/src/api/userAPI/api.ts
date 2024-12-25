@@ -54,7 +54,7 @@ export function GetAllUsers() {
 }
 
 export function GetAvatar(userId: any) {
-  const { data, error, isLoading } = useSWR(  
+  const { data, error, isLoading } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/getAvatar/${userId}`,
     fetcher,
   );
@@ -62,6 +62,18 @@ export function GetAvatar(userId: any) {
     avatar: data,
     isLoadingAvatar: isLoading,
     isErrorAvatar: error,
+  };
+}
+
+export function GetAllAvatars() {
+  const { data, error, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/getAllAvatar`,
+    fetcher,
+  );
+  return {
+    allAvatars: data,
+    isLoadingAllAvatars: isLoading,
+    isErrorAllAvatars: error,
   };
 }
 

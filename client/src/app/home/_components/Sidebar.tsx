@@ -2,7 +2,7 @@ import { Sidebar, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, 
 import Image from "next/image";
 import logo from "../../../../public/logo.svg";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ChevronUp, LogOut, MessageCircle, User2, UsersRound } from "lucide-react";
+import { ChevronUp, LogOut, MessageCircle, Settings, User2, UsersRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import User from "@/app/interfaces/UserInterface";
 import { useParams, useRouter } from "next/navigation";
@@ -40,9 +40,8 @@ export default function SidebarComponent() {
             }
         };
         fetchData();
-
-
     }, []);
+
 
     const handleLogOut = async () => {
         try {
