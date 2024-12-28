@@ -96,7 +96,7 @@ export default function MessagesPage() {
     }, [params.roomId]);
 
     return (
-        <div className="w-[calc(100%-90px)] h-full flex flex-col">
+        <div className="w-[calc(100%-120px)] h-full flex flex-col">
             <div className="w-full h-[120px] p-4 flex">
                 <div className="flex flex-row items-center justify-start gap-2">
                     <Avatar className="w-[50px] h-[50px]">
