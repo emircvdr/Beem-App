@@ -2,9 +2,13 @@ import React from 'react'
 import { Message } from '../[roomId]/page'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import BoringAvatar from 'boring-avatars'
+import { GetAvatar } from '@/api/userAPI/api'
 
 
-const ChatBody = ({ data }: { data: Array<Message> }) => {
+const ChatBody = ({ data, user_id }: { data: Array<Message>, user_id: string }) => {
+    const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(user_id);
+    const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
+
     return (
         <>
             {data.map((message: Message, index: number) => {
@@ -14,22 +18,6 @@ const ChatBody = ({ data }: { data: Array<Message> }) => {
                             className='flex flex-col mt-2 w-full text-right justify-end'
                             key={index}
                         >
-                            <div className='flex flex-row items-center justify-end gap-2'>
-                                {/* <Avatar>
-                                    <AvatarImage src={message.img as any} alt="avatar" className="object-contain" />
-                                    <AvatarFallback>
-                                        <BoringAvatar
-                                            name={message.client_id?.toString()}
-                                            variant="beam"
-                                            colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
-                                            style={{ width: "150px", height: "150px" }}
-                                        />
-                                    </AvatarFallback>
-                                </Avatar> */}
-                                <div className='text-sm !opacity-100'>
-                                    {message.username}
-                                </div>
-                            </div>
                             <div>
                                 <div className='bg-blue-500 text-white px-4 py-1 ml-10 rounded-md inline-block mt-1 '>
                                     {message.content}
@@ -41,17 +29,17 @@ const ChatBody = ({ data }: { data: Array<Message> }) => {
                     return (
                         <div className='mt-2' key={index}>
                             <div className='flex flex-row items-center justify-start gap-2'>
-                                {/* <Avatar>
-                                    <AvatarImage src={message.img as any} alt="avatar" className="object-contain" />
+                                <Avatar>
+                                    <AvatarImage src={imageUrl as any} alt="avatar" className="object-contain" />
                                     <AvatarFallback>
                                         <BoringAvatar
-                                            name={message.client_id?.toString()}
+                                            name={user_id}
                                             variant="beam"
                                             colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
                                             style={{ width: "150px", height: "150px" }}
                                         />
                                     </AvatarFallback>
-                                </Avatar> */}
+                                </Avatar>
                                 <div className='text-sm !opacity-100'>
                                     {message.username}
                                 </div>

@@ -97,7 +97,6 @@ export default function MessagesPage() {
 
     return (
         <div className="w-[calc(100%-90px)] h-full flex flex-col">
-            {/* Header */}
             <div className="w-full h-[120px] p-4 flex">
                 <div className="flex flex-row items-center justify-start gap-2">
                     <Avatar className="w-[50px] h-[50px]">
@@ -151,13 +150,9 @@ export default function MessagesPage() {
                     </div>
                 </div>
             </div>
-
-            {/* Separator */}
             <Separator />
-
-            {/* Messages */}
             <div className="w-full flex-1 overflow-y-auto p-4">
-                <ChatBody data={messages} />
+                <ChatBody data={messages} user_id={userId} />
             </div>
             <div className="w-full p-4 bg-white border-t border-gray-200">
                 <div className="flex items-center gap-4">
