@@ -35,7 +35,7 @@ const ChatBody = ({ data, user_id }: { data: Array<Message>, user_id: string }) 
                                         <BoringAvatar
                                             name={user_id}
                                             variant="beam"
-                                            colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                                            colors={["#40223c", "#42988f", "#b1c592", "#f1ddba", "#fb718a"]}
                                             style={{ width: "150px", height: "150px" }}
                                         />
                                     </AvatarFallback>

@@ -12,9 +12,9 @@ export default function Home() {
             <h1 className="text-black/90 font-newCustom text-xl mt-5">
                 Sorry! You need to start chatting to see your messages.
             </h1>
-            <Button size="lg" className="mt-6" variant="default">
+            {/* <Button size="lg" className="mt-6" variant="default">
                 <MessageCircleMore size={20} className="mr-2" />
-                Start Chatting</Button>
+                Start Chatting</Button> */}
         </div>
     )
 }

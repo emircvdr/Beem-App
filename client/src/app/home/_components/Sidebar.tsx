@@ -93,7 +93,7 @@ export default function SidebarComponent() {
                                         <Avatar
                                             name={user?.id?.toString()}
                                             variant="beam"
-                                            colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                                            colors={["#40223c", "#42988f", "#b1c592", "#f1ddba", "#fb718a"]}
                                             style={{ width: "40px", height: "40px" }}
                                         />
                                     }
@@ -114,7 +114,7 @@ export default function SidebarComponent() {
                                             <Avatar
                                                 name={user?.id?.toString()}
                                                 variant="beam"
-                                                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                                                colors={["#40223c", "#42988f", "#b1c592", "#f1ddba", "#fb718a"]}
                                                 style={{ width: "40px", height: "40px" }}
                                             />
                                     }
