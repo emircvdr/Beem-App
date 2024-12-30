@@ -95,9 +95,10 @@ export default function MessagesPage() {
         };
     }, [params.roomId]);
 
+    // sohbetteyken sol ve sağdaki sidebarlarda bulunan seperatorler cızgısının duzelt emircim ben betül
     return (
         <div className="w-[calc(100%-120px)] h-full flex flex-col">
-            <div className="w-full h-[120px] p-4 flex">
+            <div className="w-full h-[127px] p-4 flex">
                 <div className="flex flex-row items-center justify-start gap-2">
                     <Avatar className="w-[50px] h-[50px]">
                         <AvatarImage src={imageUrl as any} alt="avatar" className="rounded-full object-contain" />

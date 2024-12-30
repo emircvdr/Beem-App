@@ -5,7 +5,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation"; 1
 import { useState } from "react";
 import WorkspacesBar from "../home/_components/WorkspacesBar";
-import Deneme from "../home/_components/Deneme";
+import Deneme from "./_components/WorkspacesSideBar";
 
 
 

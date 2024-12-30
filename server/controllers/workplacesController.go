@@ -74,3 +74,21 @@ func GetWorkplacesByAdminId(c *fiber.Ctx) error {
     return c.JSON(workplaces)
 }
 
+func GetWorkplaceWithId(c *fiber.Ctx) error {
+	// URL parametresinden user_id al
+	id := c.Params("id")
+
+	// Kullanıcı profili veritabanından çek
+	var workplace models.Workplace
+	if err := database.DB.Where("id = ?", id).First(&workplace).Error; err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"error": "User profile not found",
+		})
+	}
+
+	// Başarılı yanıt döndür
+	return c.JSON(workplace)
+}
+
+
+

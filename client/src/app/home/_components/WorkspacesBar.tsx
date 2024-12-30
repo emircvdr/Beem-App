@@ -2,11 +2,12 @@ import { GetWorkspacesWithAdminID } from "@/api/workspacesAPI/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sidebar2, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarSeparator } from "@/components/ui/sidebar";
 import { getCookie } from "cookies-next/client";
-import { Calendar, Home, Inbox, MoveLeft, Plus, Search, Settings } from "lucide-react"
+import { MoveLeft, Plus } from "lucide-react"
 import BoringAvatar from "boring-avatars";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
+
 
 
 
@@ -15,6 +16,7 @@ export default function WorkspacesBar() {
     const router = useRouter();
     const pathname = usePathname();
     const { workspaces, isErrorWorkspaces, isLoadingWorkspaces } = GetWorkspacesWithAdminID(authId as any);
+
 
     return (
         <Sidebar2 variant="sidebar" collapsible="offcanvas" side="right" >
@@ -33,7 +35,7 @@ export default function WorkspacesBar() {
                         } />
                     </div>
                     <SidebarGroupContent>
-                        <SidebarSeparator className="mt-4" />
+                        <SidebarSeparator className="mt-[20px]" />
                         <SidebarMenu className="h-full flex items-center mt-5">
                             {workspaces?.map((item) => (
                                 <SidebarMenuItem key={item.id} onClick={() => router.push(`/workspaces/${item.id}`)}>
@@ -59,7 +61,7 @@ export default function WorkspacesBar() {
                 </SidebarGroup>
             </SidebarContent>
             {
-                pathname !== "/home" &&
+                pathname === "/workspaces" &&
                 <SidebarFooter>
                     <Button variant="ghost" size="icon" className="w-full" onClick={() => router.push("/home")}>
                         <MoveLeft /> Back to Home

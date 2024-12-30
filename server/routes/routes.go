@@ -18,6 +18,7 @@ func Setup(app *fiber.App) {
 	// workplace routes
 	app.Post("/api/createWorkplace", controllers.CreateWorkplace)
 	app.Get("/api/workplaces/:admin_id", controllers.GetWorkplacesByAdminId)
+	app.Get("/api/workplaceWithId/:id", controllers.GetWorkplaceWithId)
 
 	// user profile routes
 	app.Post("/api/createUserProfile", controllers.CreateUserProfile)

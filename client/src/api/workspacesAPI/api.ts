@@ -11,12 +11,24 @@ interface Workspaces {
 
 export function GetWorkspacesWithAdminID(adminID: string) {
   const { data, error, isLoading } = useSWR<Workspaces[]>(
-    `http://localhost:8000/api/workplaces/${adminID}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/workplaces/${adminID}`,
     fetcher,
   );
   return {
     workspaces: data,
     isLoadingWorkspaces: isLoading,
     isErrorWorkspaces: error,
+  };
+}
+
+export function GetWorkspacesWithId(id: string) {
+  const { data, error, isLoading } = useSWR<Workspaces>(
+    `${process.env.NEXT_PUBLIC_API_URL}/workplaceWithId/${id}`,
+    fetcher,
+  );
+  return {
+    workspace: data,
+    isLoadingWorkspace: isLoading,
+    isErrorWorkspace: error,
   };
 }
