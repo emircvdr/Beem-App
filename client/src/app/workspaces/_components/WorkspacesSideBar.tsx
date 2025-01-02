@@ -5,13 +5,16 @@ import { DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdow
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarSeparator } from "@/components/ui/sidebar";
 import { ChevronDown, ChevronRight, DiamondPlus, DoorOpen, Settings, User, UserPlus } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import BoringAvatar from "boring-avatars";
+import Link from "next/link";
 
 
 export default function WorkspacesSideBar() {
+    const router = useRouter()
     const { workspaceId } = useParams()
     const { workspace, isErrorWorkspace, isLoadingWorkspace } = GetWorkspacesWithId(workspaceId as string);
+
 
     return (
         <Sidebar>
@@ -47,7 +50,7 @@ export default function WorkspacesSideBar() {
                                 <DropdownMenuItem>
                                     <span className="w-full flex flex-row items-center justify-between">Manage Users <User size={20} /> </span>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => router.push(`/workspaces/settings/${workspaceId}`)}>
                                     <span className="w-full flex flex-row items-center justify-between">Workspace Settings <Settings size={20} /> </span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />

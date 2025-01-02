@@ -12,8 +12,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Friends from "./Friends";
 import { GetAvatar } from "@/api/userAPI/api";
 import Avatar from "boring-avatars";
+import { getCookie } from "cookies-next/client";
 
 export default function SidebarComponent() {
+    const authId = getCookie("authId");
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<any>(null);
@@ -72,13 +74,9 @@ export default function SidebarComponent() {
             </SidebarHeader>
             <Tabs defaultValue="friends" className="w-full p-2 h-full">
                 <TabsList className="flex w-full justify-evenly bg-transparent">
-                    {/* <TabsTrigger value="dms"><MessageCircle size={16} className="text-black" /></TabsTrigger> */}
                     <TabsTrigger value="friends"><UsersRound size={16} className="text-black" /></TabsTrigger>
                 </TabsList>
                 <SidebarSeparator className="mt-2 mb-2" />
-                {/* <TabsContent value="dms">
-                    <Messages setRender={setRender} render={render} setUserId={setUserId} setAuthId={setAuthId} />
-                </TabsContent> */}
                 <TabsContent value="friends">
                     <Friends authId={user?.id} />
                 </TabsContent>

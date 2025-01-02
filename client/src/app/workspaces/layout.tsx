@@ -1,11 +1,11 @@
 "use client";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
-
 import { usePathname } from "next/navigation"; 1
-import { useState } from "react";
 import WorkspacesBar from "../home/_components/WorkspacesBar";
-import Deneme from "./_components/WorkspacesSideBar";
+import WorkspacesSidebar from "./_components/WorkspacesSideBar";
+import Settings from "./settings/[workspaceId]/page";
+
 
 
 
@@ -14,14 +14,21 @@ interface HomeLayoutProps {
 };
 
 const Home = ({ children }: HomeLayoutProps) => {
+
     const pathname = usePathname();
     return (
         <SidebarProvider>
-            <div className="w-full h-screen flex items-center justify-center">
-                <Deneme />
-                <main className="w-full h-full relative">
-                    {children}
-                </main>
+            <div className="w-[calc(100%-100px)] h-screen flex items-center justify-center">
+                <WorkspacesSidebar />
+                {
+                    pathname === "/workspaces/settings/" ? (
+                        <Settings />
+                    ) : (
+                        <main className="w-full h-full relative">
+                            {children}
+                        </main>
+                    )
+                }
                 <WorkspacesBar />
             </div>
         </SidebarProvider>

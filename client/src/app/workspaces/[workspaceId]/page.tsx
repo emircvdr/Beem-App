@@ -1,9 +1,14 @@
+"use client"
+import { useParams, usePathname } from "next/navigation"
+
 
 
 export default function WorkplaceId() {
+    const params = useParams()
+    const pathname = usePathname()
     return (
         <div>
-            <h1>WorkspaceId</h1>
+            {params.workspaceId}
         </div>
     )
 }

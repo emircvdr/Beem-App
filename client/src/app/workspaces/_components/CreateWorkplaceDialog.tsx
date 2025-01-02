@@ -67,9 +67,11 @@ export default function CreateWorkplaceDialog() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(form),
+                body: JSON.stringify({
+                    ...form,
+                    admin_id: Number(authId),
+                }),
             });
-
             const data = await response.json();
             if (response.ok) {
                 router.push(`/workspaces/${data.id}`);

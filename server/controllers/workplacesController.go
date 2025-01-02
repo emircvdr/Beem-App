@@ -90,5 +90,15 @@ func GetWorkplaceWithId(c *fiber.Ctx) error {
 	return c.JSON(workplace)
 }
 
+func DeleteWorkplace(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	database.DB.Where("id = ?", id).Delete(&models.Workplace{})
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Workplace deleted",
+	})
+  
+}
 
 
