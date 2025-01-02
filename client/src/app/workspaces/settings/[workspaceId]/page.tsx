@@ -10,6 +10,9 @@ import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { DeleteDialog } from "../_components/DeleteDialog"
 import { GetWorkspacesWithId } from "@/api/workspacesAPI/api"
+import { useEffect, useState } from "react"
+import { mutate } from "swr"
+import { toast } from "sonner"
 
 
 
@@ -17,6 +20,48 @@ export default function Settings() {
     const params = useParams()
     const pathname = usePathname()
     const { workspace, isErrorWorkspace, isLoadingWorkspace } = GetWorkspacesWithId(params.workspaceId as string)
+    const [workspaceName, setWorkspaceName] = useState<string>("")
+    const [showPrompt, setShowPrompt] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (workspace?.name) {
+            setWorkspaceName(workspace.name);
+        }
+    }, [workspace?.name]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setWorkspaceName(e.target.value);
+        setShowPrompt(e.target.value !== workspace?.name);
+    };
+
+    const handleSave = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateWorkplace/${params.workspaceId}`, {
+                method: "PUT",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: workspaceName,
+                }),
+            });
+            if (response.ok) {
+                toast.success("Workspace updated successfully");
+                setShowPrompt(false);
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/workplaceWithId/${params.workspaceId}`);
+            } else {
+                throw new Error("Failed to update profile");
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    };
+    const handleCancel = () => {
+        setWorkspaceName(workspace?.name || "");
+        setShowPrompt(false);
+    };
+
     return (
         <div className="w-full h-screen p-5">
             <div className="h-[350px] p-5 m-auto">
@@ -35,7 +80,10 @@ export default function Settings() {
                     </Avatar>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
                         <Label>Workplace Name</Label>
-                        <Input id="name" />
+                        <Input
+                            value={workspaceName}
+                            onChange={handleInputChange}
+                        />
                     </div>
                 </div>
                 <Separator orientation="horizontal" className="w-full mt-5" />
@@ -86,6 +134,17 @@ export default function Settings() {
                     </div>
                 </div>
             </div>
+            {showPrompt && (
+                <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-white shadow-md p-4 rounded-md flex items-center gap-3">
+                    <p>Do you want to save changes?</p>
+                    <Button variant="secondary" onClick={handleCancel}>
+                        Cancel
+                    </Button>
+                    <Button variant="friendRequest" onClick={handleSave}>
+                        Save Changes
+                    </Button>
+                </div>
+            )}
         </div>
     )
 }

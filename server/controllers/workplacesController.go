@@ -101,4 +101,29 @@ func DeleteWorkplace(c *fiber.Ctx) error {
   
 }
 
+func UpdateWorkplaceName(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	var data map[string]interface{}
+
+	if err := c.BodyParser(&data); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request body",
+		})
+	}
+
+	name, ok := data["name"].(string)
+	if !ok || name == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Name is required",
+		})
+	}
+
+	database.DB.Model(&models.Workplace{}).Where("id = ?", id).Update("name", name)
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Workplace name updated",
+	})
+}
+
 
