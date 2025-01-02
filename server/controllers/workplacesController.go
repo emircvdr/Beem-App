@@ -1,13 +1,22 @@
 package controllers
 
 import (
+	"fmt"
+	"math/rand"
 	"server/database"
 	"server/models"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-
+func InviteCodeGenerator() string {
+	number := rand.Int()
+	numberStr := fmt.Sprintf("%d", number)
+	if len(numberStr) > 5 {
+		numberStr = numberStr[:5] 
+	}
+	return numberStr
+}
 
 func CreateWorkplace(c *fiber.Ctx) error {
 
@@ -46,6 +55,7 @@ func CreateWorkplace(c *fiber.Ctx) error {
 		Name:    name,
 		AdminId: adminIdInt,
 		Private: private,
+		InviteCode: InviteCodeGenerator(),
 	}
 
 	// Save to database
