@@ -7,6 +7,7 @@ import BoringAvatar from "boring-avatars";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import CreateWorkplaceDialog from "@/app/workspaces/_components/CreateWorkplaceDialog";
 
 
 
@@ -25,15 +26,7 @@ export default function WorkspacesBar() {
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup className="h-full flex items-center">
-                    <div className="w-[50px] h-[50px] border rounded-full flex items-center justify-center">
-                        <Plus style={
-                            {
-                                width: "30px",
-                                height: "30px",
-                                color: "#000"
-                            }
-                        } />
-                    </div>
+                    <CreateWorkplaceDialog />
                     <SidebarGroupContent>
                         <SidebarSeparator className="mt-[20px]" />
                         <SidebarMenu className="h-full flex items-center mt-5">
@@ -43,7 +36,6 @@ export default function WorkspacesBar() {
                                         <Tooltip delayDuration={0}>
                                             <TooltipTrigger asChild>
                                                 <Avatar className="cursor-pointer w-[50px] h-[50px] mt-2">
-                                                    {/* <AvatarImage /> */}
                                                     <AvatarFallback>
                                                         <BoringAvatar size={70} name={item.id.toString()} variant="marble" colors={["#40223c", "#42988f", "#b1c592", "#f1ddba", "#fb718a"]} />
                                                     </AvatarFallback>
@@ -61,10 +53,10 @@ export default function WorkspacesBar() {
                 </SidebarGroup>
             </SidebarContent>
             {
-                pathname === "/workspaces" &&
+                pathname !== "/home" &&
                 <SidebarFooter>
                     <Button variant="ghost" size="icon" className="w-full" onClick={() => router.push("/home")}>
-                        <MoveLeft /> Back to Home
+                        <MoveLeft /> Home
                     </Button>
                 </SidebarFooter>
             }

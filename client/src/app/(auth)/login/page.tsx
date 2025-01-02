@@ -10,29 +10,21 @@ import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import logo from "../../../../public/mainPageLogo.svg";
+import { getCookie } from "cookies-next/client";
 
 const Login = () => {
     const router = useRouter();
+    const authId = getCookie("authId");
     const [form, setForm] = useState({
         email: "",
         password: ""
     });
     const [error, setError] = useState<any>("");
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
-                    credentials: "include",
-                });
-                if (response.ok) {
-                    router.push('/');
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchData();
 
+    useEffect(() => {
+        if (authId) {
+            router.push("/")
+        }
     }, [router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,13 +48,13 @@ const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setError(""); // Hata mesajını temizle
+                setError("");
                 setForm({
                     email: "",
                     password: ""
                 });
                 router.push('/');
-            } else if (response.status === 404) {
+            } else if (response.status === 400 || response.status === 404) {
                 setError("Email or Password is incorrect");
             }
         } catch (error) {
