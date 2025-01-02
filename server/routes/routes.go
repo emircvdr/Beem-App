@@ -21,6 +21,7 @@ func Setup(app *fiber.App) {
 	app.Get("/api/workplaceWithId/:id", controllers.GetWorkplaceWithId)
 	app.Delete("/api/deleteWorkplace/:id", controllers.DeleteWorkplace)
 	app.Put("/api/updateWorkplace/:id", controllers.UpdateWorkplaceName)
+	app.Put("/api/updateWorkplaceVisibility/:id", controllers.UpdateWorkplaceVisibility)
 
 	// user profile routes
 	app.Post("/api/createUserProfile", controllers.CreateUserProfile)

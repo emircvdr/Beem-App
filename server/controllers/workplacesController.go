@@ -126,4 +126,27 @@ func UpdateWorkplaceName(c *fiber.Ctx) error {
 	})
 }
 
+func UpdateWorkplaceVisibility(c *fiber.Ctx) error {
+	id := c.Params("id")
 
+	var data map[string]interface{}
+
+	if err := c.BodyParser(&data); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request body",
+		})
+	}
+
+	private, ok := data["private"].(bool)
+	if !ok {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Visibility is required",
+		})
+	}
+
+	database.DB.Model(&models.Workplace{}).Where("id = ?", id).Update("private", private)
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Workplace visibility updated",
+	})
+}

@@ -13,6 +13,7 @@ import { GetWorkspacesWithId } from "@/api/workspacesAPI/api"
 import { useEffect, useState } from "react"
 import { mutate } from "swr"
 import { toast } from "sonner"
+import { ChangeVisibilityDialog } from "../_components/ChangeVisibilityDialog"
 
 
 
@@ -107,10 +108,12 @@ export default function Settings() {
                                 <Label>
                                     <p className="font-newCustom text-base">Change Workplace Visibility</p>
                                     <p className="text-muted-foreground">
-                                        This Workplace is currently private.
+                                        This Workplace is currently {
+                                            workspace?.private === true ? "private" : "public"
+                                        }.
                                     </p>
                                 </Label>
-                                <Button variant="destructive">Make Public</Button>
+                                <ChangeVisibilityDialog workplaceId={Number(params.workspaceId)} workplaceName={workspace?.name as string} visibility={workspace?.private as boolean} />
                             </div>
                             <div className="flex flex-row w-full items-center justify-between">
                                 <Label>
