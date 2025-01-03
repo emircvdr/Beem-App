@@ -54,8 +54,13 @@ export default function InvitePeopleDialog({ inviteCode, name, authId }: { invit
                         <Input value={inviteCode} readOnly className="w-full relative h-[35px]" id="codeInput" />
                         <Button variant="special" className="absolute right-6 bottom-6" onClick={() => {
                             const codeInput = document.getElementById("codeInput") as HTMLInputElement;
-                            codeInput.select();
-                            document.execCommand("copy");
+                            const inviteMessage = `
+                            Hey! I'm inviting you to join me on beemApp. Use this code to join my workspace: ${inviteCode}`;
+                            navigator.clipboard.writeText(inviteMessage);
+                            codeInput?.focus();
+                            codeInput?.select();
+
+
                         }}>
                             Copy
                         </Button>
