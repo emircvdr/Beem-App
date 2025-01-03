@@ -1,3 +1,4 @@
+"use client"
 import { GetWorkspacesWithId } from "@/api/workspacesAPI/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -7,13 +8,14 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import { ChevronDown, ChevronRight, DiamondPlus, DoorOpen, Settings, User, UserPlus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import BoringAvatar from "boring-avatars";
-import Link from "next/link";
+import InvitePeopleDialog from "./InvitePeopleDialog";
 
 
 export default function WorkspacesSideBar() {
     const router = useRouter()
     const { workspaceId } = useParams()
     const { workspace, isErrorWorkspace, isLoadingWorkspace } = GetWorkspacesWithId(workspaceId as string);
+
 
 
     return (
@@ -39,13 +41,11 @@ export default function WorkspacesSideBar() {
                                     <ChevronDown className="ml-auto" />
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
-                                <DropdownMenuItem>
-                                    <span className="w-full flex flex-row items-center justify-between">Upgrade Workspace <DiamondPlus color="purple" size={20} /> </span>
-                                </DropdownMenuItem>
+                            <DropdownMenuContent className="w-[--radix-popper-anchor-width]" onPointerDown={(e) => e.stopPropagation()}>
+                                <InvitePeopleDialog inviteCode={workspace?.invite_code as string} name={workspace?.name as string} authId={workspace?.admin_id as string} />
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
-                                    <span className="w-full flex flex-row items-center justify-between text-blue-500">Invite People <UserPlus className="text-blue-500" size={20} /> </span>
+                                    <span className="w-full flex flex-row items-center justify-between">Upgrade Workspace <DiamondPlus color="purple" size={20} /> </span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
                                     <span className="w-full flex flex-row items-center justify-between">Manage Users <User size={20} /> </span>

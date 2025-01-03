@@ -7,6 +7,7 @@ interface Workspaces {
   name: string;
   admin_id: string;
   private: boolean;
+  invite_code: string;
 }
 
 export function GetWorkspacesWithAdminID(adminID: string) {
