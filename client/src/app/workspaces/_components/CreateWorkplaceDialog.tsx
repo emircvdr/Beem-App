@@ -79,7 +79,27 @@ export default function CreateWorkplaceDialog() {
             });
             const data = await response.json();
             if (response.ok) {
-                router.push(`/workspaces/${data.id}`);
+                try {
+                    const workplaceMemberResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createWorkplaceMember`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            workplace_id: data.id,
+                            admin_id: Number(authId),
+                            user_id: Number(authId),
+                            role: "admin"
+                        }),
+                    });
+                    const workplaceMemberData = await workplaceMemberResponse.json();
+                    if (workplaceMemberResponse.ok) {
+                        router.push(`/workspaces/${data.id}`);
+                    }
+                } catch (error) {
+                    setError(error);
+
+                }
             } else {
                 setError(await response.json());
             }

@@ -42,7 +42,7 @@ export default function WorkspacesSideBar() {
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-[--radix-popper-anchor-width]" onPointerDown={(e) => e.stopPropagation()}>
-                                <InvitePeopleDialog inviteCode={workspace?.invite_code as string} name={workspace?.name as string} authId={workspace?.admin_id as string} />
+                                <InvitePeopleDialog inviteCode={workspace?.invite_code as string} name={workspace?.name as string} authId={workspace?.admin_id as string} workplaceId={workspaceId as string} />
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
                                     <span className="w-full flex flex-row items-center justify-between">Upgrade Workspace <DiamondPlus color="purple" size={20} /> </span>

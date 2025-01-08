@@ -54,8 +54,16 @@ func Setup(app *fiber.App) {
 	app.Get("/api/getBanner/:user_id", controllers.GetBannerHandler)
 	app.Delete("/api/deleteBanner/:user_id", controllers.DeleteBannerHandler)
 
-	// room routes
 
+	// workplace member routes
+	app.Post("/api/createWorkplaceMember", controllers.CreateWorkplaceMember)
+
+	// workplace request routes
+	app.Post("/api/createWorkplaceRequest", controllers.CreateWorkplaceRequest)
+	app.Get("/api/getWorkplaceReqWithSenderId/:sender_id", controllers.GetWorkplaceReqWithSenderId)
+	app.Delete("/api/cancelWorkplaceReq/:sender_id/:receiver_id", controllers.CancelWorkplaceInvite)
+
+	// room routes
 	app.Post("/api/createRoom", controllers.CreateRoom)
 	app.Get("/api/getRooms", controllers.GetRooms)
 	app.Get("/api/getRoomsWithId/:id", controllers.GetRoomsWithId)

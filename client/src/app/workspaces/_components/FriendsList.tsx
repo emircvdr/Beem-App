@@ -1,7 +1,12 @@
+"use client"
 import { GetAvatar } from "@/api/userAPI/api";
+import { GetWorkplaceReqWithSenderId } from "@/api/workplaceRequestAPI/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import BoringAvatar from "boring-avatars";
+import { useState } from "react";
+import { toast } from "sonner";
+import { mutate } from "swr";
 
 interface FriendsBoxProps {
     image: string;
@@ -9,20 +14,63 @@ interface FriendsBoxProps {
     id: string;
     userId: string;
     authId: string;
+    workplaceId: string;
 }
 
-export default function FriendList({ name, userId, }: FriendsBoxProps) {
+interface FriendsRequestProps {
+    sender_id: string;
+    receiver_id: string;
+    status: string;
+}
+
+export default function FriendList({ name, userId, authId, workplaceId }: FriendsBoxProps) {
     const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(userId);
     const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
+    const [error, setError] = useState(null);
 
-    const handleClick = () => {
+    const { workplaceReq, isErrorWorkplaceReq, isLoadingWorkplaceReq } = GetWorkplaceReqWithSenderId(authId);
 
+    const disabledButton = workplaceReq?.some((item: FriendsRequestProps) => item.receiver_id === userId && item.status === "pending");
+
+    const handleClick = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createWorkplaceRequest`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    receiver_id: userId,
+                    sender_id: authId,
+                    status: "pending",
+                    workplace_id: Number(workplaceId),
+                }),
+            });
+            const data = response.json();
+            if (response.ok) {
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceReqWithSenderId/${authId}`);
+                toast.success("Your request has been sent");
+            }
+        } catch (error) {
+            setError(error as any);
+        }
     };
 
-
-
-
-
+    const handleCancel = async () => {
+        try {
+            const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cancelWorkplaceReq/${authId}/${userId}`, {
+                method: "DELETE",
+            });
+            if (result.ok) {
+                mutate(`${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceReqWithSenderId/${authId}`);
+            }
+            if (!result.ok) {
+                throw new Error("Error while cancelling workplace request");
+            }
+        } catch (error) {
+            console.error("Error while cancelling workplace request:", error);
+        }
+    }
 
 
     return (
@@ -44,10 +92,12 @@ export default function FriendList({ name, userId, }: FriendsBoxProps) {
                 <div className="w-full flex">
                     <h1 className="text-black text-[14px] self-start">{name}</h1>
                     <div className="ml-auto w-full h-full  flex flex-row justify-end items-start">
-                        <Button variant="friendRequest" size="sm"
-                            onClick={handleClick}
+                        <Button variant={disabledButton ? ("destructive") : ("friendRequest")} size="sm"
+                            onClick={() => (
+                                disabledButton ? handleCancel() : handleClick()
+                            )}
                         >
-                            Invite
+                            {disabledButton ? "Cancel" : "Invite"}
                         </Button>
                     </div>
                 </div>

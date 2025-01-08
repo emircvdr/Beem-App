@@ -10,7 +10,7 @@ import { UserPlus } from "lucide-react";
 import FriendList from "./FriendsList";
 import { useState } from "react";
 
-export default function InvitePeopleDialog({ inviteCode, name, authId }: { inviteCode: string, name: string, authId: string }) {
+export default function InvitePeopleDialog({ inviteCode, name, authId, workplaceId }: { inviteCode: string, name: string, authId: string, workplaceId: string }) {
     const handleClick = (event: React.MouseEvent) => {
         event.stopPropagation()
     };
@@ -38,7 +38,7 @@ export default function InvitePeopleDialog({ inviteCode, name, authId }: { invit
                     <div className="flex flex-col h-[300px] overflow-y-auto">
                         {
                             friends?.length > 0 ? (friends?.map((item: any) => (
-                                <FriendList key={item.id} image={item.img?.src} name={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).fullname} id={item.id} userId={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).id} authId={authId as string} />
+                                <FriendList key={item.id} image={item.img?.src} name={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).fullname} id={item.id} userId={filteredUsers.find((user: any) => user.id == item.friend_id || user.id == item.user_id).id} authId={authId as string} workplaceId={workplaceId as string} />
 
                             ))) : <div className="flex justify-center items-center h-full">
                                 <p className="text-black">No friends found</p>
