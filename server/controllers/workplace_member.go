@@ -63,6 +63,12 @@ func CreateWorkplaceRequest(c *fiber.Ctx) error {
 		})
 	}
 
+	if workplaceRequest.WorkplaceId == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Workplace ID is required",
+		})
+	}
+
 	database.DB.Create(&workplaceRequest)
 
 	return c.Status(fiber.StatusOK).JSON(workplaceRequest)
@@ -96,4 +102,52 @@ func CancelWorkplaceInvite(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Workplace request cancelled",
 	})
+}
+
+func GetWorkplaceReqWithReceiverId(c *fiber.Ctx) error {
+	receiverId := c.Params("receiver_id")
+
+	if receiverId == "0" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid sender ID",
+		})
+	}
+	var workplaceRequest []models.WorkplaceRequest
+	database.DB.Where("receiver_id = ? AND status = ?", receiverId, "pending").Find(&workplaceRequest)
+	return c.Status(fiber.StatusOK).JSON(workplaceRequest)
+}
+
+func AcceptWorkplaceReq(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	database.DB.Model(&models.WorkplaceRequest{}).Where("id = ?", id).Update("status", "accepted")
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Workplace request accepted",
+	})
+}
+
+func RejecetWorkplaceReq(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	database.DB.Where("id = ?", id).Delete(&models.WorkplaceRequest{})
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Workplace request rejected",
+	})
+}
+
+func GetWorkplaceReqWithUserId(c *fiber.Ctx) error {
+	userId := c.Params("user_id")
+
+	if userId == "0" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid user ID",
+		})
+	}
+
+	var workplaceMember []models.WorkplaceMember
+	database.DB.Where("user_id = ?", userId).Find(&workplaceMember)
+
+	return c.Status(fiber.StatusOK).JSON(workplaceMember)
 }

@@ -86,7 +86,7 @@ export default function CreateWorkplaceDialog() {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            workplace_id: data.id,
+                            workplace_id: Number(data.id),
                             admin_id: Number(authId),
                             user_id: Number(authId),
                             role: "admin"

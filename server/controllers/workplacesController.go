@@ -160,3 +160,15 @@ func UpdateWorkplaceVisibility(c *fiber.Ctx) error {
 		"message": "Workplace visibility updated",
 	})
 }
+
+func GetAllWorkplaces(c *fiber.Ctx) error {
+	var workplaces []models.Workplace
+
+	if err := database.DB.Find(&workplaces).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Could not fetch workplaces",
+		})
+	}
+
+	return c.JSON(workplaces)
+}

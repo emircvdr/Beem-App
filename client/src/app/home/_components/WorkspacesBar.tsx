@@ -1,4 +1,4 @@
-import { GetWorkspacesWithAdminID } from "@/api/workspacesAPI/api";
+import { GetAllWorkplaces, GetWorkplaceWithUserId, GetWorkspacesWithAdminID } from "@/api/workspacesAPI/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sidebar2, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarSeparator } from "@/components/ui/sidebar";
 import { getCookie } from "cookies-next/client";
@@ -16,7 +16,9 @@ export default function WorkspacesBar() {
     const authId = getCookie("authId");
     const router = useRouter();
     const pathname = usePathname();
-    const { workspaces, isErrorWorkspaces, isLoadingWorkspaces } = GetWorkspacesWithAdminID(authId as any);
+
+    const { allWorkspaces, isErrorAllWorkspaces, isLoadingAllWorkspaces } = GetAllWorkplaces()
+    const { workplaceWithUserId, isErrorWorkplaceWithUserId, isLoadingWorkplaceWithUserId } = GetWorkplaceWithUserId(authId as any);
 
 
     return (
@@ -30,19 +32,21 @@ export default function WorkspacesBar() {
                     <SidebarGroupContent>
                         <SidebarSeparator className="mt-[20px]" />
                         <SidebarMenu className="h-full flex items-center mt-5">
-                            {workspaces?.map((item) => (
-                                <SidebarMenuItem key={item.id} onClick={() => router.push(`/workspaces/${item.id}`)}>
+                            {workplaceWithUserId?.map((item: any) => (
+                                <SidebarMenuItem key={item.workplace_id} onClick={() => router.push(`/workspaces/${item.workplace_id}`)}>
                                     <TooltipProvider>
                                         <Tooltip delayDuration={0}>
                                             <TooltipTrigger asChild>
                                                 <Avatar className="cursor-pointer w-[50px] h-[50px] mt-2">
                                                     <AvatarFallback>
-                                                        <BoringAvatar size={70} name={item.id.toString()} variant="marble" colors={["#40223c", "#42988f", "#b1c592", "#f1ddba", "#fb718a"]} />
+                                                        <BoringAvatar size={70} name={item.workplace_id.toString()} variant="marble" colors={["#40223c", "#42988f", "#b1c592", "#f1ddba", "#fb718a"]} />
                                                     </AvatarFallback>
                                                 </Avatar>
                                             </TooltipTrigger>
                                             <TooltipContent>
-                                                {item.name}
+                                                {
+                                                    allWorkspaces?.find((workspace) => workspace.id == item.workplace_id)?.name
+                                                }
                                             </TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>

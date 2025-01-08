@@ -22,6 +22,7 @@ func Setup(app *fiber.App) {
 	app.Delete("/api/deleteWorkplace/:id", controllers.DeleteWorkplace)
 	app.Put("/api/updateWorkplace/:id", controllers.UpdateWorkplaceName)
 	app.Put("/api/updateWorkplaceVisibility/:id", controllers.UpdateWorkplaceVisibility)
+	app.Get("/api/getAllWorkplaces", controllers.GetAllWorkplaces)
 
 	// user profile routes
 	app.Post("/api/createUserProfile", controllers.CreateUserProfile)
@@ -57,11 +58,16 @@ func Setup(app *fiber.App) {
 
 	// workplace member routes
 	app.Post("/api/createWorkplaceMember", controllers.CreateWorkplaceMember)
+	app.Get("/api/getWorkplaceMember/:user_id", controllers.GetWorkplaceReqWithUserId)
 
 	// workplace request routes
 	app.Post("/api/createWorkplaceRequest", controllers.CreateWorkplaceRequest)
 	app.Get("/api/getWorkplaceReqWithSenderId/:sender_id", controllers.GetWorkplaceReqWithSenderId)
 	app.Delete("/api/cancelWorkplaceReq/:sender_id/:receiver_id", controllers.CancelWorkplaceInvite)
+	app.Get("/api/getWorkplaceReqWithReceiverId/:receiver_id", controllers.GetWorkplaceReqWithReceiverId)
+	app.Put("/api/acceptWorkplaceReq/:id", controllers.AcceptWorkplaceReq)
+	app.Delete("/api/rejectWorkplaceReq/:id", controllers.RejecetWorkplaceReq)
+
 
 	// room routes
 	app.Post("/api/createRoom", controllers.CreateRoom)

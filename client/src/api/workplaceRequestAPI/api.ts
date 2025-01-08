@@ -13,3 +13,16 @@ export function GetWorkplaceReqWithSenderId(senderId: any) {
     isErrorWorkplaceReq: error,
   };
 }
+
+export function GetWorkplaceReqWithReceiverId(receiverId: any) {
+  const { data, error, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceReqWithReceiverId/${receiverId}`,
+    fetcher,
+  );
+
+  return {
+    workplaceReqReceiver: data,
+    isLoadingworkplaceReqReceiver: isLoading,
+    isErrorworkplaceReqReceiver: !!error,
+  };
+}

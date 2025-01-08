@@ -33,3 +33,27 @@ export function GetWorkspacesWithId(id: string) {
     isErrorWorkspace: error,
   };
 }
+
+export function GetAllWorkplaces() {
+  const { data, error, isLoading } = useSWR<Workspaces[]>(
+    `${process.env.NEXT_PUBLIC_API_URL}/getAllWorkplaces`,
+    fetcher,
+  );
+  return {
+    allWorkspaces: data,
+    isLoadingAllWorkspaces: isLoading,
+    isErrorAllWorkspaces: error,
+  };
+}
+
+export function GetWorkplaceWithUserId(userId: string) {
+  const { data, error, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceMember/${userId}`,
+    fetcher,
+  );
+  return {
+    workplaceWithUserId: data,
+    isLoadingWorkplaceWithUserId: isLoading,
+    isErrorWorkplaceWithUserId: error,
+  };
+}

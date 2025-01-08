@@ -46,7 +46,6 @@ export default function FriendList({ name, userId, authId, workplaceId }: Friend
                     workplace_id: Number(workplaceId),
                 }),
             });
-            const data = response.json();
             if (response.ok) {
                 mutate(`${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceReqWithSenderId/${authId}`);
                 toast.success("Your request has been sent");
