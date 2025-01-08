@@ -1,5 +1,5 @@
 "use client"
-import { GetWorkspacesWithId } from "@/api/workspacesAPI/api";
+import { GetWorkplaceMember, GetWorkspacesWithId } from "@/api/workspacesAPI/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
@@ -9,12 +9,16 @@ import { ChevronDown, ChevronRight, DiamondPlus, DoorOpen, Settings, User, UserP
 import { useParams, useRouter } from "next/navigation";
 import BoringAvatar from "boring-avatars";
 import InvitePeopleDialog from "./InvitePeopleDialog";
+import { getCookie } from "cookies-next/client";
 
 
 export default function WorkspacesSideBar() {
     const router = useRouter()
+    const authId = getCookie("authId");
     const { workspaceId } = useParams()
     const { workspace, isErrorWorkspace, isLoadingWorkspace } = GetWorkspacesWithId(workspaceId as string);
+
+    const { workplaceMembers, isErrorWorkplaceMembers, isLoadingWorkplaceMembers } = GetWorkplaceMember(workspaceId as string);
 
 
 
@@ -42,8 +46,13 @@ export default function WorkspacesSideBar() {
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-[--radix-popper-anchor-width]" onPointerDown={(e) => e.stopPropagation()}>
-                                <InvitePeopleDialog inviteCode={workspace?.invite_code as string} name={workspace?.name as string} authId={workspace?.admin_id as string} workplaceId={workspaceId as string} />
-                                <DropdownMenuSeparator />
+                                {
+                                    workplaceMembers?.find((member: any) => Number(member.admin_id) == Number(authId)) ?
+                                        (<><InvitePeopleDialog inviteCode={workspace?.invite_code as string} name={workspace?.name as string} authId={workspace?.admin_id as string} workplaceId={workspaceId as string} />
+                                            <DropdownMenuSeparator />
+                                        </>)
+                                        : null
+                                }
                                 <DropdownMenuItem>
                                     <span className="w-full flex flex-row items-center justify-between">Upgrade Workspace <DiamondPlus color="purple" size={20} /> </span>
                                 </DropdownMenuItem>

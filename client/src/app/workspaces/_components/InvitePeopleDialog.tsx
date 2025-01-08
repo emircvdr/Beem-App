@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { getCookie } from "cookies-next/client";
 import { UserPlus } from "lucide-react";
 import FriendList from "./FriendsList";
-import { useState } from "react";
+
 
 export default function InvitePeopleDialog({ inviteCode, name, authId, workplaceId }: { inviteCode: string, name: string, authId: string, workplaceId: string }) {
     const handleClick = (event: React.MouseEvent) => {
@@ -18,8 +18,6 @@ export default function InvitePeopleDialog({ inviteCode, name, authId, workplace
     const { allUsers, isErrorAllUsers, isLoadingAllUsers } = GetAllUsers();
     const { friends, isLoadingFriends, isErrorFriends } = GetFriends(authId);
     const filteredUsers = allUsers?.filter((item: any) => item.id !== authId)
-
-
 
     return (
         <Dialog>

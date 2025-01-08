@@ -1,4 +1,4 @@
-import { GetAllWorkplaces, GetWorkplaceWithUserId, GetWorkspacesWithAdminID } from "@/api/workspacesAPI/api";
+import { GetAllWorkplaces, GetWorkplacesWithUserId, GetWorkspacesWithAdminID } from "@/api/workspacesAPI/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sidebar2, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarSeparator } from "@/components/ui/sidebar";
 import { getCookie } from "cookies-next/client";
@@ -18,7 +18,7 @@ export default function WorkspacesBar() {
     const pathname = usePathname();
 
     const { allWorkspaces, isErrorAllWorkspaces, isLoadingAllWorkspaces } = GetAllWorkplaces()
-    const { workplaceWithUserId, isErrorWorkplaceWithUserId, isLoadingWorkplaceWithUserId } = GetWorkplaceWithUserId(authId as any);
+    const { workplaceWithUserId, isErrorWorkplaceWithUserId, isLoadingWorkplaceWithUserId } = GetWorkplacesWithUserId(authId as any);
 
 
     return (

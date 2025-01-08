@@ -151,3 +151,18 @@ func GetWorkplaceReqWithUserId(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(workplaceMember)
 }
+
+func GetWorkplaceMembers(c *fiber.Ctx) error {
+	workplaceId := c.Params("workplace_id")
+
+	if workplaceId == "0" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid workplace ID",
+		})
+	}
+
+	var workplaceMember []models.WorkplaceMember
+	database.DB.Where("workplace_id = ?", workplaceId).Find(&workplaceMember)
+
+	return c.Status(fiber.StatusOK).JSON(workplaceMember)
+}

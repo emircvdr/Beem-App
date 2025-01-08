@@ -46,7 +46,7 @@ export function GetAllWorkplaces() {
   };
 }
 
-export function GetWorkplaceWithUserId(userId: string) {
+export function GetWorkplacesWithUserId(userId: string) {
   const { data, error, isLoading } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceMember/${userId}`,
     fetcher,
@@ -55,5 +55,17 @@ export function GetWorkplaceWithUserId(userId: string) {
     workplaceWithUserId: data,
     isLoadingWorkplaceWithUserId: isLoading,
     isErrorWorkplaceWithUserId: error,
+  };
+}
+
+export function GetWorkplaceMember(workplace_id: any) {
+  const { data, error, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceMemberWithWorkplaceId/${workplace_id}`,
+    fetcher,
+  );
+  return {
+    workplaceMembers: data,
+    isLoadingWorkplaceMembers: isLoading,
+    isErrorWorkplaceMembers: error,
   };
 }
