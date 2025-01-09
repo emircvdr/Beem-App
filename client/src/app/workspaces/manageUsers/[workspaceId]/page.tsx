@@ -5,7 +5,9 @@ import { DataTable } from "../_components/data-table";
 import { useParams } from "next/navigation";
 import { GetAllAvatars, GetAllUsers, GetAvatar } from "@/api/userAPI/api";
 import { getCookie } from "cookies-next/client";
-import { Crown, Headset, User as UserIcon, } from "lucide-react";
+import { Crown, Headset, TriangleAlert, User as UserIcon, X, } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 
 
@@ -14,7 +16,7 @@ export default function ManageUsersPage() {
     const authId = getCookie("authId")
     const { workplaceMembers, isErrorWorkplaceMembers, isLoadingWorkplaceMembers } = GetWorkplaceMember(workspaceId)
     const { allUsers, isErrorAllUsers, isLoadingAllUsers } = GetAllUsers()
-    const { allAvatars, isErrorAllAvatars, isLoadingAllAvatars } = GetAllAvatars()
+    const [showPrompt, setShowPrompt] = useState<boolean>(true);
 
 
 
@@ -53,8 +55,26 @@ export default function ManageUsersPage() {
                 <div className="mt-5">
                     <DataTable columns={columns} data={data} />
                 </div>
-
             </div>
+            {showPrompt && (
+                <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#FFF4E6] border border-[#F5A623] shadow-md p-4 rounded-md flex items-center gap-4 w-[400px]">
+                    <div className="flex flex-row items-center gap-3">
+                        <TriangleAlert size={24} color="#F5A623" />
+                    </div>
+                    <div className="flex-1">
+                        <h3 className="font-semibold text-[#D48806] text-lg">Warning!</h3>
+                        <p className="text-[#D48806] text-sm">
+                            Be cautious when assigning the <strong>Head</strong> role. A user with the Head role can kick other members and modify server settings.
+                        </p>
+                    </div>
+                    <X
+                        size={20}
+                        color="#D48806"
+                        className="cursor-pointer"
+                        onClick={() => setShowPrompt(false)}
+                    />
+                </div>
+            )}
         </div>
     );
 }
