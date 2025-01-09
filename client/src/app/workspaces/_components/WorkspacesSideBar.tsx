@@ -54,14 +54,24 @@ export default function WorkspacesSideBar() {
                                         : null
                                 }
                                 <DropdownMenuItem>
-                                    <span className="w-full flex flex-row items-center justify-between">Upgrade Workspace <DiamondPlus color="purple" size={20} /> </span>
+                                    <span className="w-full flex flex-row items-center justify-between">Boost Workspace <DiamondPlus color="purple" size={20} /> </span>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <span className="w-full flex flex-row items-center justify-between">Manage Users <User size={20} /> </span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => router.push(`/workspaces/settings/${workspaceId}`)}>
-                                    <span className="w-full flex flex-row items-center justify-between">Workspace Settings <Settings size={20} /> </span>
-                                </DropdownMenuItem>
+                                {
+                                    workplaceMembers?.find((member: any) => Number(member.admin_id) == Number(authId)) ?
+                                        (<DropdownMenuItem>
+                                            <span className="w-full flex flex-row items-center justify-between" onClick={
+                                                () => router.push(`/workspaces/manageUsers/${workspaceId}`)
+                                            }>Manage Users <User size={20} /> </span>
+                                        </DropdownMenuItem>)
+                                        : null
+                                }
+                                {
+                                    workplaceMembers?.find((member: any) => Number(member.admin_id) == Number(authId)) ?
+                                        (<DropdownMenuItem onClick={() => router.push(`/workspaces/settings/${workspaceId}`)}>
+                                            <span className="w-full flex flex-row items-center justify-between">Workspace Settings <Settings size={20} /> </span>
+                                        </DropdownMenuItem>)
+                                        : null
+                                }
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
                                     <span className="w-full flex flex-row items-center justify-between text-red-500">Leave Workspace <DoorOpen size={20} className="text-red-500" /> </span>

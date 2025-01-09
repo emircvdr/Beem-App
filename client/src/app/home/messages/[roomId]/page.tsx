@@ -1,5 +1,5 @@
 "use client";
-import { GetAllAvatars, GetAllUsers, GetAvatar, GetUserById, GetUserProfile } from "@/api/userAPI/api";
+import { GetAllUsers, GetAvatar, GetUserById, GetUserProfile } from "@/api/userAPI/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
