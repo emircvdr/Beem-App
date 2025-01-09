@@ -60,7 +60,7 @@ func Setup(app *fiber.App) {
 	app.Post("/api/createWorkplaceMember", controllers.CreateWorkplaceMember)
 	app.Get("/api/getWorkplaceMember/:user_id", controllers.GetWorkplaceReqWithUserId)
 	app.Get("/api/getWorkplaceMemberWithWorkplaceId/:workplace_id", controllers.GetWorkplaceMembers)
-
+	app.Delete("/api/deleteWorkplaceMember/:id", controllers.DeleteMember)
 	// workplace request routes
 	app.Post("/api/createWorkplaceRequest", controllers.CreateWorkplaceRequest)
 	app.Get("/api/getWorkplaceReqWithSenderId/:sender_id", controllers.GetWorkplaceReqWithSenderId)

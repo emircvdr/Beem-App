@@ -24,7 +24,9 @@ export default function ManageUsersPage() {
         const user = allUsers?.find((user: any) => user.id === member.user_id)
 
         return {
-            id: user?.id || "",
+            id: member?.id,
+            workspace_id: member?.workplace_id,
+            user_id: user?.id || "",
             name: user?.id == authId ? `${user?.fullname || "Unknown"} (You)` : user?.fullname || "Unknown",
             email: user?.email || "Unknown",
             role: member?.role === "admin" ? (

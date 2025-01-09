@@ -16,13 +16,17 @@ import { getCookie } from "cookies-next/client"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import BoringAvatar from "boring-avatars"
 import { GetAllAvatars, GetAvatar } from "@/api/userAPI/api"
+import { toast } from "sonner"
+import { mutate } from "swr"
 
 export type User = {
     id: string
+    user_id: string
     name: string
     email: string
     role: string
     img: string
+    workspace_id: string
 }
 
 export const columns: ColumnDef<User>[] = [
@@ -31,7 +35,7 @@ export const columns: ColumnDef<User>[] = [
         header: "Name",
         cell: ({ row }) => {
             const user = row.original;
-            const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(user.id);
+            const { avatar, isLoadingAvatar, isErrorAvatar } = GetAvatar(user.user_id);
             const imageUrl = avatar?.FilePath ? `http://localhost:8000/${avatar.FilePath}` : null;
             return (
                 <div className="flex items-center gap-2">
@@ -39,7 +43,7 @@ export const columns: ColumnDef<User>[] = [
                         <AvatarImage src={imageUrl as any} alt="avatar" className="object-contain" />
                         <AvatarFallback>
                             <BoringAvatar
-                                name={user.id?.toString()}
+                                name={user.user_id?.toString()}
                                 variant="beam"
                                 colors={["#40223c", "#42988f", "#b1c592", "#f1ddba", "#fb718a"]}
                                 style={{ width: "150px", height: "150px" }}
@@ -75,6 +79,22 @@ export const columns: ColumnDef<User>[] = [
             const user = row.original
             const route = useRouter()
             const authId = getCookie("authId")
+            const handleKick = async () => {
+                try {
+                    const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/deleteWorkplaceMember/${user.id}`, {
+                        method: "DELETE",
+                    });
+                    if (result.ok) {
+                        mutate(`${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceMemberWithWorkplaceId/${user.workspace_id}`)
+                        toast.success("User kicked from the workspace")
+                    }
+                    if (!result.ok) {
+                        throw new Error("Error while kicked user");
+                    }
+                } catch (error) {
+                    console.error("Error while kicked user:", error);
+                }
+            }
             return (
                 authId == user.id ? null :
                     <DropdownMenu>
@@ -91,8 +111,8 @@ export const columns: ColumnDef<User>[] = [
                                 Change Role
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => route.push(`/profile/${user.id}`)}>View User Profile</DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-500">Kick From The Workspace</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => route.push(`/profile/${user.user_id}`)}>View User Profile</DropdownMenuItem>
+                            <DropdownMenuItem className="text-red-500" onClick={handleKick}>Kick From The Workspace</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
             )

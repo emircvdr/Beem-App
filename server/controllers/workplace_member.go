@@ -166,3 +166,13 @@ func GetWorkplaceMembers(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(workplaceMember)
 }
+
+func DeleteMember(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	database.DB.Where("id = ?", id).Delete(&models.WorkplaceMember{})
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Workplace member deleted",
+	})
+}
