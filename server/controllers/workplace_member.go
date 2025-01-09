@@ -176,3 +176,23 @@ func DeleteMember(c *fiber.Ctx) error {
 		"message": "Workplace member deleted",
 	})
 }
+
+func UpdateMemberRole(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	var updateRole struct {
+		Role string `json:"role"`
+	}
+
+	if err := c.BodyParser(&updateRole); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request body",
+		})
+	}
+
+	database.DB.Model(&models.WorkplaceMember{}).Where("id = ?", id).Update("role", updateRole.Role)
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Workplace member role updated",
+	})
+}

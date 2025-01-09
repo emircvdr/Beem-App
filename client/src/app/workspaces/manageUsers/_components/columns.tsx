@@ -18,6 +18,7 @@ import BoringAvatar from "boring-avatars"
 import { GetAllAvatars, GetAvatar } from "@/api/userAPI/api"
 import { toast } from "sonner"
 import { mutate } from "swr"
+import { useState } from "react"
 
 export type User = {
     id: string
@@ -95,8 +96,33 @@ export const columns: ColumnDef<User>[] = [
                     console.error("Error while kicked user:", error);
                 }
             }
+            const [memberRole, setMemberRole] = useState(user.role.props.children[1])
+            const handleChangeRole = async () => {
+                try {
+                    const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateWorkplaceMemberRole/${user.id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            role: memberRole == "Member" ? "head" : "member",
+                        }),
+                    });
+                    if (result.ok) {
+                        mutate(`${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceMemberWithWorkplaceId/${user.workspace_id}`)
+                        toast.success("User role updated successfully")
+                    }
+                    if (!result.ok) {
+                        throw new Error("Error while updating user role");
+                    }
+                } catch (error) {
+                    console.error("Error while updating user role:", error);
+                }
+            }
             return (
-                authId == user.id ? null :
+                authId == user.user_id || (
+                    user.role.props.children[1] == "Owner"
+                ) ? null :
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="h-8 w-8 p-0">
@@ -107,8 +133,8 @@ export const columns: ColumnDef<User>[] = [
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Options</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                Change Role
+                            <DropdownMenuItem onClick={handleChangeRole}>
+                                Change Role to {memberRole == "Member" ? "Head" : "Member"}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => route.push(`/profile/${user.user_id}`)}>View User Profile</DropdownMenuItem>

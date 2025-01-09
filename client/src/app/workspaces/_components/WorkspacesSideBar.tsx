@@ -47,17 +47,24 @@ export default function WorkspacesSideBar() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-[--radix-popper-anchor-width]" onPointerDown={(e) => e.stopPropagation()}>
                                 {
-                                    workplaceMembers?.find((member: any) => Number(member.admin_id) == Number(authId)) ?
-                                        (<><InvitePeopleDialog inviteCode={workspace?.invite_code as string} name={workspace?.name as string} authId={workspace?.admin_id as string} workplaceId={workspaceId as string} />
+                                    workplaceMembers?.filter((item: any) => Number(item.user_id) == Number(authId))
+                                        ?.some((member: any) => member.role === "admin" || member.role == "head") ? (
+                                        <>
+                                            <InvitePeopleDialog
+                                                inviteCode={workspace?.invite_code as string}
+                                                name={workspace?.name as string}
+                                                authId={workspace?.admin_id as string}
+                                                workplaceId={workspaceId as string}
+                                            />
                                             <DropdownMenuSeparator />
-                                        </>)
-                                        : null
+                                        </>
+                                    ) : null
                                 }
                                 <DropdownMenuItem>
                                     <span className="w-full flex flex-row items-center justify-between">Boost Workspace <DiamondPlus color="purple" size={20} /> </span>
                                 </DropdownMenuItem>
                                 {
-                                    workplaceMembers?.find((member: any) => Number(member.admin_id) == Number(authId)) ?
+                                    workplaceMembers?.filter((member: any) => Number(member.user_id) == Number(authId))?.some((member: any) => member.role == "admin" || member.role == "head") ?
                                         (<DropdownMenuItem>
                                             <span className="w-full flex flex-row items-center justify-between" onClick={
                                                 () => router.push(`/workspaces/manageUsers/${workspaceId}`)
@@ -66,7 +73,7 @@ export default function WorkspacesSideBar() {
                                         : null
                                 }
                                 {
-                                    workplaceMembers?.find((member: any) => Number(member.admin_id) == Number(authId)) ?
+                                    workplaceMembers?.filter((member: any) => Number(member.user_id) == Number(authId))?.some((member: any) => member.role == "admin" || member.role == "head") ?
                                         (<DropdownMenuItem onClick={() => router.push(`/workspaces/settings/${workspaceId}`)}>
                                             <span className="w-full flex flex-row items-center justify-between">Workspace Settings <Settings size={20} /> </span>
                                         </DropdownMenuItem>)

@@ -5,7 +5,7 @@ import { DataTable } from "../_components/data-table";
 import { useParams } from "next/navigation";
 import { GetAllAvatars, GetAllUsers, GetAvatar } from "@/api/userAPI/api";
 import { getCookie } from "cookies-next/client";
-import { Crown, User as UserIcon, } from "lucide-react";
+import { Crown, Headset, User as UserIcon, } from "lucide-react";
 
 
 
@@ -31,13 +31,17 @@ export default function ManageUsersPage() {
             email: user?.email || "Unknown",
             role: member?.role === "admin" ? (
                 <div className="flex items-center gap-2 border border-[#f5a623] rounded-md w-fit p-1 bg-[#fff4e6] text-[#d48806]">
-                    <Crown size={15} color="#d48806" /> Owner
+                    <Crown size={15} color="#d48806" />Owner
+                </div>
+            ) : member?.role === "head" ? (
+                <div className="flex items-center gap-2 border border-[#38a169] rounded-md w-fit p-1 bg-[#e6fffa] text-[#2f855a]">
+                    <Headset size={15} color="#2f855a" />Head
                 </div>
             ) : (
                 <div className="flex items-center gap-2 border border-[#cbd5e0] rounded-md w-fit p-1 bg-[#f7fafc] text-[#4a5568]">
-                    <UserIcon size={15} color="#4a5568" /> Member
+                    <UserIcon size={15} color="#4a5568" />Member
                 </div>
-            ),
+            )
         }
     }) || [];
 
