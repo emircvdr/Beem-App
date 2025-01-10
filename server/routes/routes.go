@@ -68,7 +68,7 @@ func Setup(app *fiber.App) {
 	app.Delete("/api/cancelWorkplaceReq/:sender_id/:receiver_id", controllers.CancelWorkplaceInvite)
 	app.Get("/api/getWorkplaceReqWithReceiverId/:receiver_id", controllers.GetWorkplaceReqWithReceiverId)
 	app.Put("/api/acceptWorkplaceReq/:id", controllers.AcceptWorkplaceReq)
-	app.Delete("/api/rejectWorkplaceReq/:id", controllers.RejecetWorkplaceReq)
+	app.Delete("/api/rejectWorkplaceReq/:id", controllers.RejectWorkplaceReq)
 
 
 	// room routes

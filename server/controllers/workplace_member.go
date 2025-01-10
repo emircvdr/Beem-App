@@ -127,7 +127,7 @@ func AcceptWorkplaceReq(c *fiber.Ctx) error {
 	})
 }
 
-func RejecetWorkplaceReq(c *fiber.Ctx) error {
+func RejectWorkplaceReq(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	database.DB.Where("id = ?", id).Delete(&models.WorkplaceRequest{})

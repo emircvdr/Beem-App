@@ -123,6 +123,18 @@ export default function NotificationPopover(authId: any) {
         }
     }
 
+    const handleRejecetWorkplaceRequest = async (id: any) => {
+        try {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rejectWorkplaceReq/${id}`, { method: 'DELETE' });
+
+
+        } catch (error) {
+            toast.error("An error occurred while rejecting the workplace request");
+            console.error(error);
+        }
+        toast.success("Workplace request rejected successfully");
+    }
+
     return (
         <Popover>
             <PopoverTrigger asChild className="flex items-center gap-2">
@@ -173,7 +185,7 @@ export default function NotificationPopover(authId: any) {
                                         })</span> invite</p>
                                         <div className="flex items-center gap-2">
                                             <Button variant="ghost" size="icon" onClick={() => handleAcceptWorkplaceRequest(request.id, request.sender_id, request.workplace_id)}> <Check size={12} className="text-green-500" /></Button>
-                                            <Button variant="ghost" size="icon" onClick={() => handleRejectFriendRequest(request.id)}> <X size={12} className="text-red-500" /></Button>
+                                            <Button variant="ghost" size="icon" onClick={() => handleRejecetWorkplaceRequest(request.id)}> <X size={12} className="text-red-500" /></Button>
                                         </div>
                                     </div>
                                 ))
