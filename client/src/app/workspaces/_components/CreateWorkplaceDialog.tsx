@@ -10,11 +10,17 @@ import { MoveRight, Plus } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next/client";
+import { GetAllWorkplaces } from "@/api/workspacesAPI/api";
 
 
 export default function CreateWorkplaceDialog() {
     const pathname = usePathname()
     const authId = getCookie("authId");
+
+    const { allWorkspaces, isErrorAllWorkspaces, isLoadingAllWorkspaces } = GetAllWorkplaces()
+
+
+
 
 
     const [error, setError] = useState<any>(null);
@@ -107,6 +113,82 @@ export default function CreateWorkplaceDialog() {
             setError(error);
         }
     }
+
+    const handleJoin = async (code: string) => {
+        try {
+            const filteredWorkplace = allWorkspaces?.find(
+                (workplace: any) => workplace.invite_code === code
+            );
+
+            if (!filteredWorkplace) {
+                setError("Invalid Invite Code. Please try again.");
+                return;
+            }
+
+            const id = Number(filteredWorkplace.id);
+
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/getWorkplaceMemberWithWorkplaceId/${id}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                }
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+                const isMember = data.some((member: any) => member.user_id === Number(authId));
+
+                if (isMember) {
+                    router.push(`/workspaces/${id}`);
+                    return;
+                }
+            } else {
+                setError("An error occurred while checking membership. Please try again.");
+                return;
+            }
+
+            if (filteredWorkplace?.private === false) {
+                try {
+                    const workplaceMemberResponse = await fetch(
+                        `${process.env.NEXT_PUBLIC_API_URL}/createWorkplaceMember`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                workplace_id: id,
+                                admin_id: Number(filteredWorkplace?.admin_id),
+                                user_id: Number(authId),
+                                role: "member",
+                            }),
+                        }
+                    );
+
+                    if (workplaceMemberResponse.ok) {
+                        router.push(`/workspaces/${id}`);
+                    } else {
+                        setError("Failed to join the workplace. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error while joining workplace:", error);
+                    setError("An error occurred while joining. Please try again.");
+                }
+            } else {
+                setError("This workplace is private. Joining is not allowed.");
+            }
+        } catch (error) {
+            console.error("Error in handleJoin:", error);
+            setError("An unexpected error occurred. Please try again.");
+        }
+    };
+
+
 
     return (
         <Dialog>
@@ -201,10 +283,15 @@ export default function CreateWorkplaceDialog() {
                                         onChange={(e) => setInvCode(e.target.value)}
                                     />
                                 </div>
+                                <div className="w-full flex items-center justify-center">
+                                    <span className="text-red-500 font-newCustom">{error}</span>
+                                </div>
                             </div>
                             <DialogFooter>
                                 <Button variant="outline" onClick={() => setJworkplace(false)}>Cancel</Button>
-                                <Button type="submit" variant="special" onClick={() => console.log("join")}>Join</Button>
+                                <Button type="submit" variant="special" onClick={
+                                    () => handleJoin(invCode)
+                                }>Join</Button>
                             </DialogFooter>
                         </div>
                     )

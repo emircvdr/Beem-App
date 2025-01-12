@@ -3,6 +3,7 @@ import useSWR from 'swr';
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 interface Workspaces {
+  length: number;
   id: string;
   name: string;
   admin_id: string;
