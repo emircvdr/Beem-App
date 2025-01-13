@@ -12,6 +12,7 @@ import UserProfileSidebar from "./UserProfileSidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BoringAvatar from "boring-avatars";
+import { GetWorkspacesWithAdminID } from "@/api/workspacesAPI/api";
 
 export default function UserProfilePage() {
     const router = useRouter();
@@ -56,6 +57,8 @@ export default function UserProfilePage() {
             link: `tel: ${userProfile?.phone}`
         },
     ];
+
+    const { isErrorWorkspaces, isLoadingWorkspaces, workspaces } = GetWorkspacesWithAdminID(userId as any);
 
     useEffect(() => {
         const checkUser = async () => {
@@ -130,11 +133,23 @@ export default function UserProfilePage() {
                                 <p className="text-muted-foreground text-[14px] font-newCustom">@{userProfile?.username}</p>
                                 <p className="text-muted-foreground text-[16px] font-newCustom">{userProfile?.job}</p>
                             </div>
-                            <div className="flex flex-row gap-2 justify-center items-center ">
-                                <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                                    <p className="text-white font-newCustom">A</p>
-                                </div>
-                                <p className="text-black font-newCustom">ABO Sunucusu</p>
+                            <div className="flex flex-col gap-3 items-start justify-center">
+                                {
+                                    workspaces?.map((workspace) => (
+                                        <div key={workspace.id} className="flex flex-row gap-2 justify-center items-center">
+                                            <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+                                                <p className="text-white font-newCustom">
+                                                    <Avatar className="w-[40px] h-[40px]">
+                                                        <AvatarFallback>
+                                                            <BoringAvatar size={40} name={workspace.id.toString()} variant="marble" colors={["#40223c", "#42988f", "#b1c592", "#f1ddba", "#fb718a"]} />
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                </p>
+                                            </div>
+                                            <p className="text-black font-newCustom">{workspace.name}</p>
+                                        </div>
+                                    ))
+                                }
                             </div>
                         </div>
                         <div className="w-full p-5 flex flex-col gap-8">
