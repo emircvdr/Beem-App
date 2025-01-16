@@ -109,7 +109,6 @@ func UploadAvatarHandler(c *fiber.Ctx) error {
 }
 
 func GetAvatarHandler(c *fiber.Ctx) error {
-	// Kullanıcı ID'sini route'tan al
 	userIDStr := c.Params("user_id")
 	userID, err := strconv.ParseUint(userIDStr, 10, 64)
 	if err != nil || userID <= 0 {
@@ -118,19 +117,15 @@ func GetAvatarHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	// Veritabanından avatarı al
 	var avatar models.UserAvatar
 	if err := database.DB.Where("user_id = ?", userID).First(&avatar).Error; err != nil {
-		// Log hata
 		fmt.Printf("Error retrieving avatar: %v\n", err)
 
 		if err == gorm.ErrRecordNotFound {
-			// Eğer kayıt bulunamazsa özel hata döndür
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": "Avatar not found",
 			})
 		}
-		// Diğer hata durumlarını kontrol et
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": fmt.Sprintf("Failed to retrieve avatar: %v", err),
 		})
