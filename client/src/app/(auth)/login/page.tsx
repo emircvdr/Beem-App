@@ -56,7 +56,7 @@ const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setError(""); // Hata mesajını temizle
+                setError("");
                 setForm({
                     email: "",
                     password: ""
