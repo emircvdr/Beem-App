@@ -8,7 +8,7 @@ This is Beem App project built with **Next.js** for the frontend and **Golang** 
 - User authentication (login/logout)
 - Project and issue management
 - Responsive design
-- UI components built using **Shadcn**
+- UI components built using **Shadcn ui**
 
 ## Technologies
 
